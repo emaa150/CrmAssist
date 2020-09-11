@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\emaa_\\Downloads\\CMRmvc\\CMRmvc\\CMRmvc.csproj": {}
+    "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj": {}
   },
   "projects": {
-    "C:\\Users\\emaa_\\Downloads\\CMRmvc\\CMRmvc\\CMRmvc.csproj": {
+    "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\emaa_\\Downloads\\CMRmvc\\CMRmvc\\CMRmvc.csproj",
+        "projectUniqueName": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
         "projectName": "CMRmvc",
-        "projectPath": "C:\\Users\\emaa_\\Downloads\\CMRmvc\\CMRmvc\\CMRmvc.csproj",
+        "projectPath": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
         "packagesPath": "C:\\Users\\emaa_\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\emaa_\\Downloads\\CMRmvc\\CMRmvc\\obj\\",
+        "outputPath": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"

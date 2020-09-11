@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "F21F44UFK3OZ5qJ4PE5U0x0rNYP3GWIgTp10n/XVymHacLCrh6CPDCePSbDG/IUgYV4+OQqfaCzVb1/JgvJdQg==",
+  "dgSpecHash": "LDBgsFsKsioZjpVdd59zCCG+/Hi5g06RARtfbrbTWk0R3BhNYMq0JZstOJ9obwU9Jsb5S7WaT8PW+E0FY2ROjg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\emaa_\\Downloads\\CMRmvc\\CMRmvc\\CMRmvc.csproj",
+  "projectFilePath": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\emaa_\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.7\\microsoft.aspnetcore.cryptography.internal.3.1.7.nupkg.sha512",
     "C:\\Users\\emaa_\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.7\\microsoft.aspnetcore.cryptography.keyderivation.3.1.7.nupkg.sha512",

@@ -12,4 +12,6 @@
     width: 200px;
     height: 231px;
     margin: -80px auto 10px auto;
+    background-size: cover;
+    background-position: center;
 }
