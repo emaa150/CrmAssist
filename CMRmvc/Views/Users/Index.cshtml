@@ -1,0 +1,138 @@
+﻿@model IEnumerable<CMRmvc.Models.User>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPerfil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrLogin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrClave)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrNombreCompleto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrDni)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrTelefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrImagen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrCorreo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrActivo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrFecUltIngreso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrFecClaveVcto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrNroLoginNok)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FecIns)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FecUpd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FecDel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrIns)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrUpd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrDel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPerfil)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrLogin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrClave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrNombreCompleto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrDni)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrTelefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrImagen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrCorreo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrActivo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrFecUltIngreso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrFecClaveVcto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrNroLoginNok)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FecIns)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FecUpd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FecDel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrIns)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrUpd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrDel)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdUsuario">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdUsuario">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdUsuario">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

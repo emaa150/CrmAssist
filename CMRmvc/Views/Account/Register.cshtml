@@ -1,0 +1,57 @@
+﻿@model CMRmvc.Models.User
+
+@{
+    ViewData["Title"] = "Registrarse";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Log in</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/adminlte.min.css">
+    <link rel="stylesheet" href="~/css/crm.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition login-page grandientcrm">
+    <div class="login-box">
+        <div class="login-logo">
+        </div>
+        <div class="card">
+            <div class="card-body login-card-body">
+                <div class="logo-login rounded">
+                </div>
+                <p class="login-box-msg" style="font-weight: 700;">CRM CR</p>
+                <form id="account" method="post">
+                    <h4>Crear una nueva cuenta</h4>
+                    <hr />
+                    <div class="form-group">
+                        <label asp-for="UsrLogin"></label>
+                        <input asp-for="UsrLogin" class="form-control" />                  
+                        <span asp-validation-for="UsrLogin" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UsrClave"></label>
+                        <input asp-for="UsrClave" class="form-control" />
+                        <span asp-validation-for="UsrClave" class="text-danger"></span>
+                    </div>
+
+                            @*<div class="form-group">
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>*@
+                    <button type="submit" class="btn btn-primary">Registrarse</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

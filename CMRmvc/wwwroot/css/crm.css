@@ -1,0 +1,15 @@
+﻿.grandientcrm {
+    background: #0e63ae; /* Old browsers */
+    background: -moz-linear-gradient(left, #0e63ae 0%, #003764 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #0e63ae 0%,#003764 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #0e63ae 0%,#003764 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e63ae', endColorstr='#003764',GradientType=1 ); /* IE6-9 */
+}
+
+.logo-login {
+    background-image: url('../img/assistsaopt.jpg');
+    background-repeat: no-repeat;
+    width: 200px;
+    height: 231px;
+    margin: -80px auto 10px auto;
+}

@@ -1,0 +1,103 @@
+﻿@model IEnumerable<CMRmvc.Models.Parametros>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdParametro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParClave)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParNombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParValor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParTipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParAdmin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FecIns)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FecUpd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FecDel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrIns)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrUpd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsrDel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdParametro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParClave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParNombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParValor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParTipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParAdmin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FecIns)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FecUpd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FecDel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrIns)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrUpd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsrDel)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdParametro">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdParametro">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdParametro">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

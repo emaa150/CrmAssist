@@ -1,0 +1,86 @@
+﻿@model CMRmvc.Models.Parametros
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Parametros</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdParametro" />
+            <div class="form-group">
+                <label asp-for="IdParametroTipo" class="control-label"></label>
+                <input asp-for="IdParametroTipo" class="form-control" />
+                <span asp-validation-for="IdParametroTipo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParClave" class="control-label"></label>
+                <input asp-for="ParClave" class="form-control" />
+                <span asp-validation-for="ParClave" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParNombre" class="control-label"></label>
+                <input asp-for="ParNombre" class="form-control" />
+                <span asp-validation-for="ParNombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParValor" class="control-label"></label>
+                <input asp-for="ParValor" class="form-control" />
+                <span asp-validation-for="ParValor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParTipo" class="control-label"></label>
+                <input asp-for="ParTipo" class="form-control" />
+                <span asp-validation-for="ParTipo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParAdmin" class="control-label"></label>
+                <input asp-for="ParAdmin" class="form-control" />
+                <span asp-validation-for="ParAdmin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FecIns" class="control-label"></label>
+                <input asp-for="FecIns" class="form-control" />
+                <span asp-validation-for="FecIns" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FecUpd" class="control-label"></label>
+                <input asp-for="FecUpd" class="form-control" />
+                <span asp-validation-for="FecUpd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FecDel" class="control-label"></label>
+                <input asp-for="FecDel" class="form-control" />
+                <span asp-validation-for="FecDel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrIns" class="control-label"></label>
+                <input asp-for="UsrIns" class="form-control" />
+                <span asp-validation-for="UsrIns" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrUpd" class="control-label"></label>
+                <input asp-for="UsrUpd" class="form-control" />
+                <span asp-validation-for="UsrUpd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrDel" class="control-label"></label>
+                <input asp-for="UsrDel" class="form-control" />
+                <span asp-validation-for="UsrDel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
