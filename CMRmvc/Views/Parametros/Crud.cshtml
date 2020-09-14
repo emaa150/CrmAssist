@@ -1,91 +1,89 @@
 ﻿@model CMRmvc.Models.Parametros
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crud";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>@ViewBag.Action</h1>
 
 <h4>Parametros</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="@ViewBag.Action">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="form-group">
-                <label asp-for="IdParametro" class="control-label"></label>
-                <input asp-for="IdParametro" class="form-control" />
-                <span asp-validation-for="IdParametro" class="text-danger"></span>
-            </div>*@
-        <div class="form-group">
-            <label asp-for="IdParametroTipo" class="control-label"></label>
-            @*<input asp-for="IdParametroTipo" class="form-control" />*@
-            @Html.DropDownList("IdParametroTipo", (IEnumerable<SelectListItem>)ViewBag.ParamTipo, null, new { @class = "form-control" })
-            <span asp-validation-for="IdParametroTipo" class="text-danger"></span>
-        </div>
+
+            <div class="form-group">
+                <label asp-for="IdParametroTipo" class="control-label"></label>
+                <select class="form-control" asp-items="@ViewBag.ParamTipo" readonly="@ViewBag.IsReadOnly">
+                </select>
+                <span asp-validation-for="IdParametroTipo" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="ParClave" class="control-label"></label>
-                <input asp-for="ParClave" class="form-control" />
+                <input asp-for="ParClave" class="form-control" readonly="@ViewBag.IsReadOnly" />
                 <span asp-validation-for="ParClave" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ParNombre" class="control-label"></label>
-                <input asp-for="ParNombre" class="form-control" />
+                <input asp-for="ParNombre" class="form-control"  readonly="@ViewBag.IsReadOnly" />
                 <span asp-validation-for="ParNombre" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ParValor" class="control-label"></label>
-                <input asp-for="ParValor" class="form-control" />
+                <input asp-for="ParValor" class="form-control" readonly="@ViewBag.IsReadOnly"/>
                 <span asp-validation-for="ParValor" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ParTipo" class="control-label"></label>
-                <input asp-for="ParTipo" class="form-control" />
+                <input asp-for="ParTipo" class="form-control" readonly="@ViewBag.IsReadOnly"/>
                 <span asp-validation-for="ParTipo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ParAdmin" class="control-label"></label>
-                <input asp-for="ParAdmin" class="form-control" />
+                <input asp-for="ParAdmin" class="form-control"  readonly="@ViewBag.IsReadOnly" />
                 <span asp-validation-for="ParAdmin" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FecIns" class="control-label"></label>
-                <input asp-for="FecIns" class="form-control" />
+                <input asp-for="FecIns" class="form-control" readonly="@ViewBag.IsReadOnly"/>
                 <span asp-validation-for="FecIns" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FecUpd" class="control-label"></label>
-                <input asp-for="FecUpd" class="form-control" />
+                <input asp-for="FecUpd" class="form-control" readonly="@ViewBag.IsReadOnly"/>
                 <span asp-validation-for="FecUpd" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FecDel" class="control-label"></label>
-                <input asp-for="FecDel" class="form-control" />
+                <input asp-for="FecDel" class="form-control" readonly="@ViewBag.IsReadOnly" />
                 <span asp-validation-for="FecDel" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UsrIns" class="control-label"></label>
-                <input asp-for="UsrIns" class="form-control" />
+                <input asp-for="UsrIns" class="form-control" readonly="@ViewBag.IsReadOnly" />
                 <span asp-validation-for="UsrIns" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UsrUpd" class="control-label"></label>
-                <input asp-for="UsrUpd" class="form-control" />
+                <input asp-for="UsrUpd" class="form-control" readonly="@ViewBag.IsReadOnly" />
                 <span asp-validation-for="UsrUpd" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UsrDel" class="control-label"></label>
-                <input asp-for="UsrDel" class="form-control" />
+                <input asp-for="UsrDel" class="form-control"  readonly="@ViewBag.IsReadOnly"/>
                 <span asp-validation-for="UsrDel" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="@ViewBag.Action" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver al listado</a>
 </div>
+
 

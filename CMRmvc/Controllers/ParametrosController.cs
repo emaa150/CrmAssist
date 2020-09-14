@@ -5,16 +5,19 @@ using Microsoft.EntityFrameworkCore;
 using CMRmvc.Data;
 using CMRmvc.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
 namespace CMRmvc.Controllers
 {
     public class ParametrosController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private List<ParametrosTipo> _listParamTipo;
 
         public ParametrosController(ApplicationDbContext context)
         {
             _context = context;
+            _listParamTipo = _context.ParametrosTipo.ToList();
         }
 
         // GET: Parametros
@@ -23,23 +26,6 @@ namespace CMRmvc.Controllers
             return View(await _context.Parametros.ToListAsync());
         }
 
-        // GET: Parametros/Details/5
-        public async Task<IActionResult> Details(long? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var parametros = await _context.Parametros
-                .FirstOrDefaultAsync(m => m.IdParametro == id);
-            if (parametros == null)
-            {
-                return NotFound();
-            }
-
-            return View(parametros);
-        }
 
         // GET: Parametros/Create
         public async Task<IActionResult> Create()
@@ -62,24 +48,11 @@ namespace CMRmvc.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(parametros);
+            
+
+            return Crud(true, "Create", null);
         }
 
-        // GET: Parametros/Edit/5
-        public async Task<IActionResult> Edit(long? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var parametros = await _context.Parametros.FindAsync(id);
-            if (parametros == null)
-            {
-                return NotFound();
-            }
-            return View(parametros);
-        }
 
         // POST: Parametros/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -111,38 +84,49 @@ namespace CMRmvc.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return Crud(false, "Edit", parametros.IdParametro);
             }
-            return View(parametros);
-        }
-
-        // GET: Parametros/Delete/5
-        public async Task<IActionResult> Delete(long? id)
-        {
-            if (id == null)
+            else
             {
-                return NotFound();
-            }
-
-            var parametros = await _context.Parametros
-                .FirstOrDefaultAsync(m => m.IdParametro == id);
-            if (parametros == null)
-            {
-                return NotFound();
+                ViewBag.ParamTipo = new SelectList(_listParamTipo, "IdParametroTipo", "IdParametroTipo");
+                ViewBag.Action = "Edit";
             }
 
             return View(parametros);
         }
 
-        // POST: Parametros/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+
+        [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var parametros = await _context.Parametros.FindAsync(id);
             _context.Parametros.Remove(parametros);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Crud(bool isreadonly,string myaction, long? id) 
+        {
+            ViewBag.ParamTipo = new SelectList(_listParamTipo, "TipNombre", "TipNombre");
+            ViewBag.Action = myaction;
+            ViewBag.IsReadOnly = isreadonly;
+
+
+            /*
+             * 
+             * 
+             * IList<SelectListItem> lstParametroTipoDato = Enum.GetValues(typeof(DataAccess.Common.Enums.ParameterType)).Cast<DataAccess.Common.Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
+             * 
+             * */
+
+
+
+            if (id != null && id != 0) 
+            {
+                return View(_context.Parametros.Find(id));
+            }
+
+            return View();
         }
 
         private bool ParametrosExists(long id)

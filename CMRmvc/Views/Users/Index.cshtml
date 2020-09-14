@@ -71,68 +71,117 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdPerfil)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrLogin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrClave)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrNombreCompleto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrDni)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrTelefono)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrImagen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrCorreo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrActivo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrFecUltIngreso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrFecClaveVcto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrNroLoginNok)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FecIns)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FecUpd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FecDel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrIns)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrUpd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsrDel)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdUsuario">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdUsuario">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdUsuario">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr id="row_@item.IdUsuario">
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdPerfil)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrLogin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrClave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrNombreCompleto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrDni)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrTelefono)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrImagen)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrCorreo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrActivo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrFecUltIngreso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrFecClaveVcto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrNroLoginNok)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FecIns)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FecUpd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FecDel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrIns)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrUpd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsrDel)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdUsuario">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdUsuario">Detalles</a> |
+                    <a href="#" onclick="ConfirmDelete(@item.IdUsuario)">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+<div class="modal" id="mymodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro que desea eliminar el usuario?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="DeleteUser()" class="btn btn-danger">Eliminar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="userID" />
+</div>
+
+<script>
+
+    var ConfirmDelete = function (userID) {
+
+        $("#userID").val(userID);
+        $("#mymodal").modal('show');
+    }
+
+    var DeleteUser = function () {
+        var userID = $("#userID").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Users/DeleteConfirmed",
+            data: { id: userID },
+            success: function () {
+                $("#mymodal").modal('hide');
+                $("#row_" + userID).remove();
+
+            }
+        });
+    }
+
+
+</script>

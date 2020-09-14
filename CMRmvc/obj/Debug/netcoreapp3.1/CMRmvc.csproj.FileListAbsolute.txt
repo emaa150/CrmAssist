@@ -633,10 +633,6 @@ E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Accoun
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
-E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Parametros\Create.cshtml.g.cs
-E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Parametros\Delete.cshtml.g.cs
-E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Parametros\Details.cshtml.g.cs
-E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Parametros\Edit.cshtml.g.cs
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Parametros\Index.cshtml.g.cs
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Shared\AdminLTE\_Footer.cshtml.g.cs
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Shared\AdminLTE\_Layout.cshtml.g.cs
@@ -667,3 +663,4 @@ E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\staticwebassets\CM
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.dll
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.pdb
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.genruntimeconfig.cache
+E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Parametros\Crud.cshtml.g.cs
