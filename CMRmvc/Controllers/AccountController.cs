@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using CMRmvc.Data;
 using CMRmvc.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,13 +10,13 @@ namespace CMRmvc.Controllers
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly CRMmvcContext _context;
         private readonly ILogger<AccountController> _log;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         [TempData]
         public string ErrorMessage { get; set; }
-        public AccountController(ApplicationDbContext context, ILogger<AccountController> _logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public AccountController(CRMmvcContext context, ILogger<AccountController> _logger, SignInManager<User> signInManager, UserManager<User> userManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -34,7 +33,7 @@ namespace CMRmvc.Controllers
         {
             return View();
         }
-            [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
 
@@ -44,7 +43,7 @@ namespace CMRmvc.Controllers
                 // To enable password failures to trigger account lockout, 
                 // set lockoutOnFailure: true
 
-                var result = await _signInManager.PasswordSignInAsync(user.UsrLogin, user.UsrClave, user.usrRememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, user.PasswordHash, user.RememberMe, false);
                 if (result.Succeeded)
                 {
                     _log.LogInformation("User logged in.");
@@ -63,7 +62,7 @@ namespace CMRmvc.Controllers
 
         public IActionResult Register()
         {
-          return View();
+            return View();
         }
 
         [HttpPost]
@@ -71,14 +70,14 @@ namespace CMRmvc.Controllers
         {
             if (ModelState.IsValid)
             {
-     
-                var user = new IdentityUser { UserName = usu.UsrLogin };
 
-                var result = await _userManager.CreateAsync(user, usu.UsrClave);
+                var user = new User { UserName = usu.UserName };
+
+                var result = await _userManager.CreateAsync(user, usu.PasswordHash);
                 if (result.Succeeded)
                 {
                     _log.LogInformation("User created a new account with password.");
-                    var resultLo = await _signInManager.PasswordSignInAsync(usu.UsrLogin, usu.UsrClave, false, false);
+                    var resultLo = await _signInManager.PasswordSignInAsync(usu.UserName, usu.PasswordHash, false, false);
                     if (resultLo.Succeeded)
                     {
                         _log.LogInformation("User logged in.");
@@ -92,7 +91,7 @@ namespace CMRmvc.Controllers
                 }
                 if (User.Identity.IsAuthenticated)
                 {
-                   return RedirectToAction(nameof(AccountController.Index), "Home");
+                    return RedirectToAction(nameof(AccountController.Index), "Home");
                 }
             }
             return View();
@@ -101,10 +100,10 @@ namespace CMRmvc.Controllers
         [Authorize]
         public async Task<IActionResult> Logout()
         {
-           await _signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
 
             if (!User.Identity.IsAuthenticated) _log.LogInformation("User logged out ==> OK");
-                else _log.LogInformation("User logged out ==> FAIL");
+            else _log.LogInformation("User logged out ==> FAIL");
 
             return RedirectToAction(nameof(AccountController.Index), "Home");
         }

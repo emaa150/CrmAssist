@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CMRmvc.Models
 {
@@ -9,7 +9,7 @@ namespace CMRmvc.Models
         {
             Parametros = new HashSet<Parametros>();
         }
-        [Key]
+
         public long IdParametroTipo { get; set; }
         public string TipNombre { get; set; }
         public string TipDescripcion { get; set; }

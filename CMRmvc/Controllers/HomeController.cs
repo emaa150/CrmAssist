@@ -28,9 +28,9 @@ namespace CMRmvc.Controllers
             {
                 return RedirectToAction(nameof(AccountController.Index), "Home");
             }
-            
-                return View();
-            
+
+            return View();
+
         }
 
         public IActionResult Privacy()

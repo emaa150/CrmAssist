@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CMRmvc.Data;
 using CMRmvc.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -14,11 +13,11 @@ namespace CMRmvc.Controllers
 {
     public class ParametrosController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly CRMmvcContext _context;
         private readonly List<ParametrosTipo> _listParamTipo;
         private readonly ILogger<ParametrosController> _log;
 
-        public ParametrosController(ApplicationDbContext context, ILogger<ParametrosController> log)
+        public ParametrosController(CRMmvcContext context, ILogger<ParametrosController> log)
         {
             _context = context;
             _log = log;
@@ -99,7 +98,7 @@ namespace CMRmvc.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Crud(bool isreadonly,string myaction, long? id) 
+        public IActionResult Crud(bool isreadonly, string myaction, long? id)
         {
             ViewBag.ParamTipo = new SelectList(_listParamTipo, "IdParametroTipo", "TipNombre");
             ViewBag.Action = myaction;
@@ -110,7 +109,7 @@ namespace CMRmvc.Controllers
             ViewBag.ParameterType = lstParametroTipoDato;
 
 
-            if (id != null && id != 0) 
+            if (id != null && id != 0)
             {
                 return View(_context.Parametros.Find(id));
             }

@@ -18,34 +18,34 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UsrLogin)
+                @Html.DisplayNameFor(model => model.UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsrNombreCompleto)
+                @Html.DisplayNameFor(model => model.NombreCompleto)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsrDni)
+                @Html.DisplayNameFor(model => model.Dni)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsrTelefono)
+                @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsrImagen)
+                @Html.DisplayNameFor(model => model.Imagen)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsrCorreo)
+                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsrActivo)
+                @Html.DisplayNameFor(model => model.Activo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsrFecUltIngreso)
+                @Html.DisplayNameFor(model => model.FecUltIngreso)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsrFecClaveVcto)
+                @Html.DisplayNameFor(model => model.FecClaveVcto)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsrNroLoginNok)
+                @Html.DisplayNameFor(model => model.NroLoginNok)
             </th>
             <th>Acciones</th>
         </tr>
@@ -53,41 +53,41 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr id="row_@item.IdUsuario">
+            <tr id="row_@item.Id">
                 <td>
-                    @Html.DisplayFor(modelItem => item.UsrLogin)
+                    @Html.DisplayFor(modelItem => item.UserName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UsrNombreCompleto)
+                    @Html.DisplayFor(modelItem => item.NombreCompleto)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UsrDni)
+                    @Html.DisplayFor(modelItem => item.Dni)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UsrTelefono)
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UsrImagen)
+                    @Html.DisplayFor(modelItem => item.Imagen)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UsrCorreo)
+                    @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UsrActivo)
+                    @Html.DisplayFor(modelItem => item.Activo)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UsrFecUltIngreso)
+                    @Html.DisplayFor(modelItem => item.FecUltIngreso)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UsrFecClaveVcto)
+                    @Html.DisplayFor(modelItem => item.FecClaveVcto)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UsrNroLoginNok)
+                    @Html.DisplayFor(modelItem => item.NroLoginNok)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdUsuario">Editar</a> |
-                    <a asp-action="Details" asp-route-id="@item.IdUsuario">Detalles</a> |
-                    <a href="#" onclick="ConfirmDelete(@item.IdUsuario)">Eliminar</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                    <a href="#" onclick="ConfirmDelete(@item.Id)">Eliminar</a>
                 </td>
             </tr>
         }

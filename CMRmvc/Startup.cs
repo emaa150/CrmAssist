@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
-using CMRmvc.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CRMmvc.Helpers;
+using CMRmvc.Models;
 
 namespace CMRmvc
 {
@@ -33,11 +33,11 @@ namespace CMRmvc
             services.AddMemoryCache(); //Usar cache
             services.AddSingleton<CacheHelper>(); //Cache global
             services.AddLogging(); //Loggin global
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<CRMmvcContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<User, Roles>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddEntityFrameworkStores<CRMmvcContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 

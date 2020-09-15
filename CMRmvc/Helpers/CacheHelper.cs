@@ -1,5 +1,4 @@
-﻿using CMRmvc.Data;
-using CMRmvc.Models;
+﻿using CMRmvc.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -17,7 +16,7 @@ namespace CRMmvc.Helpers
     public class CacheHelper
     {
         private readonly MemoryCache _cache;
-        private readonly ApplicationDbContext _contexto;
+        private readonly CRMmvcContext _contexto;
 
         private ConcurrentDictionary<string, Parametros> listaParametros;
         
@@ -27,7 +26,7 @@ namespace CRMmvc.Helpers
         {
             _logger = logger;
             _cache = MemoryCache.Default;
-            _contexto = new ApplicationDbContext(connectionString);
+            _contexto = new CRMmvcContext(connectionString);
             GetParameters();
         }
 

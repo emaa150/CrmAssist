@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CMRmvc.Data;
 using CMRmvc.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
@@ -13,10 +12,10 @@ namespace CMRmvc.Controllers
     [AllowAnonymous]
     public class UsersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly CRMmvcContext _context;
         private readonly ILogger<UsersController> _log;
 
-        public UsersController(ApplicationDbContext context, ILogger<UsersController> log)
+        public UsersController(CRMmvcContext context, ILogger<UsersController> log)
         {
             _context = context;
             _log = log;
@@ -26,19 +25,9 @@ namespace CMRmvc.Controllers
         public IActionResult Index()
         {
 
-            var listUsers = _context.Users.ToList();
-            var rtaList = new List<User>();
-            foreach(var item in listUsers) 
-            {
-                var user = new User();
-               // user.IdUsuario = item.Id;
-                user.UsrLogin = item.UserName;
-                user.UsrClave = item.PasswordHash;
-                rtaList.Add(user);
-            }
-           
+            var listUsers = _context.Users.ToList();         
 
-            return View(rtaList);
+            return View(listUsers);
         }
 
         // GET: Users/Details/5
@@ -50,7 +39,7 @@ namespace CMRmvc.Controllers
             }
 
             var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id.ToString());
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -102,7 +91,7 @@ namespace CMRmvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("IdUsuario,IdPerfil,UsrLogin,UsrClave,UsrNombreCompleto,UsrDni,UsrTelefono,UsrImagen,UsrCorreo,UsrActivo,UsrFecUltIngreso,UsrFecClaveVcto,UsrNroLoginNok,FecIns,FecUpd,FecDel,UsrIns,UsrUpd,UsrDel")] User user)
         {
-            if (id != user.IdUsuario)
+            if (id != user.Id)
             {
                 return NotFound();
             }
@@ -116,7 +105,7 @@ namespace CMRmvc.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.IdUsuario))
+                    if (!UserExists(user.Id))
                     {
                         return NotFound();
                     }
@@ -131,7 +120,7 @@ namespace CMRmvc.Controllers
         }
 
         [HttpPost]
-       // [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var user = await _context.Users.FindAsync(id);
@@ -142,10 +131,10 @@ namespace CMRmvc.Controllers
 
         private bool UserExists(long id)
         {
-            return _context.Users.Any(e => e.Id == id.ToString());
+            return _context.Users.Any(e => e.Id == id);
         }
 
-        public IActionResult Crud() 
+        public IActionResult Crud()
         {
 
             return View();
