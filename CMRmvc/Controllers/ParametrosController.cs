@@ -6,28 +6,31 @@ using CMRmvc.Data;
 using CMRmvc.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System;
+using CRMmvc.Common;
+using Microsoft.Extensions.Logging;
 
 namespace CMRmvc.Controllers
 {
     public class ParametrosController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private List<ParametrosTipo> _listParamTipo;
+        private readonly List<ParametrosTipo> _listParamTipo;
+        private readonly ILogger<ParametrosController> _log;
 
-        public ParametrosController(ApplicationDbContext context)
+        public ParametrosController(ApplicationDbContext context, ILogger<ParametrosController> log)
         {
             _context = context;
+            _log = log;
             _listParamTipo = _context.ParametrosTipo.ToList();
         }
 
         // GET: Parametros
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Parametros.ToListAsync());
+            return View(await _context.Parametros.Where(x => x.FecDel == null && x.UsrDel == null).ToListAsync());
         }
 
-
-        // GET: Parametros/Create
         public async Task<IActionResult> Create()
         {
             var list = await _context.ParametrosTipo.ToListAsync();
@@ -35,43 +38,42 @@ namespace CMRmvc.Controllers
             return View();
         }
 
-        // POST: Parametros/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdParametro,IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin,FecIns,FecUpd,FecDel,UsrIns,UsrUpd,UsrDel")] Parametros parametros)
+        public async Task<IActionResult> Create([Bind("IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin")] Parametros parametros)
         {
             if (ModelState.IsValid)
             {
+                var itemsParam = await _context.Parametros.OrderByDescending(x => x.IdParametro).ToListAsync();
+
+                parametros.IdParametro = itemsParam[0].IdParametro + 1;
+                parametros.FecIns = DateTime.Now;
+                parametros.UsrIns = User.Identity.Name;
+
                 _context.Add(parametros);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            
+
 
             return Crud(true, "Create", null);
         }
 
 
-        // POST: Parametros/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("IdParametro,IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin,FecIns,FecUpd,FecDel,UsrIns,UsrUpd,UsrDel")] Parametros parametros)
+        public async Task<IActionResult> Edit([Bind("IdParametro,IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin,FecIns,FecUpd,FecDel,UsrIns,UsrUpd,UsrDel")] Parametros parametros)
         {
-            if (id != parametros.IdParametro)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
+                    parametros.FecUpd = DateTime.Now;
+                    parametros.UsrUpd = User.Identity.Name;
                     _context.Update(parametros);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -79,20 +81,10 @@ namespace CMRmvc.Controllers
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
                 }
-                return Crud(false, "Edit", parametros.IdParametro);
-            }
-            else
-            {
-                ViewBag.ParamTipo = new SelectList(_listParamTipo, "IdParametroTipo", "IdParametroTipo");
-                ViewBag.Action = "Edit";
             }
 
-            return View(parametros);
+            return Crud(false, "Edit", parametros.IdParametro);
         }
 
 
@@ -100,25 +92,22 @@ namespace CMRmvc.Controllers
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var parametros = await _context.Parametros.FindAsync(id);
-            _context.Parametros.Remove(parametros);
+            parametros.FecDel = DateTime.Now;
+            parametros.UsrDel = User.Identity.Name;
+            _context.Parametros.Update(parametros);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Crud(bool isreadonly,string myaction, long? id) 
         {
-            ViewBag.ParamTipo = new SelectList(_listParamTipo, "TipNombre", "TipNombre");
+            ViewBag.ParamTipo = new SelectList(_listParamTipo, "IdParametroTipo", "TipNombre");
             ViewBag.Action = myaction;
             ViewBag.IsReadOnly = isreadonly;
 
 
-            /*
-             * 
-             * 
-             * IList<SelectListItem> lstParametroTipoDato = Enum.GetValues(typeof(DataAccess.Common.Enums.ParameterType)).Cast<DataAccess.Common.Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
-             * 
-             * */
-
+            IList<SelectListItem> lstParametroTipoDato = Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
+            ViewBag.ParameterType = lstParametroTipoDato;
 
 
             if (id != null && id != 0) 

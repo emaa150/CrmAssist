@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CMRmvc.Data;
 using CMRmvc.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace CMRmvc.Controllers
 {
@@ -15,14 +14,16 @@ namespace CMRmvc.Controllers
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<UsersController> _log;
 
-        public UsersController(ApplicationDbContext context)
+        public UsersController(ApplicationDbContext context, ILogger<UsersController> log)
         {
             _context = context;
+            _log = log;
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
 
             var listUsers = _context.Users.ToList();
@@ -96,9 +97,7 @@ namespace CMRmvc.Controllers
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("IdUsuario,IdPerfil,UsrLogin,UsrClave,UsrNombreCompleto,UsrDni,UsrTelefono,UsrImagen,UsrCorreo,UsrActivo,UsrFecUltIngreso,UsrFecClaveVcto,UsrNroLoginNok,FecIns,FecUpd,FecDel,UsrIns,UsrUpd,UsrDel")] User user)
@@ -131,7 +130,6 @@ namespace CMRmvc.Controllers
             return View(user);
         }
 
-
         [HttpPost]
        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
@@ -145,6 +143,12 @@ namespace CMRmvc.Controllers
         private bool UserExists(long id)
         {
             return _context.Users.Any(e => e.Id == id.ToString());
+        }
+
+        public IActionResult Crud() 
+        {
+
+            return View();
         }
     }
 }

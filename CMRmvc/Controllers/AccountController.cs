@@ -11,10 +11,10 @@ namespace CMRmvc.Controllers
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private static ApplicationDbContext _context;
-        private static ILogger<AccountController> _log;
-        private static UserManager<IdentityUser> _userManager;
-        private static SignInManager<IdentityUser> _signInManager;
+        private readonly ApplicationDbContext _context;
+        private readonly ILogger<AccountController> _log;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         [TempData]
         public string ErrorMessage { get; set; }
         public AccountController(ApplicationDbContext context, ILogger<AccountController> _logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)

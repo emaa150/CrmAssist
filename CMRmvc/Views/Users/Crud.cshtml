@@ -1,0 +1,117 @@
+﻿@model CMRmvc.Models.User
+
+@{
+    ViewData["Title"] = "Crud";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdPerfil" class="control-label"></label>
+                <input asp-for="IdPerfil" class="form-control" />
+                <span asp-validation-for="IdPerfil" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrLogin" class="control-label"></label>
+                <input asp-for="UsrLogin" class="form-control" />
+                <span asp-validation-for="UsrLogin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrClave" class="control-label"></label>
+                <input asp-for="UsrClave" class="form-control" />
+                <span asp-validation-for="UsrClave" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrNombreCompleto" class="control-label"></label>
+                <input asp-for="UsrNombreCompleto" class="form-control" />
+                <span asp-validation-for="UsrNombreCompleto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrDni" class="control-label"></label>
+                <input asp-for="UsrDni" class="form-control" />
+                <span asp-validation-for="UsrDni" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrTelefono" class="control-label"></label>
+                <input asp-for="UsrTelefono" class="form-control" />
+                <span asp-validation-for="UsrTelefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrImagen" class="control-label"></label>
+                <input asp-for="UsrImagen" class="form-control" />
+                <span asp-validation-for="UsrImagen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrCorreo" class="control-label"></label>
+                <input asp-for="UsrCorreo" class="form-control" />
+                <span asp-validation-for="UsrCorreo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrActivo" class="control-label"></label>
+                <input asp-for="UsrActivo" class="form-control" />
+                <span asp-validation-for="UsrActivo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrFecUltIngreso" class="control-label"></label>
+                <input asp-for="UsrFecUltIngreso" class="form-control" />
+                <span asp-validation-for="UsrFecUltIngreso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrFecClaveVcto" class="control-label"></label>
+                <input asp-for="UsrFecClaveVcto" class="form-control" />
+                <span asp-validation-for="UsrFecClaveVcto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrNroLoginNok" class="control-label"></label>
+                <input asp-for="UsrNroLoginNok" class="form-control" />
+                <span asp-validation-for="UsrNroLoginNok" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FecIns" class="control-label"></label>
+                <input asp-for="FecIns" class="form-control" />
+                <span asp-validation-for="FecIns" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FecUpd" class="control-label"></label>
+                <input asp-for="FecUpd" class="form-control" />
+                <span asp-validation-for="FecUpd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FecDel" class="control-label"></label>
+                <input asp-for="FecDel" class="form-control" />
+                <span asp-validation-for="FecDel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrIns" class="control-label"></label>
+                <input asp-for="UsrIns" class="form-control" />
+                <span asp-validation-for="UsrIns" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrUpd" class="control-label"></label>
+                <input asp-for="UsrUpd" class="form-control" />
+                <span asp-validation-for="UsrUpd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsrDel" class="control-label"></label>
+                <input asp-for="UsrDel" class="form-control" />
+                <span asp-validation-for="UsrDel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
