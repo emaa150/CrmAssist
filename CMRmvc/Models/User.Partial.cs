@@ -15,11 +15,15 @@ namespace CMRmvc.Models
         [Key]
         public override long Id { get; set; }
         [StringLength(50)]
+        [Required(ErrorMessage = "Debe completar el UserName.")]
         public override string UserName { get; set; }
         [StringLength(200)]
         public override string Email { get; set; }
         [StringLength(50)]
         public override string PhoneNumber { get; set; }
+        [DataType(DataType.Password)]
+        [Required(ErrorMessage ="Debe completar la contraseña.")]
+        public override string PasswordHash { get; set; }
         [StringLength(100)]
         public string NombreCompleto { get; set; }
         [StringLength(15)]

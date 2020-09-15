@@ -8,16 +8,18 @@ using System.Collections.Generic;
 using System;
 using CRMmvc.Common;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CMRmvc.Controllers
 {
-    public class ParametrosController : Controller
+    [Authorize]
+    public class ParametrosController : BaseController
     {
         private readonly CRMmvcContext _context;
         private readonly List<ParametrosTipo> _listParamTipo;
         private readonly ILogger<ParametrosController> _log;
 
-        public ParametrosController(CRMmvcContext context, ILogger<ParametrosController> log)
+        public ParametrosController(CRMmvcContext context, ILogger<ParametrosController> log) :base(log)
         {
             _context = context;
             _log = log;
@@ -100,21 +102,34 @@ namespace CMRmvc.Controllers
 
         public IActionResult Crud(bool isreadonly, string myaction, long? id)
         {
-            ViewBag.ParamTipo = new SelectList(_listParamTipo, "IdParametroTipo", "TipNombre");
-            ViewBag.Action = myaction;
-            ViewBag.IsReadOnly = isreadonly;
-
-
-            IList<SelectListItem> lstParametroTipoDato = Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
-            ViewBag.ParameterType = lstParametroTipoDato;
-
-
-            if (id != null && id != 0)
+            StartMethod();
+            Parametros param =null;
+            try
             {
-                return View(_context.Parametros.Find(id));
+                _log.LogInformation("Cargando datos...");
+                ViewBag.ParamTipo = new SelectList(_listParamTipo, "IdParametroTipo", "TipNombre");
+                ViewBag.Action = myaction;
+                ViewBag.IsReadOnly = isreadonly;
+                _log.LogInformation("Cargando lista de tipo de dato de param");
+                IList<SelectListItem> lstParametroTipoDato = Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
+                ViewBag.ParameterType = lstParametroTipoDato;
+                _log.LogInformation("Verificando id a inicializar");
+                if (id != null && id != 0)
+                {
+                    _log.LogInformation("Inicializando parametro id: "+id);
+                    param =_context.Parametros.Find(id);
+                }
             }
-
-            return View();
+            catch (Exception ex)
+            {
+                _log.LogError("Error: "+ ex);
+                return NotFound();
+            }
+            finally
+            {
+                EndMethod();                
+            }
+            return View(param);
         }
 
         private bool ParametrosExists(long id)

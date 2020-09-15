@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
@@ -6,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace CMRmvc.Controllers
 {
+    [Authorize]
     public class BaseController : Controller
     {
         private readonly ILogger<BaseController> logger;

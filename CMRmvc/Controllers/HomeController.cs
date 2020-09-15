@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace CMRmvc.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        public HomeController(ILogger<HomeController> logger, SignInManager<IdentityUser> signInManager)
+        private readonly SignInManager<User> _signInManager;
+        public HomeController(ILogger<HomeController> logger, SignInManager<User> signInManager):base(logger)
         {
             _logger = logger;
             _signInManager = signInManager;
@@ -26,7 +26,7 @@ namespace CMRmvc.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                return RedirectToAction(nameof(AccountController.Index), "Home");
+            //    return RedirectToAction(nameof(AccountController.Index), "Home");
             }
 
             return View();

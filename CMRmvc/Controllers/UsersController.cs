@@ -9,13 +9,13 @@ using Microsoft.Extensions.Logging;
 
 namespace CMRmvc.Controllers
 {
-    [AllowAnonymous]
-    public class UsersController : Controller
+    [Authorize]
+    public class UsersController : BaseController
     {
         private readonly CRMmvcContext _context;
         private readonly ILogger<UsersController> _log;
 
-        public UsersController(CRMmvcContext context, ILogger<UsersController> log)
+        public UsersController(CRMmvcContext context, ILogger<UsersController> log) : base(log)
         {
             _context = context;
             _log = log;
