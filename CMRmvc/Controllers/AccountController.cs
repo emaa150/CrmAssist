@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CMRmvc.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace CMRmvc.Controllers
 {
     [AllowAnonymous]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly CRMmvcContext _context;
         private readonly ILogger<AccountController> _log;
@@ -16,8 +17,8 @@ namespace CMRmvc.Controllers
         private readonly SignInManager<User> _signInManager;
         [TempData]
         public string ErrorMessage { get; set; }
-        public AccountController(CRMmvcContext context, ILogger<AccountController> _logger, SignInManager<User> signInManager, UserManager<User> userManager)
-        {
+        public AccountController(CRMmvcContext context, ILogger<AccountController> _logger, SignInManager<User> signInManager, UserManager<User> userManager) :base(_logger)
+        {            
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
@@ -68,32 +69,42 @@ namespace CMRmvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(User usu)
         {
-            if (ModelState.IsValid)
-            {
-
-                var user = new User { UserName = usu.UserName };
-
-                var result = await _userManager.CreateAsync(user, usu.PasswordHash);
-                if (result.Succeeded)
+            try
+            { 
+            
+                StartMethod();
+                _log.LogInformation("Validando ModelState...");
+                if (ModelState.IsValid)
                 {
-                    _log.LogInformation("User created a new account with password.");
-                    var resultLo = await _signInManager.PasswordSignInAsync(usu.UserName, usu.PasswordHash, false, false);
-                    if (resultLo.Succeeded)
+
+                    var user = new User { UserName = usu.UserName };
+
+                    var result = await _userManager.CreateAsync(user, usu.PasswordHash);
+                    if (result.Succeeded)
                     {
-                        _log.LogInformation("User logged in.");
-                        Response.Redirect("/");
-                    }
+                        _log.LogInformation("User created a new account with password.");
+                        var resultLo = await _signInManager.PasswordSignInAsync(usu.UserName, usu.PasswordHash, false, false);
+                        if (resultLo.Succeeded)
+                        {
+                            _log.LogInformation("User logged in.");
+                            Response.Redirect("/");
+                        }
 
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-                if (User.Identity.IsAuthenticated)
-                {
-                    return RedirectToAction(nameof(AccountController.Index), "Home");
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        return RedirectToAction(nameof(AccountController.Index), "Home");
+                    }
                 }
             }
+            catch (Exception ex)
+            { _log.LogError("Error: " + ex); }
+
+            EndMethod();
             return View();
         }
 
