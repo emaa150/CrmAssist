@@ -16,7 +16,7 @@ namespace CRMmvc.Helpers
     public class CacheHelper
     {
         private readonly MemoryCache _cache;
-        private readonly CRMmvcContext _contexto;
+        private readonly CRMContext _contexto;
 
         private ConcurrentDictionary<string, Parametros> listaParametros;
         
@@ -26,7 +26,7 @@ namespace CRMmvc.Helpers
         {
             _logger = logger;
             _cache = MemoryCache.Default;
-            _contexto = new CRMmvcContext(connectionString);
+            _contexto = new CRMContext(connectionString);
             GetParameters();
         }
 

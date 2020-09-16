@@ -10,10 +10,10 @@ namespace CMRmvc.Controllers
     public class RolesController : BaseController
     {
         private readonly ILogger<RolesController> _log;
-        private readonly CRMmvcContext _context;
+        private readonly CRMContext _context;
         private readonly RoleManager<Role> _roleManager;
 
-        public RolesController(ILogger<RolesController> log, CRMmvcContext context, RoleManager<Role> roleManager) : base(log) 
+        public RolesController(ILogger<RolesController> log, CRMContext context, RoleManager<Role> roleManager) : base(log) 
         {
             _log = log;
             _context = context;

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CMRmvc.Migrations
 {
-    [DbContext(typeof(CRMmvcContext))]
+    [DbContext(typeof(CRMContext))]
     partial class CRMmvcContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

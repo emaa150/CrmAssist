@@ -14,11 +14,11 @@ namespace CMRmvc.Controllers
     [Authorize]
     public class UsersController : BaseController
     {
-        private readonly CRMmvcContext _context;
+        private readonly CRMContext _context;
         private readonly ILogger<UsersController> _log;
         private readonly RoleManager<Role> _roleManager;
 
-        public UsersController(CRMmvcContext context, ILogger<UsersController> log, RoleManager<Role> roleManager) : base(log)
+        public UsersController(CRMContext context, ILogger<UsersController> log, RoleManager<Role> roleManager) : base(log)
         {
             _context = context;
             _log = log;

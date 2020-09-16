@@ -15,11 +15,11 @@ namespace CMRmvc.Controllers
     [Authorize]
     public class ParametrosController : BaseController
     {
-        private readonly CRMmvcContext _context;
+        private readonly CRMContext _context;
         private readonly List<ParametrosTipo> _listParamTipo;
         private readonly ILogger<ParametrosController> _log;
 
-        public ParametrosController(CRMmvcContext context, ILogger<ParametrosController> log) :base(log)
+        public ParametrosController(CRMContext context, ILogger<ParametrosController> log) :base(log)
         {
             _context = context;
             _log = log;

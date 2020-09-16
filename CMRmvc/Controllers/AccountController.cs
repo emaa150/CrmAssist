@@ -11,13 +11,13 @@ namespace CMRmvc.Controllers
     [AllowAnonymous]
     public class AccountController : BaseController
     {
-        private readonly CRMmvcContext _context;
+        private readonly CRMContext _context;
         private readonly ILogger<AccountController> _log;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         [TempData]
         public string ErrorMessage { get; set; }
-        public AccountController(CRMmvcContext context, ILogger<AccountController> _logger, SignInManager<User> signInManager, UserManager<User> userManager) :base(_logger)
+        public AccountController(CRMContext context, ILogger<AccountController> _logger, SignInManager<User> signInManager, UserManager<User> userManager) :base(_logger)
         {            
             _userManager = userManager;
             _signInManager = signInManager;

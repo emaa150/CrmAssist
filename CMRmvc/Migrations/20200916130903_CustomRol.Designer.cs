@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CMRmvc.Migrations
 {
-    [DbContext(typeof(CRMmvcContext))]
+    [DbContext(typeof(CRMContext))]
     [Migration("20200916130903_CustomRol")]
     partial class CustomRol
     {

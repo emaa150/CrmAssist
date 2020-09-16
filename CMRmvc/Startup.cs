@@ -33,11 +33,11 @@ namespace CMRmvc
             services.AddMemoryCache(); //Usar cache
             services.AddSingleton<CacheHelper>(); //Cache global
             services.AddLogging(); //Loggin global
-            services.AddDbContext<CRMmvcContext>(options =>
+            services.AddDbContext<CRMContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<User,Role>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<CRMmvcContext>();
+                .AddEntityFrameworkStores<CRMContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
