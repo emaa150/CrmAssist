@@ -7,6 +7,7 @@ using CMRmvc.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace CMRmvc.Controllers
 {
@@ -15,11 +16,13 @@ namespace CMRmvc.Controllers
     {
         private readonly CRMmvcContext _context;
         private readonly ILogger<UsersController> _log;
+        private readonly RoleManager<Role> _roleManager;
 
-        public UsersController(CRMmvcContext context, ILogger<UsersController> log) : base(log)
+        public UsersController(CRMmvcContext context, ILogger<UsersController> log, RoleManager<Role> roleManager) : base(log)
         {
             _context = context;
             _log = log;
+            _roleManager = roleManager;
         }
 
         // GET: Users
@@ -55,9 +58,7 @@ namespace CMRmvc.Controllers
             return View();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdUsuario,IdPerfil,UsrLogin,UsrClave,UsrNombreCompleto,UsrDni,UsrTelefono,UsrImagen,UsrCorreo,UsrActivo,UsrFecUltIngreso,UsrFecClaveVcto,UsrNroLoginNok,FecIns,FecUpd,FecDel,UsrIns,UsrUpd,UsrDel")] User user)
@@ -68,7 +69,8 @@ namespace CMRmvc.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            else return View("Crud");
+
         }
 
         // GET: Users/Edit/5
@@ -121,7 +123,6 @@ namespace CMRmvc.Controllers
         }
 
         [HttpPost]
-        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var user = await _context.Users.FindAsync(id);
@@ -155,8 +156,6 @@ namespace CMRmvc.Controllers
                     _log.LogInformation("User: " + user.ToString());
 
                 }
-
-
 
             }
             catch (Exception ex)

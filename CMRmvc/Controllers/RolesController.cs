@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace CMRmvc.Controllers
@@ -20,44 +21,127 @@ namespace CMRmvc.Controllers
         }
 
         public IActionResult Index()
-        {       
-            return View(_context.Roles.AsAsyncEnumerable());
-        }
-
-        public async Task<IActionResult> Create([Bind("Id,Name,IsActive")] Role rol)
         {
+            StartMethod();
+            try
+            {
+               return View(_roleManager.Roles);
+            }
+            catch (Exception ex)
+            {
+                _log.LogError("Error: " + ex);
+                return NotFound();
+            }
+            finally 
+            {
+                EndMethod();
+            }
+          
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Name,IsActive")] Role rol)
+        {
+            StartMethod();
             IdentityResult result = null;
-            if (ModelState.IsValid)
+            try
             {
-                result = await _roleManager.CreateAsync(rol);
+                if (ModelState.IsValid)
+                {
+                    result = await _roleManager.CreateAsync(rol);
+                }
+                else
+                {
+                    return View(nameof(Crud));
+                }
+
+                if (result != null && result.Succeeded) return RedirectToAction(nameof(Index));
+                else
+                {
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View(nameof(Crud));
+                }
             }
-            else 
+            catch (Exception ex)
             {
-                return Crud(false, "Create", null);
+                _log.LogError("Error: " + ex);
+                return NotFound();
             }
-           
-
-
-            return RedirectToAction(nameof(Index));
+            finally
+            {
+                EndMethod();
+            }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([Bind("Id,Name,ConcurrencyStamp,IsActive")] Role rol)
+        {
+            StartMethod();
+            IdentityResult result = null;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    result = await _roleManager.UpdateAsync(rol);
+                }
+                else
+                {
+                    return View(nameof(Crud));
+                }
+
+                if (result != null && result.Succeeded) return RedirectToAction(nameof(Index));
+                else
+                {
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View(nameof(Crud));
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.LogError("Error: " + ex);
+                return NotFound();
+            }
+            finally
+            {
+                EndMethod();
+            }
+        }
 
         public IActionResult Crud(bool isreadonly, string myaction, long? id)
         {
-            ViewBag.IsReadOnly = isreadonly;
-            ViewBag.Action = myaction;
-
-            IdentityRole<long> role=null;
-
-            if (id != null && id != 0)
+            StartMethod();
+            Role role = null;
+            try
             {
-                _log.LogInformation("Obteniendo user");
+                ViewBag.IsReadOnly = isreadonly;
+                ViewBag.Action = myaction;
 
-                role = _context.Roles.Find(id);
+                if (id != null && id != 0)
+                {
+                    _log.LogInformation("Obteniendo Role");
 
+                    role = _context.Roles.Find(id);
+
+                }
+
+                return View(role);
             }
-
-            return View(role);
+            catch (Exception ex)
+            {
+                _log.LogError("Error: " + ex);
+                return NotFound();
+            }
+            finally
+            {
+                EndMethod();
+            }
         }
     }
 }

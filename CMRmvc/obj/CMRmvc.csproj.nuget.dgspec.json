@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Soft\\CRM\\CrmAssist\\CMRmvc\\CMRmvc.csproj": {}
+    "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj": {}
   },
   "projects": {
-    "D:\\Soft\\CRM\\CrmAssist\\CMRmvc\\CMRmvc.csproj": {
+    "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Soft\\CRM\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
+        "projectUniqueName": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
         "projectName": "CMRmvc",
-        "projectPath": "D:\\Soft\\CRM\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
-        "packagesPath": "C:\\Users\\juamp\\.nuget\\packages\\",
-        "outputPath": "D:\\Soft\\CRM\\CrmAssist\\CMRmvc\\obj\\",
+        "projectPath": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
+        "packagesPath": "C:\\Users\\emaa_\\.nuget\\packages\\",
+        "outputPath": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\juamp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\emaa_\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -101,7 +101,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

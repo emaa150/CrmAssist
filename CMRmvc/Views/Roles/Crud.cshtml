@@ -24,7 +24,9 @@
     <div class="col-md-4">
         <form asp-action="@ViewBag.Action">
 
-
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ConcurrencyStamp" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" readonly="@ViewBag.IsReadOnly" />
@@ -33,7 +35,7 @@
 
             <div class="form-group">
                 <label asp-for="IsActive" class="control-label"></label>
-               <input type="checkbox" asp-for="IsActive" class="form-control" readonly="@ViewBag.IsReadOnly" />
+                <input type="checkbox" asp-for="IsActive" class="form-control" readonly="@ViewBag.IsReadOnly" />
                 <span asp-validation-for="IsActive" class="text-danger"></span>
             </div>
 

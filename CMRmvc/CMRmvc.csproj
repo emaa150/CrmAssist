@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-CMRmvc-6BA4E55A-5FA0-42CE-884C-93B263A66337</UserSecretsId>
+    <StartupObject>CMRmvc.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

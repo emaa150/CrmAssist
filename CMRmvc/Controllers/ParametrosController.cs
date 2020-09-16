@@ -26,39 +26,58 @@ namespace CMRmvc.Controllers
             _listParamTipo = _context.ParametrosTipo.ToList();
         }
 
-        // GET: Parametros
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Parametros.Where(x => x.FecDel == null && x.UsrDel == null).ToListAsync());
-        }
+            StartMethod();
+            try
+            {
+                return View(await _context.Parametros.Where(x => x.FecDel == null && x.UsrDel == null).ToListAsync());
+            }
+            catch (Exception ex)
+            {
+              _log.LogError("Error: " + ex);
+                return NotFound();
+            }
+            finally 
+            {
+                EndMethod();
+            }
 
-        public async Task<IActionResult> Create()
-        {
-            var list = await _context.ParametrosTipo.ToListAsync();
-            ViewBag.ParamTipo = new SelectList(list, "IdParametroTipo", "IdParametroTipo");
-            return View();
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin")] Parametros parametros)
         {
-            if (ModelState.IsValid)
+            StartMethod();
+            try
             {
-                var itemsParam = await _context.Parametros.OrderByDescending(x => x.IdParametro).ToListAsync();
+                if (ModelState.IsValid)
+                {
+                    parametros.FecIns = DateTime.Now;
+                    parametros.UsrIns = User.Identity.Name;
 
-                parametros.IdParametro = itemsParam[0].IdParametro + 1;
-                parametros.FecIns = DateTime.Now;
-                parametros.UsrIns = User.Identity.Name;
+                    _context.Add(parametros);
 
-                _context.Add(parametros);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                    await _context.SaveChangesAsync(); 
+                    return RedirectToAction(nameof(Index));
+                }
+                else 
+                {
+                    return View(nameof(Crud));
+                }
+
+            }
+            catch (Exception ex) 
+            {
+                _log.LogError("Error: " + ex);
+                return NotFound();
+            }
+            finally
+            {
+                EndMethod();
             }
 
-
-            return Crud(true, "Create", null);
         }
 
 
@@ -66,38 +85,61 @@ namespace CMRmvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("IdParametro,IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin,FecIns,FecUpd,FecDel,UsrIns,UsrUpd,UsrDel")] Parametros parametros)
         {
-            if (ModelState.IsValid)
+            StartMethod();
+            try
             {
-                try
+                if (ModelState.IsValid)
                 {
                     parametros.FecUpd = DateTime.Now;
                     parametros.UsrUpd = User.Identity.Name;
                     _context.Update(parametros);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+
+                    return RedirectToAction(nameof(Index));                
                 }
-                catch (DbUpdateConcurrencyException)
+                else 
                 {
-                    if (!ParametrosExists(parametros.IdParametro))
-                    {
-                        return NotFound();
-                    }
+                    return View(nameof(Crud));
                 }
             }
-
-            return Crud(false, "Edit", parametros.IdParametro);
+            catch (Exception ex)
+            {
+                _log.LogError("Error: " + ex);
+                return NotFound();
+            }
+            finally
+            {
+                EndMethod();
+            }
         }
 
 
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var parametros = await _context.Parametros.FindAsync(id);
-            parametros.FecDel = DateTime.Now;
-            parametros.UsrDel = User.Identity.Name;
-            _context.Parametros.Update(parametros);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            StartMethod();
+            try
+            {
+                var parametros = await _context.Parametros.FindAsync(id);
+
+                parametros.FecDel = DateTime.Now;
+                parametros.UsrDel = User.Identity.Name;
+
+                _context.Parametros.Update(parametros);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _log.LogError("Error: " + ex);
+                return NotFound();
+            }
+            finally
+            {
+                EndMethod();
+            }
         }
 
         public IActionResult Crud(bool isreadonly, string myaction, long? id)
@@ -130,11 +172,6 @@ namespace CMRmvc.Controllers
                 EndMethod();                
             }
             return View(param);
-        }
-
-        private bool ParametrosExists(long id)
-        {
-            return _context.Parametros.Any(e => e.IdParametro == id);
         }
     }
 }
