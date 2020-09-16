@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient.Server;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CMRmvc.Models
 {
@@ -46,5 +41,10 @@ namespace CMRmvc.Models
         [Display(Name = "Recordarme")]
         public bool RememberMe { get; set; }
 
+        public override string ToString()
+        {
+            return string.Format("Id: {0}, UserName: {1},Email: {2},PhoneNumber: {3},PasswordHash: {4},NombreCompleto: {5},Dni: {6},Activo: {7}"
+                    , Id, UserName, Email, PhoneNumber, PasswordHash, NombreCompleto, Dni, Activo);
+        }
     }
 }

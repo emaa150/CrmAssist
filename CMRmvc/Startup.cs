@@ -36,7 +36,7 @@ namespace CMRmvc
             services.AddDbContext<CRMmvcContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddIdentity<User,Role>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<CRMmvcContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();

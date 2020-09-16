@@ -1,0 +1,57 @@
+﻿@model CMRmvc.Models.Role
+
+@{
+    ViewData["Title"] = "Crud";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+
+    string title = "Roles";
+    string ico = "fas fa-align-justify";
+    if (ViewBag.Action == "Edit") { title = "Modificar Roles"; ico = "far fa-edit"; }
+    else if (ViewBag.Action == "Create") { title = "Alta Roles"; ico = "fas fa-plus-circle"; }
+    else if (ViewBag.Action == "Details") { title = "Detalles Roles"; ico = "fas fa-info-circle"; }
+}
+
+
+<div class="d-flex">
+    <div class="mr-auto p-2">
+        <h4><i class="@ico"></i> @title</h4>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="@ViewBag.Action">
+
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" readonly="@ViewBag.IsReadOnly" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IsActive" class="control-label"></label>
+               <input type="checkbox" asp-for="IsActive" class="form-control" readonly="@ViewBag.IsReadOnly" />
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+            </div>
+
+
+            <hr />
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-secondary">Volver</a>
+                @if (ViewBag.Action != "Details")
+                {
+                    <input type="submit" value="Guardar" class="btn btn-primary active float-right" />
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+

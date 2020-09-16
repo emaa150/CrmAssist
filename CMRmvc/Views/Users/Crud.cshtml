@@ -3,115 +3,91 @@
 @{
     ViewData["Title"] = "Crud";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+
+    string title = "Usuario";
+    string ico = "fas fa-align-justify";
+    if (ViewBag.Action == "Edit") { title = "Modificar Usuario"; ico = "far fa-edit"; }
+    else if (ViewBag.Action == "Create") { title = "Alta Usuario"; ico = "fas fa-plus-circle"; }
+    else if (ViewBag.Action == "Details") { title = "Detalles Usuario"; ico = "fas fa-info-circle"; }
 }
 
-<h1>Create</h1>
 
-<h4>User</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        @*<form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdPerfil" class="control-label"></label>
-                <input asp-for="IdPerfil" class="form-control" />
-                <span asp-validation-for="IdPerfil" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrLogin" class="control-label"></label>
-                <input asp-for="UsrLogin" class="form-control" />
-                <span asp-validation-for="UsrLogin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrClave" class="control-label"></label>
-                <input asp-for="UsrClave" class="form-control" />
-                <span asp-validation-for="UsrClave" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrNombreCompleto" class="control-label"></label>
-                <input asp-for="UsrNombreCompleto" class="form-control" />
-                <span asp-validation-for="UsrNombreCompleto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrDni" class="control-label"></label>
-                <input asp-for="UsrDni" class="form-control" />
-                <span asp-validation-for="UsrDni" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrTelefono" class="control-label"></label>
-                <input asp-for="UsrTelefono" class="form-control" />
-                <span asp-validation-for="UsrTelefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrImagen" class="control-label"></label>
-                <input asp-for="UsrImagen" class="form-control" />
-                <span asp-validation-for="UsrImagen" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrCorreo" class="control-label"></label>
-                <input asp-for="UsrCorreo" class="form-control" />
-                <span asp-validation-for="UsrCorreo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrActivo" class="control-label"></label>
-                <input asp-for="UsrActivo" class="form-control" />
-                <span asp-validation-for="UsrActivo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrFecUltIngreso" class="control-label"></label>
-                <input asp-for="UsrFecUltIngreso" class="form-control" />
-                <span asp-validation-for="UsrFecUltIngreso" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrFecClaveVcto" class="control-label"></label>
-                <input asp-for="UsrFecClaveVcto" class="form-control" />
-                <span asp-validation-for="UsrFecClaveVcto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrNroLoginNok" class="control-label"></label>
-                <input asp-for="UsrNroLoginNok" class="form-control" />
-                <span asp-validation-for="UsrNroLoginNok" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FecIns" class="control-label"></label>
-                <input asp-for="FecIns" class="form-control" />
-                <span asp-validation-for="FecIns" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FecUpd" class="control-label"></label>
-                <input asp-for="FecUpd" class="form-control" />
-                <span asp-validation-for="FecUpd" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FecDel" class="control-label"></label>
-                <input asp-for="FecDel" class="form-control" />
-                <span asp-validation-for="FecDel" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrIns" class="control-label"></label>
-                <input asp-for="UsrIns" class="form-control" />
-                <span asp-validation-for="UsrIns" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrUpd" class="control-label"></label>
-                <input asp-for="UsrUpd" class="form-control" />
-                <span asp-validation-for="UsrUpd" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsrDel" class="control-label"></label>
-                <input asp-for="UsrDel" class="form-control" />
-                <span asp-validation-for="UsrDel" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>*@
+<div class="d-flex">
+    <div class="mr-auto p-2">
+        <h4><i class="@ico"></i> @title</h4>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="FecIns" />
+            <input type="hidden" asp-for="FecUpd" />
+            <input type="hidden" asp-for="FecDel" />
+            <input type="hidden" asp-for="UsrIns" />
+            <input type="hidden" asp-for="UsrUpd" />
+            <input type="hidden" asp-for="UsrDel" />
+
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control"  readonly="@ViewBag.IsReadOnly" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NombreCompleto" class="control-label"></label>
+                <input asp-for="NombreCompleto" class="form-control"  readonly="@ViewBag.IsReadOnly" />
+                <span asp-validation-for="NombreCompleto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dni" class="control-label"></label>
+                <input asp-for="Dni" class="form-control"   readonly="@ViewBag.IsReadOnly" />
+                <span asp-validation-for="Dni" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control"  readonly="@ViewBag.IsReadOnly" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Imagen" class="control-label"></label>
+                <input asp-for="Imagen" class="form-control"  readonly="@ViewBag.IsReadOnly"/>
+                <span asp-validation-for="Imagen" class="text-danger"></span>
+            </div>
+            @*   SELECT PERFIL
+        <div class="form-group">
+            <label class="control-label"></label>
+            <select class="form-control" asp-items="@ViewBag.ParameterType" asp-for="ParTipo" readonly="@ViewBag.IsReadOnly">
+            </select>
+            <span asp-validation-for="ParTipo" class="text-danger"></span>
+        </div>
+            *@
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control"  readonly="@ViewBag.IsReadOnly" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Activo" class="control-label"></label>
+                <input asp-for="Activo" class="form-control"  readonly="@ViewBag.IsReadOnly" />
+                <span asp-validation-for="Activo" class="text-danger"></span>
+            </div>
+
+            <hr />
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-secondary">Volver</a>
+                @if (ViewBag.Action != "Details")
+                {
+                    <input type="submit" value="Guardar" class="btn btn-primary active float-right" />
+                }
+            </div>
+
+        </form>
+    </div>
 </div>
 
 

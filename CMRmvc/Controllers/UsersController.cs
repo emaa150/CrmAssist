@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using CMRmvc.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace CMRmvc.Controllers
 {
@@ -134,10 +135,41 @@ namespace CMRmvc.Controllers
             return _context.Users.Any(e => e.Id == id);
         }
 
-        public IActionResult Crud()
+        public IActionResult Crud(bool isreadonly, string myaction, long? id)
         {
+            StartMethod();
+            User user = null;
+            _log.LogInformation(string.Format("INIT CRUD: isreadonly:{0}, myaction:{1}, id:{2}", isreadonly, myaction, id));
 
-            return View();
+            try
+            {
+                ViewBag.IsReadOnly = isreadonly;
+                ViewBag.Action = myaction;
+
+                if (id != null && id != 0) 
+                {
+                    _log.LogInformation("Obteniendo user");
+
+                    user = _context.Users.Find(id);
+
+                    _log.LogInformation("User: " + user.ToString());
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                _log.LogError("Error: " + ex);
+                return NotFound();
+            }
+            finally
+            {
+                EndMethod();
+            }
+            return View(user);
         }
     }
 }
+

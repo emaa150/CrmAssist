@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CMRmvc.Models
 {
-    public partial class CRMmvcContext : IdentityDbContext<User, IdentityRole<long>, long, IdentityUserClaim<long>, IdentityUserRole<long>, IdentityUserLogin<long>, IdentityRoleClaim<long>, IdentityUserToken<long>>
+    public partial class CRMmvcContext : IdentityDbContext<User, Role, long, IdentityUserClaim<long>, IdentityUserRole<long>, IdentityUserLogin<long>, IdentityRoleClaim<long>, IdentityUserToken<long>>
     {
         private readonly IOptions<ConnectionsStrings> connectionStrings;
         public CRMmvcContext(IOptions<ConnectionsStrings> connectionString)
