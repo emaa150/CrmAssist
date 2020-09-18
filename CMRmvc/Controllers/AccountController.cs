@@ -66,7 +66,6 @@ namespace CMRmvc.Controllers
                         cacheHelper.LoadMenu(Menu);
                         ViewData["Menu"] = Menu;
                         return RedirectToAction(nameof(AccountController.Index), "Home");
-                        Response.Redirect("/");
                     }
                     else
                     {

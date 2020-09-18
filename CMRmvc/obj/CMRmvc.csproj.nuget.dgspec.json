@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj": {}
+    "D:\\Soft\\CRM\\CrmAssist\\CMRmvc\\CMRmvc.csproj": {}
   },
   "projects": {
-    "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj": {
+    "D:\\Soft\\CRM\\CrmAssist\\CMRmvc\\CMRmvc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
+        "projectUniqueName": "D:\\Soft\\CRM\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
         "projectName": "CMRmvc",
-        "projectPath": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
-        "packagesPath": "C:\\Users\\emaa_\\.nuget\\packages\\",
-        "outputPath": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\obj\\",
+        "projectPath": "D:\\Soft\\CRM\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
+        "packagesPath": "C:\\Users\\juamp\\.nuget\\packages\\",
+        "outputPath": "D:\\Soft\\CRM\\CrmAssist\\CMRmvc\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\emaa_\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\juamp\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -53,6 +53,10 @@
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
               "version": "[3.1.7, )"
+            },
+            "Microsoft.AspNetCore.Session": {
+              "target": "Package",
+              "version": "[2.2.0, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
@@ -101,7 +105,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -19,8 +19,9 @@ namespace CMRmvc.Controllers
         private readonly ILogger<UsersController> _log;
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
+        private readonly CacheHelper cacheHelper;
 
-        public UsersController(CRMContext context, ILogger<UsersController> log, RoleManager<Role> roleManager, UserManager<User> userManager) : base(log)
+        public UsersController(CRMContext context, ILogger<UsersController> log, RoleManager<Role> roleManager, UserManager<User> userManager, CacheHelper _cacheHelper) : base(log)
         {
             _context = context;
             _log = log;
@@ -34,6 +35,7 @@ namespace CMRmvc.Controllers
             StartMethod();
             try
             {
+                ViewData["Menu"] = cacheHelper.GetMenu();
                 _log.LogInformation("Obteniendo Users...");
                 var listUsers = _context.Users.Where(x => x.FecDel == null && x.UsrDel == null).ToList();
                 _log.LogInformation(string.Format("Users count:{0}", listUsers.Count));
@@ -56,6 +58,7 @@ namespace CMRmvc.Controllers
             StartMethod();
             try
             {
+                ViewData["Menu"] = cacheHelper.GetMenu();
                 string rol = user.UsrUpd;
                 bool modelStateRol = false;
                 if (rol != "") modelStateRol = true;
