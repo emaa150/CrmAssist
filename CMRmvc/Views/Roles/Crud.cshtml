@@ -52,7 +52,64 @@
     </div>
 </div>
 
+@if (ViewBag.Action != "Create")
+{
+    <div class="row">
+        <div class="card col-md-4">
+            <div class="card-header">
+                <h4>Usuarios en este rol</h4>
+            </div>
+            <div class="card-body">
+                @{
+                    List<User> list = ViewBag.ListUsers;
+                }
+                @if (list != null && list.Count > 0)
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                  UserName  @*@Html.DisplayNameFor(User => )*@
+                                </th>
+                                <th>
+                                 Nombre   @*@Html.DisplayNameFor(model => model.NombreCompleto)*@
+                                </th>
+                                <th>
+                                 Email  @*@Html.DisplayNameFor(model => model.Email)*@
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
+                            @foreach (User item in list)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NombreCompleto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <h5>No existen usuarios en el rol.</h5>
+                }
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary">Asignar usuario</button>
+            </div>
+        </div>
+    </div>
+
+}
 
 
 

@@ -19,121 +19,6 @@ namespace CMRmvc.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CMRmvc.Models.Parametros", b =>
-                {
-                    b.Property<long>("IdParametro")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("idParametro")
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("FecDel")
-                        .HasColumnName("FecDEL")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime?>("FecIns")
-                        .HasColumnName("FecINS")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime?>("FecUpd")
-                        .HasColumnName("FecUPD")
-                        .HasColumnType("datetime");
-
-                    b.Property<long>("IdParametroTipo")
-                        .HasColumnName("idParametroTipo")
-                        .HasColumnType("bigint");
-
-                    b.Property<short>("ParAdmin")
-                        .HasColumnName("parAdmin")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("ParClave")
-                        .IsRequired()
-                        .HasColumnName("parClave")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                    b.Property<string>("ParNombre")
-                        .IsRequired()
-                        .HasColumnName("parNombre")
-                        .HasColumnType("varchar(100)")
-                        .HasMaxLength(100)
-                        .IsUnicode(false);
-
-                    b.Property<short>("ParTipo")
-                        .HasColumnName("parTipo")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("ParValor")
-                        .IsRequired()
-                        .HasColumnName("parValor")
-                        .HasColumnType("varchar(500)")
-                        .HasMaxLength(500)
-                        .IsUnicode(false);
-
-                    b.Property<string>("UsrDel")
-                        .HasColumnName("UsrDEL")
-                        .HasColumnType("varchar(100)")
-                        .HasMaxLength(100)
-                        .IsUnicode(false);
-
-                    b.Property<string>("UsrIns")
-                        .HasColumnName("UsrINS")
-                        .HasColumnType("varchar(100)")
-                        .HasMaxLength(100)
-                        .IsUnicode(false);
-
-                    b.Property<string>("UsrUpd")
-                        .HasColumnName("UsrUPD")
-                        .HasColumnType("varchar(100)")
-                        .HasMaxLength(100)
-                        .IsUnicode(false);
-
-                    b.HasKey("IdParametro")
-                        .HasName("PK__Parametr__9C816E5FADB882DF");
-
-                    b.HasIndex("IdParametroTipo");
-
-                    b.ToTable("Parametros");
-                });
-
-            modelBuilder.Entity("CMRmvc.Models.ParametrosTipo", b =>
-                {
-                    b.Property<long>("IdParametroTipo")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("idParametroTipo")
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("TipAdmin")
-                        .HasColumnName("tipAdmin")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("TipDescripcion")
-                        .HasColumnName("tipDescripcion")
-                        .HasColumnType("varchar(250)")
-                        .HasMaxLength(250)
-                        .IsUnicode(false);
-
-                    b.Property<string>("TipNombre")
-                        .IsRequired()
-                        .HasColumnName("tipNombre")
-                        .HasColumnType("varchar(100)")
-                        .HasMaxLength(100)
-                        .IsUnicode(false);
-
-                    b.Property<bool?>("TipVisible")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("tipVisible")
-                        .HasColumnType("bit")
-                        .HasDefaultValueSql("((1))");
-
-                    b.HasKey("IdParametroTipo")
-                        .HasName("PK__Parametr__A8D8332884BCF310");
-
-                    b.ToTable("ParametrosTipo");
-                });
 
             modelBuilder.Entity("CMRmvc.Models.Role", b =>
                 {
@@ -384,15 +269,6 @@ namespace CMRmvc.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("CMRmvc.Models.Parametros", b =>
-                {
-                    b.HasOne("CMRmvc.Models.ParametrosTipo", "IdParametroTipoNavigation")
-                        .WithMany("Parametros")
-                        .HasForeignKey("IdParametroTipo")
-                        .HasConstraintName("Parametros_ParametroTipo_FK")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>

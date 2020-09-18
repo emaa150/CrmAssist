@@ -823,9 +823,6 @@ E:\RepositorioAssist\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\runtimes\win\lib\n
 E:\RepositorioAssist\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.AssemblyInfoInputs.cache
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.AssemblyInfo.cs
-E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.csproj.CoreCompileInputs.cache
-E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.MvcApplicationPartsAssemblyInfo.cs
-E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.MvcApplicationPartsAssemblyInfo.cache
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.RazorAssemblyInfo.cache
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.RazorAssemblyInfo.cs
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.TagHelpers.input.cache
@@ -869,3 +866,7 @@ E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.csprojAssem
 D:\Soft\CRM\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Roles\Crud.cshtml.g.cs
 D:\Soft\CRM\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Roles\Index.cshtml.g.cs
 D:\Soft\CRM\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_NotFound.cshtml.g.cs
+E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_NotFound.cshtml.g.cs
+E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.csproj.CoreCompileInputs.cache
+E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.MvcApplicationPartsAssemblyInfo.cs
+E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.MvcApplicationPartsAssemblyInfo.cache
