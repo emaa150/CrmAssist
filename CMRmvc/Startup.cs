@@ -42,6 +42,7 @@ namespace CMRmvc
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<User,Role>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<CRMContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();

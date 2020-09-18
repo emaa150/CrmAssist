@@ -44,32 +44,50 @@ namespace CMRmvc.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(User user)
+        public async Task<IActionResult> Login([Bind("UserName,PasswordHash,RememberMe")] User user)
         {
-
-            if (ModelState.IsValid)
+            StartMethod();
+            try
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, 
-                // set lockoutOnFailure: true
-
-                var result = await _signInManager.PasswordSignInAsync(user.UserName, user.PasswordHash, user.RememberMe, false);
-                if (result.Succeeded)
+                ModelState.Remove("Email");
+                ModelState.Remove("PhoneNumber");
+                ModelState.Remove("NombreCompleto");
+                ModelState.Remove("Dni");
+            
+                if (ModelState.IsValid)
                 {
-                    _log.LogInformation("User logged in.");
-                    HttpContext.Session.SetString("UserName", user.UserName);
-                    var Menu = MenuHelper.GenerateMenu(user.UserName, _log, _context);
-                    cacheHelper.LoadMenu(Menu);                   
-                    ViewData["Menu"] = Menu;
-                     return RedirectToAction(nameof(AccountController.Index), "Home");
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName, user.PasswordHash, user.RememberMe, false);
+                    if (result.Succeeded)
+                    {
+                        _log.LogInformation("User logged in.");
+                        _log.LogInformation("User logged in.");
+                        HttpContext.Session.SetString("UserName", user.UserName);
+                        var Menu = MenuHelper.GenerateMenu(user.UserName, _log, _context);
+                        cacheHelper.LoadMenu(Menu);
+                        ViewData["Menu"] = Menu;
+                        return RedirectToAction(nameof(AccountController.Index), "Home");
+                        Response.Redirect("/");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        ViewData["Error"] = "La combinación de usuario y contraseña no es válida.";
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    ViewData["Error"] = "La combinación de usuario y contraseña no es válida.";
+                    return View(user);
                 }
             }
-
+            catch (Exception ex)
+            {
+                ViewData["Error"] = "Ocurrió un error al iniciar sesión.";
+                _log.LogError("Error: " + ex);
+            }
+            finally 
+            {
+                EndMethod();
+            }
 
             return View();
         }

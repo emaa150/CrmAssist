@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CMRmvc.Controllers
@@ -90,7 +92,10 @@ namespace CMRmvc.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    result = await _roleManager.UpdateAsync(rol);
+                    var rolUpdate = await _roleManager.FindByIdAsync(rol.Id.ToString());
+                    rolUpdate.Name = rol.Name;
+                    rolUpdate.IsActive = rol.IsActive;
+                    result = await _roleManager.UpdateAsync(rolUpdate);
                 }
                 else
                 {
@@ -129,6 +134,16 @@ namespace CMRmvc.Controllers
 
                 if (id != null && id != 0)
                 {
+                    var listRoles = _context.UserRoles.Where(x => x.RoleId == id);
+                    var listusers = new List<User>();
+
+                    foreach (var item in listRoles) 
+                    {
+                        listusers.Add(_context.Users.Find(item.UserId));
+                    }
+
+                    ViewBag.ListUsers = listusers;
+
                     _log.LogInformation("Obteniendo Role");
 
                     role = _context.Roles.Find(id);
