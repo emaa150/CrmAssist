@@ -8,6 +8,10 @@ using Microsoft.Extensions.Logging;
 using CMRmvc.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using CMRmvc.Helpers;
+using CRMmvc.Helpers;
+using System.Reflection.Metadata;
 
 namespace CMRmvc.Controllers
 {
@@ -16,19 +20,21 @@ namespace CMRmvc.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly SignInManager<User> _signInManager;
-        public HomeController(ILogger<HomeController> logger, SignInManager<User> signInManager):base(logger)
+        private readonly CRMContext context;
+        private readonly CacheHelper cacheHelper;
+        public HomeController(ILogger<HomeController> logger, SignInManager<User> signInManager, CRMContext _context, CacheHelper _cacheHelper):base(logger)
         {
             _logger = logger;
             _signInManager = signInManager;
+            context = _context;
+            cacheHelper = _cacheHelper;
+            ViewData["Menu"] = cacheHelper.GetMenu();
         }
 
         public IActionResult Index()
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-            //    return RedirectToAction(nameof(AccountController.Index), "Home");
-            }
-
+            var userName = HttpContext.Session.GetString("UserName");
+            ViewData["Menu"] = cacheHelper.GetMenu();
             return View();
 
         }

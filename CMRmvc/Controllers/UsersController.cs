@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using System;
 using Microsoft.AspNetCore.Identity;
+using CRMmvc.Helpers;
 
 namespace CMRmvc.Controllers
 {
@@ -17,17 +18,21 @@ namespace CMRmvc.Controllers
         private readonly CRMContext _context;
         private readonly ILogger<UsersController> _log;
         private readonly RoleManager<Role> _roleManager;
+        private readonly CacheHelper cacheHelper;
 
-        public UsersController(CRMContext context, ILogger<UsersController> log, RoleManager<Role> roleManager) : base(log)
+        public UsersController(CRMContext context, ILogger<UsersController> log, RoleManager<Role> roleManager, CacheHelper _cacheHelper) : base(log)
         {
             _context = context;
             _log = log;
             _roleManager = roleManager;
+            cacheHelper = _cacheHelper;
+            ViewData["Menu"] = cacheHelper.GetMenu();
         }
 
         // GET: Users
         public IActionResult Index()
         {
+            ViewData["Menu"] = cacheHelper.GetMenu();
 
             var listUsers = _context.Users.ToList();         
 
@@ -41,6 +46,7 @@ namespace CMRmvc.Controllers
             {
                 return NotFound();
             }
+            ViewData["Menu"] = cacheHelper.GetMenu();
 
             var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -63,6 +69,8 @@ namespace CMRmvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdUsuario,IdPerfil,UsrLogin,UsrClave,UsrNombreCompleto,UsrDni,UsrTelefono,UsrImagen,UsrCorreo,UsrActivo,UsrFecUltIngreso,UsrFecClaveVcto,UsrNroLoginNok,FecIns,FecUpd,FecDel,UsrIns,UsrUpd,UsrDel")] User user)
         {
+            ViewData["Menu"] = cacheHelper.GetMenu();
+
             if (ModelState.IsValid)
             {
                 _context.Add(user);
@@ -80,6 +88,7 @@ namespace CMRmvc.Controllers
             {
                 return NotFound();
             }
+            ViewData["Menu"] = cacheHelper.GetMenu();
 
             var user = await _context.Users.FindAsync(id);
             if (user == null)

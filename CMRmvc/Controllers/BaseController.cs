@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CRMmvc.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
@@ -16,13 +18,12 @@ namespace CMRmvc.Controllers
         private const string startMethod = "********************************** Inicio {0} **********************************";
         private const string endMethod = "********************************** Fin {0} **********************************";
         private const string elapsedTime = "Tiempo transcurrido: {0} ms.";
-
+        
         public BaseController(ILogger<BaseController> logger)
         {
             try
             {
                 logger.LogInformation(startMethod + "BaseController()" + endMethod);
-
                 this.logger = logger;
             }
             catch (Exception ex)

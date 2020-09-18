@@ -19,7 +19,8 @@ namespace CRMmvc.Helpers
         private readonly CRMContext _contexto;
 
         private ConcurrentDictionary<string, Parametros> listaParametros;
-        
+        private ConcurrentDictionary<string, List<MenuItemPadre>> _menu;
+
         private CacheItemPolicy cacheItemPolicy;
         private readonly ILogger<CacheHelper> _logger;
         public CacheHelper(ILogger<CacheHelper> logger, IOptions<ConnectionsStrings> connectionString)
@@ -27,6 +28,7 @@ namespace CRMmvc.Helpers
             _logger = logger;
             _cache = MemoryCache.Default;
             _contexto = new CRMContext(connectionString);
+            _menu = new ConcurrentDictionary<string, List<MenuItemPadre>>();
             GetParameters();
         }
 
@@ -91,6 +93,27 @@ namespace CRMmvc.Helpers
         }
 
         /// <summary>
+        /// Carga en cache el menu a mostrar
+        /// </summary>
+        public void LoadMenu(List<MenuItemPadre> menus)
+        {
+            _menu.TryAdd(EnumCacheItems.MENUS, menus);            
+            _cache.Set(EnumCacheItems.MENUS, _menu, cacheItemPolicy);
+        }
+
+        /// <summary>
+        /// Obtiene el menu del usuario
+        /// </summary>
+        /// <param name="menus"></param>
+        public List<MenuItemPadre> GetMenu()
+        {
+            var menu = (ConcurrentDictionary<string, List<MenuItemPadre>>)_cache.GetCacheItem(EnumCacheItems.MENUS).Value;
+            var  padres =menu.Values.FirstOrDefault();
+            return padres;
+        }
+
+
+        /// <summary>
         /// renueva todos los items en caché cuando expira cualquiera de ellos
         /// </summary>
         /// <param name="cache"></param>
@@ -127,6 +150,6 @@ namespace CRMmvc.Helpers
                 _logger.LogInformation("********** " + MethodBase.GetCurrentMethod().Name + " END **********");
             }
             return returnedParameter;
-        }
+        }        
     }
 }

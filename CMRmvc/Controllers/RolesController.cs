@@ -1,4 +1,5 @@
 ﻿using CMRmvc.Models;
+using CRMmvc.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,12 +13,14 @@ namespace CMRmvc.Controllers
         private readonly ILogger<RolesController> _log;
         private readonly CRMContext _context;
         private readonly RoleManager<Role> _roleManager;
-
-        public RolesController(ILogger<RolesController> log, CRMContext context, RoleManager<Role> roleManager) : base(log) 
+        private readonly CacheHelper cacheHelper;
+        public RolesController(ILogger<RolesController> log, CRMContext context, RoleManager<Role> roleManager, CacheHelper cache) : base(log) 
         {
             _log = log;
             _context = context;
             _roleManager = roleManager;
+            cacheHelper=cache;
+            ViewData["Menu"] = cacheHelper.GetMenu();
         }
 
         public IActionResult Index()
@@ -25,7 +28,8 @@ namespace CMRmvc.Controllers
             StartMethod();
             try
             {
-               return View(_roleManager.Roles);
+                ViewData["Menu"] = cacheHelper.GetMenu();
+                return View(_roleManager.Roles);
             }
             catch (Exception ex)
             {

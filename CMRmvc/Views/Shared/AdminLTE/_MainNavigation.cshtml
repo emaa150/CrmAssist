@@ -1,82 +1,68 @@
 ﻿@using static CRM.Helpers.NavigationIndicatorHelper;
 @using Microsoft.AspNetCore.Identity
 
+@{var menu = (List<MenuItemPadre>)ViewData["Menu"];}
+
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
 
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        @*<a href="~/Home" class="brand-link">
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    @*<a href="~/Home" class="brand-link">
             <img src="~/img/icLogoAsisst.svg" alt="Assist Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-light">CRM</span>
         </a>*@
-            <img src="~/img/icLogoAsisst.svg" alt="Assist Logo" class="brand-image ml-4 mt-2 mb-1" style="opacity: .8;">
+    <img src="~/img/icLogoAsisst.svg" alt="Assist Logo" class="brand-image ml-4 mt-2 mb-1" style="opacity: .8;">
 
-            <div class="sidebar">
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                        <div class="image">
-                            <img src="~/img/logo-avatar.png" class="img-circle elevation-2" alt="Bienvenido">
-                        </div>
-                        <div class="info">
-                            @*<a href="#" class="d-block">Admin Assist</a>*@
-                            <a id="manage" class="d-block">@UserManager.GetUserName(User)</a>
-                        </div>
-                    </div>
-                    <nav class="mt-2">
-                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            <li class="nav-item ">
-                                <a asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home", "index")">
-                                    <i class="nav-icon fas fa-home"></i>
-                                    <p>
-                                        Home
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a asp-controller="Home" asp-action="Privacy" class="nav-link @Url.MakeActiveClass("home", "privacy")">
-                                    <i class="nav-icon fas fa-lock"></i>
-                                    <p>
-                                        Privacy
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a asp-controller="Users" asp-action="Index" class="nav-link @Url.MakeActiveClass("users", "index")">
-                                    <i class="nav-icon fas fa-user"></i>
-                                    <p>
-                                        Users
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a asp-controller="Parametros" asp-action="Index" class="nav-link @Url.MakeActiveClass("parametros", "index")">
-                                    <i class="nav-icon fas fa-cog"></i>
-                                    <p>
-                                        Parametros
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a asp-controller="Roles" asp-action="Index" class="nav-link @Url.MakeActiveClass("roles", "index")">
-                                    <i class="nav-icon fas fa-cog"></i>
-                                    <p>
-                                        Roles
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a asp-controller="Parametros" asp-action="Index" class="nav-link @Url.MakeActiveClass("", "")">
-                                    <i class="nav-icon fas fa-envelope"></i>
-                                    <p>
-                                        Newsletters
-                                    </p>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                }
+    <div class="sidebar">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    <img src="~/img/logo-avatar.png" class="img-circle elevation-2" alt="Bienvenido">
+                </div>
+                <div class="info">
+                    @*<a href="#" class="d-block">Admin Assist</a>*@
+                    <a id="manage" class="d-block">@UserManager.GetUserName(User)</a>
+                </div>
             </div>
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-header" style="align-content:center;">CRM CR</li>
+                    @if (menu != null)
+                    {
+                        @foreach (var padre in menu)
+                        {
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="@padre.Icono nav-icon"></i>
+                                    <p>
+                                        @padre.Nombre
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>                            
+                                @if (padre.MenuItemHijo != null)
+                                {
 
-    </aside>
+                                    <ul class="nav nav-treeview">
+                                        @foreach (var hijo in padre.MenuItemHijo)
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link @Url.MakeActiveClass(@hijo.Controlador, @hijo.Accion)" asp-controller="@hijo.Controlador" asp-action="@hijo.Accion">
+                                                    <i class="@hijo.Icono nav-icon"></i>
+                                                    <p>@hijo.Nombr</p>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
+                        }
+
+                    }
+
+                </ul>
+            </nav>
+        }
+    </div>
+</aside>

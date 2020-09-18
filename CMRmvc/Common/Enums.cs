@@ -6,6 +6,7 @@ namespace CRMmvc.Common
         public static class EnumCacheItems
         {
             public const string PARAMETROS = "parametros";
+            public const string MENUS = "menus";
         }
 
         public static class EnumParameters

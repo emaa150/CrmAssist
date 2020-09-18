@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using CMRmvc.Helpers;
 using CMRmvc.Models;
+using CRMmvc.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account.Manage;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -14,15 +19,19 @@ namespace CMRmvc.Controllers
         private readonly CRMContext _context;
         private readonly ILogger<AccountController> _log;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly CacheHelper cacheHelper;
         [TempData]
         public string ErrorMessage { get; set; }
-        public AccountController(CRMContext context, ILogger<AccountController> _logger, SignInManager<User> signInManager, UserManager<User> userManager) :base(_logger)
+        public AccountController(CRMContext context, ILogger<AccountController> _logger, SignInManager<User> signInManager, UserManager<User> userManager,RoleManager<Role> roleManager, CacheHelper cache) :base(_logger)
         {            
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _context = context;
             _log = _logger;
+            cacheHelper= cache;
         }
 
         public IActionResult Index()
@@ -48,7 +57,11 @@ namespace CMRmvc.Controllers
                 if (result.Succeeded)
                 {
                     _log.LogInformation("User logged in.");
-                    Response.Redirect("/");
+                    HttpContext.Session.SetString("UserName", user.UserName);
+                    var Menu = MenuHelper.GenerateMenu(user.UserName, _log, _context);
+                    cacheHelper.LoadMenu(Menu);                   
+                    ViewData["Menu"] = Menu;
+                     return RedirectToAction(nameof(AccountController.Index), "Home");
                 }
                 else
                 {

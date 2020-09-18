@@ -1,13 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CRMmvc.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace CRM.Helpers
 {
     public static class NavigationIndicatorHelper
     {
+        private static readonly CacheHelper cacheHelper;
+
+
         public static string MakeActiveClass(this IUrlHelper urlHelper, string controller, string action)
         {
             try
@@ -20,6 +25,7 @@ namespace CRM.Helpers
                 {
                     if (methodName.Equals(action, StringComparison.OrdinalIgnoreCase))
                     {
+
                         return result;
                     }
                 }
@@ -30,5 +36,32 @@ namespace CRM.Helpers
                 return null;
             }
         }
+
+        public static string MakeActiveClass(this IUrlHelper urlHelper, string padre)
+        {
+            try
+            {
+                 var maenu =cacheHelper.GetMenu();
+                string result = "active";
+                
+                string controllerName = urlHelper.ActionContext.RouteData.Values["controller"].ToString();
+                string methodName = urlHelper.ActionContext.RouteData.Values["action"].ToString();
+                //if (string.IsNullOrEmpty(controllerName)) return null;
+                //if (controllerName.Equals(controller, StringComparison.OrdinalIgnoreCase))
+                //{
+                //    if (methodName.Equals(action, StringComparison.OrdinalIgnoreCase))
+                //    {
+
+                //        return result;
+                //    }
+                //}
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
     }
 }

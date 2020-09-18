@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CRMmvc.Helpers;
 using CMRmvc.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace CMRmvc
 {
@@ -30,6 +31,10 @@ namespace CMRmvc
         {
             services.AddCors();
 
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
             services.AddMemoryCache(); //Usar cache
             services.AddSingleton<CacheHelper>(); //Cache global
             services.AddLogging(); //Loggin global
@@ -93,7 +98,7 @@ namespace CMRmvc
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();
@@ -102,8 +107,8 @@ namespace CMRmvc
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                    //pattern: "{controller=Account}/{action=Login}/{id?}");
+                    //pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=Login}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
