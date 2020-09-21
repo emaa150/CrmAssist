@@ -12,8 +12,7 @@ namespace CRMmvc.Common
         public static class EnumParameters
         {
             public const string CRM_MVC_CACHE_TIMEOUT = "CRM_MVC_CACHE_TIMEOUT";
-            public const string CRM_MVC_TOKEN_TIMEOUT = "CRM_MVC_TOKEN_TIMEOUT";
-            
+                       
 
         }
         public enum ParameterType

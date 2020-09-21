@@ -9,6 +9,7 @@ using System;
 using CRMmvc.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
+using CRMmvc.Helpers;
 
 namespace CMRmvc.Controllers
 {
@@ -18,20 +19,55 @@ namespace CMRmvc.Controllers
         private readonly CRMContext _context;
         private readonly List<ParametrosTipo> _listParamTipo;
         private readonly ILogger<ParametrosController> _log;
-
-        public ParametrosController(CRMContext context, ILogger<ParametrosController> log) :base(log)
+        private readonly CacheHelper cacheHelper;
+        public ParametrosController(CRMContext context, ILogger<ParametrosController> log, CacheHelper cache) :base(log)
         {
             _context = context;
             _log = log;
             _listParamTipo = _context.ParametrosTipo.ToList();
+            cacheHelper = cache;
+            ViewData["Menu"] = cacheHelper.GetMenu();
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
             StartMethod();
             try
             {
-                return View(await _context.Parametros.Where(x => x.FecDel == null && x.UsrDel == null).ToListAsync());
+                var menu = cacheHelper.GetMenu();
+                ViewData["Menu"] = menu;
+                
+                IList<SelectListItem> lstParametroTipoDato  = Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
+                ViewData["ParamType"] = lstParametroTipoDato.ToList();
+                var param = await _context.Parametros.Include("IdParametroTipoNavigation").Where(x => x.FecDel == null && x.UsrDel == null).ToListAsync();
+
+                ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+                ViewData["ClaveSortParm"] = sortOrder == "clave_asc" ? "clave_asc" : "clave_desc";
+                ViewData["ValueSortParm"] = sortOrder == "value_asc" ? "value_asc" : "value_desc";
+                
+                switch (sortOrder)
+                {
+                    case "name_desc":
+                        param = param.OrderByDescending(s => s.ParNombre).ToList();
+                        break;
+                    case "clave_asc":
+                        param = param.OrderBy(s => s.ParClave).ToList();
+                        break;
+                    case "clave_desc":
+                        param = param.OrderByDescending(s => s.ParClave).ToList();
+                        break;
+                    case "value_desc":
+                        param = param.OrderByDescending(s => s.ParValor).ToList();
+                        break;
+                    case "value_asc":
+                        param = param.OrderBy(s => s.ParValor).ToList();
+                        break;
+                    default:
+                        param = param.OrderBy(s => s.ParNombre).ToList();
+                        break;
+                }
+
+                return View(param.ToList());
             }
             catch (Exception ex)
             {
@@ -149,6 +185,7 @@ namespace CMRmvc.Controllers
             try
             {
                 _log.LogInformation("Cargando datos...");
+                ViewData["Menu"] = cacheHelper.GetMenu();
                 ViewBag.ParamTipo = new SelectList(_listParamTipo, "IdParametroTipo", "TipNombre");
                 ViewBag.Action = myaction;
                 ViewBag.IsReadOnly = isreadonly;
