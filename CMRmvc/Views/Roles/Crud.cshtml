@@ -11,6 +11,11 @@
     else if (ViewBag.Action == "Details") { title = "Detalles Roles"; ico = "fas fa-info-circle"; }
 }
 
+    <style type="text/css">
+        .addIcon:hover, .updIcon:hover, .delIcon:hover, .actIcon:hover {
+            zoom: 1.1
+        }
+    </style>
 
 <div class="d-flex">
     <div class="mr-auto p-2">
@@ -35,7 +40,7 @@
 
             <div class="form-group">
                 <label asp-for="IsActive" class="control-label"></label>
-                <input type="checkbox" asp-for="IsActive" class="form-control" readonly="@ViewBag.IsReadOnly" />
+                <input type="checkbox" asp-for="IsActive" class="form-check" readonly="@ViewBag.IsReadOnly" />
                 <span asp-validation-for="IsActive" class="text-danger"></span>
             </div>
 
@@ -52,65 +57,64 @@
     </div>
 </div>
 
-@if (ViewBag.Action != "Create")
-{
-    <div class="row">
-        <div class="card col-md-4">
-            <div class="card-header">
-                <h4>Usuarios en este rol</h4>
-            </div>
-            <div class="card-body">
-                @{
-                    List<User> list = ViewBag.ListUsers;
-                }
-                @if (list != null && list.Count > 0)
-                {
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                  UserName  @*@Html.DisplayNameFor(User => )*@
-                                </th>
-                                <th>
-                                 Nombre   @*@Html.DisplayNameFor(model => model.NombreCompleto)*@
-                                </th>
-                                <th>
-                                 Email  @*@Html.DisplayNameFor(model => model.Email)*@
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
+@{
+    var roles = new List<Role>();
+    var menu = (List<MenuItemPadre>) ViewData["Menu"];
 
-                            @foreach (User item in list)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.UserName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NombreCompleto)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Email)
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-                else
-                {
-                    <h5>No existen usuarios en el rol.</h5>
-                }
+ }
+<!-------------------------------------------    ROLES     -------------------------------------------->
+<div class="col-md-12">
+    @foreach (var padre in menu)
+    {
+        <div class="col-md-4 mt-3" style="min-width:430px !important">
+            <div style="background-color:#2C3A43; color:azure; padding-bottom:8px;padding-right:8px; padding-left:8px;padding-top:-10px;">
+                &nbsp;&nbsp;&nbsp;
+                <div class="row" style="padding-right:6px">
+                    <div class="col-md-7">
+                    <span><input type="checkbox" class="padre" /></span>&nbsp;&nbsp;&nbsp;
+                    <span style="font-weight:bold"><i class="@padre.Icono" style="font-size:large">&nbsp&nbsp</i><span style="font-size:large;max-width:140px !important">@padre.Nombre</span></span>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="col-md-3">
+                            <i class="fa fa-plus-circle addIcon" title="Alta" style="cursor:pointer;vertical-align:middle;text-align:center; background-color:transparent;font-size:large"></i>
+                        </div>
+                        <div class="col-md-3">
+                            <i class="btneliminar fa fa-trash delIcon" title="Eliminar" style="cursor:pointer;vertical-align:middle;text-align:center; background-color:transparent;font-size:large"></i>
+                        </div>
+                        <div class="col-md-3">
+                            <i class="fas fa-edit updIcon" title="Modificar" style="cursor:pointer;vertical-align:middle;text-align:center; background-color:transparent;font-size:large"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-footer">
-                <button class="btn btn-primary">Asignar usuario</button>
-            </div>
+
+            @foreach (var hijo in padre.MenuItemHijo) 
+            {
+                 <div class="row mt-3" style="padding-left:6px">
+                    <div class="col-md-7">
+                                <span style="float:left;width:10%"><input type="checkbox" class="form-check" /></span>
+                                <span style="float:right; min-width:90%"><span style="width:auto; overflow-x:visible;text-align:left !important">@hijo.Nombr</span></span>
+                    </div>
+                    <div class="col-md-5" style="text-align:left!important;margin-left:-6px">
+                        <div class="col-md-3">
+                            <input type="checkbox" class="form-check" />
+                        </div>
+                        <div class="col-md-3">
+                            <input type="checkbox" class="form-check" />
+                        </div>
+                        <div class="col-md-3">
+                            <input type="checkbox" class="form-check" />
+                        </div>
+
+                    </div>
+                    
+                    
+                 </div>     
+            
+            }
         </div>
-    </div>
-
-}
 
 
-
-
+     }
+</div>
+    <!-------------------------------------------    ROLES     -------------------------------------------->

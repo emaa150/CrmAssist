@@ -9,6 +9,7 @@ using System;
 using CRMmvc.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
+using CRMmvc.Helpers;
 
 namespace CMRmvc.Controllers
 {
@@ -18,17 +19,23 @@ namespace CMRmvc.Controllers
         private readonly CRMContext _context;
         private readonly List<ParametrosTipo> _listParamTipo;
         private readonly ILogger<ParametrosController> _log;
+        private readonly CacheHelper _cacheHelper;
 
-        public ParametrosController(CRMContext context, ILogger<ParametrosController> log) :base(log)
+        public ParametrosController(CRMContext context, ILogger<ParametrosController> log, CacheHelper cacheHelper) :base(log)
         {
             _context = context;
             _log = log;
             _listParamTipo = _context.ParametrosTipo.ToList();
+            _cacheHelper = cacheHelper;
+
+            ViewData["Menu"] = cacheHelper.GetMenu();
         }
 
         public async Task<IActionResult> Index()
         {
             StartMethod();
+
+            ViewData["Menu"] = _cacheHelper.GetMenu();
             try
             {
                 return View(await _context.Parametros.Where(x => x.FecDel == null && x.UsrDel == null).ToListAsync());

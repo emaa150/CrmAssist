@@ -35,6 +35,7 @@ namespace CMRmvc
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
+
             services.AddMemoryCache(); //Usar cache
             services.AddSingleton<CacheHelper>(); //Cache global
             services.AddLogging(); //Loggin global
@@ -42,7 +43,7 @@ namespace CMRmvc
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<User,Role>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddDefaultTokenProviders()
+              //  .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<CRMContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();

@@ -35,13 +35,13 @@
             <div class="form-row align-items-center">
                 <div class="form-group">
                     <label asp-for="PasswordHash" class="control-label"></label>
-                    @if (ViewBag.Action == "Edit")
+                    @if (ViewBag.Action == "Edit" || ViewBag.Action == "Details")           
                     {
                         <input asp-for="PasswordHash" id="passwordInput" type="password" value="1234" class="form-control" readonly="readonly" />
                     }
                     else
                     {
-                        <input asp-for="PasswordHash" id="passwordInput" type="password" value="1234" class="form-control" readonly="@ViewBag.IsReadOnly" />
+                        <input asp-for="PasswordHash" id="passwordInput" type="password" class="form-control" readonly="@ViewBag.IsReadOnly" />
                     }
                     <span asp-validation-for="PasswordHash" class="text-danger"></span>
                 </div>
@@ -136,7 +136,7 @@
                 alert('Su contraseña ha sido restablecida con éxito');
 
             }, error: function (data) {
-                alert('Ocurrió un error al resetar su contraseña');
+                alert(data);
             }
         });
     }

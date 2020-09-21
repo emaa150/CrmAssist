@@ -868,3 +868,4 @@ D:\Soft\CRM\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\staticwebassets\CMRmvc.Stat
 D:\Soft\CRM\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.dll
 D:\Soft\CRM\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.pdb
 D:\Soft\CRM\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.genruntimeconfig.cache
+E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_NotFound.cshtml.g.cs

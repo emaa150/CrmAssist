@@ -15,14 +15,14 @@ namespace CMRmvc.Controllers
         private readonly ILogger<RolesController> _log;
         private readonly CRMContext _context;
         private readonly RoleManager<Role> _roleManager;
-        private readonly CacheHelper cacheHelper;
+        private readonly CacheHelper _cacheHelper;
         public RolesController(ILogger<RolesController> log, CRMContext context, RoleManager<Role> roleManager, CacheHelper cache) : base(log) 
         {
             _log = log;
             _context = context;
             _roleManager = roleManager;
-            cacheHelper=cache;
-            ViewData["Menu"] = cacheHelper.GetMenu();
+            _cacheHelper = cache;
+            ViewData["Menu"] = _cacheHelper.GetMenu();
         }
 
         public IActionResult Index()
@@ -30,7 +30,7 @@ namespace CMRmvc.Controllers
             StartMethod();
             try
             {
-                ViewData["Menu"] = cacheHelper.GetMenu();
+                ViewData["Menu"] = _cacheHelper.GetMenu();
                 return View(_roleManager.Roles);
             }
             catch (Exception ex)
@@ -129,6 +129,7 @@ namespace CMRmvc.Controllers
             Role role = null;
             try
             {
+                ViewData["Menu"] = _cacheHelper.GetMenu();
                 ViewBag.IsReadOnly = isreadonly;
                 ViewBag.Action = myaction;
 

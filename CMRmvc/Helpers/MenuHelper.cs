@@ -1,17 +1,10 @@
 ﻿using CMRmvc.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
+
 
 namespace CMRmvc.Helpers
 {
@@ -113,6 +106,5 @@ namespace CMRmvc.Helpers
             }
             return _listMenu;
         }
-
     }
 }

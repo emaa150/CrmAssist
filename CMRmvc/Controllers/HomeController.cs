@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CMRmvc.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using CMRmvc.Helpers;
 using CRMmvc.Helpers;
-using System.Reflection.Metadata;
+using CMRmvc.Helpers;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CMRmvc.Controllers
 {
@@ -28,6 +26,9 @@ namespace CMRmvc.Controllers
             _signInManager = signInManager;
             context = _context;
             cacheHelper = _cacheHelper;
+
+           // ViewData["Menu"] = JsonConvert.DeserializeObject<List<MenuItemPadre>>(httpContext.Session.GetString("Menu"));
+
             ViewData["Menu"] = cacheHelper.GetMenu();
         }
 

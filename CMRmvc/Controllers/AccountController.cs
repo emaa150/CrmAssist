@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account.Manage;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace CMRmvc.Controllers
 {
@@ -36,7 +37,7 @@ namespace CMRmvc.Controllers
 
         public IActionResult Index()
         {
-            return Redirect("/Views/Account/Login.cshtml");
+            return View(nameof(Login));
         }
 
         public IActionResult Login()
@@ -62,9 +63,19 @@ namespace CMRmvc.Controllers
                         _log.LogInformation("User logged in.");
                         _log.LogInformation("User logged in.");
                         HttpContext.Session.SetString("UserName", user.UserName);
-                        var Menu = MenuHelper.GenerateMenu(user.UserName, _log, _context);
-                        cacheHelper.LoadMenu(Menu);
-                        ViewData["Menu"] = Menu;
+                        var menu = MenuHelper.GenerateMenu(user.UserName, _log, _context);
+                        cacheHelper.LoadMenu(menu);
+
+                        // string jsonMenu = JsonConvert.SerializeObject(menu, Formatting.Indented,
+                        // new JsonSerializerSettings
+                        // {
+                        //     PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                        // });
+
+                        //HttpContext.Session.SetString("Menu", jsonMenu);                   
+
+                        ViewData["Menu"] = menu;
+
                         return RedirectToAction(nameof(AccountController.Index), "Home");
                     }
                     else

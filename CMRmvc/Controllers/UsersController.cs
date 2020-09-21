@@ -19,14 +19,15 @@ namespace CMRmvc.Controllers
         private readonly ILogger<UsersController> _log;
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
-        private readonly CacheHelper cacheHelper;
+        private readonly CacheHelper _cacheHelper;
 
-        public UsersController(CRMContext context, ILogger<UsersController> log, RoleManager<Role> roleManager, UserManager<User> userManager, CacheHelper _cacheHelper) : base(log)
+        public UsersController(CRMContext context, ILogger<UsersController> log, RoleManager<Role> roleManager, UserManager<User> userManager, CacheHelper cacheHelper) : base(log)
         {
             _context = context;
             _log = log;
             _roleManager = roleManager;
-            cacheHelper = _cacheHelper;
+            _cacheHelper = cacheHelper;
+            _userManager = userManager;
             ViewData["Menu"] = cacheHelper.GetMenu();
         }
 
@@ -35,7 +36,7 @@ namespace CMRmvc.Controllers
             StartMethod();
             try
             {
-                ViewData["Menu"] = cacheHelper.GetMenu();
+                ViewData["Menu"] = _cacheHelper.GetMenu();
                 _log.LogInformation("Obteniendo Users...");
                 var listUsers = _context.Users.Where(x => x.FecDel == null && x.UsrDel == null).ToList();
                 _log.LogInformation(string.Format("Users count:{0}", listUsers.Count));
@@ -58,7 +59,7 @@ namespace CMRmvc.Controllers
             StartMethod();
             try
             {
-                ViewData["Menu"] = cacheHelper.GetMenu();
+                ViewData["Menu"] = _cacheHelper.GetMenu();
                 string rol = user.UsrUpd;
                 bool modelStateRol = false;
                 if (rol != "") modelStateRol = true;
@@ -149,13 +150,6 @@ namespace CMRmvc.Controllers
                     _log.LogInformation("User: " + userDB.ToString());
 
                     string rol = user.UsrUpd;
-
-                    //if (user.PasswordHash != "1234")     FALTA QUE INGRESE PASSWORD ACTUAL
-                    //{
-                    //    _log.LogInformation("Restablecion contraseña");
-                    //    var result =  await _userManager.ChangePasswordAsync(userDB,"123", user.PasswordHash);
-                    // _log.LogInformation("Restablecion contraseña RTA:" + result.Succeeded);
-                    //}
 
                     userDB.UserName = user.UserName;
                     userDB.NombreCompleto = user.NombreCompleto;
@@ -351,31 +345,29 @@ namespace CMRmvc.Controllers
             StartMethod();
             try
             {
-                //var user = _context.Users.Find(id);
-                //var result = await _userManager.ResetPasswordAsync(user, "", "admin123");
-                //if (!result.Succeeded)
-                //{
-                //    foreach (var item in result.Errors)
-                //    {
-                //        _log.LogError("Error ResetPassword:" + item.Description);
+                string passnew = "assist123";
+                _log.LogInformation("Obteniendo user");
+                var user = _context.Users.Find(id);
+                _log.LogInformation("User:" + user.ToString());
+                _log.LogInformation("Hash new password");
+                user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, passnew);
+                _context.Users.Update(user);
+                _log.LogInformation("Guardando Password editado");
+                await _context.SaveChangesAsync();
 
-                //    }
+                _log.LogInformation("Reset password OK");
 
-                //}
-
-                return Json("admin123");
+                return Json(passnew);
             }
             catch (Exception ex)
             {
-                _log.LogError("Error: " + ex);
+                _log.LogError("ResetPassword Error: " + ex);
+                return Json("Ocurrió un error al resetear su contraseña.");
             }
             finally 
             {
                 EndMethod();
             }
-
-
-            return View(nameof(Crud));
         }       
     }
 }
