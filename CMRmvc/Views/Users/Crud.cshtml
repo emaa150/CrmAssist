@@ -35,7 +35,7 @@
             <div class="form-row align-items-center">
                 <div class="form-group">
                     <label asp-for="PasswordHash" class="control-label"></label>
-                    @if (ViewBag.Action == "Edit" || ViewBag.Action == "Details")           
+                    @if (ViewBag.Action != null && ViewBag.Action == "Edit" || ViewBag.Action == "Details")           
                     {
                         <input asp-for="PasswordHash" id="passwordInput" type="password" value="1234" class="form-control" readonly="readonly" />
                     }
@@ -71,7 +71,7 @@
 
 
             <div class="form-check">
-                @if (ViewBag.IsReadOnly)
+                @if (ViewBag.IsReadOnly != null && ViewBag.IsReadOnly)
                 {
                     <input asp-for="Activo" type="checkbox" class="form-check-input" readonly="@ViewBag.IsReadOnly" disabled />
                 }
@@ -80,7 +80,6 @@
                     <input asp-for="Activo" type="checkbox" class="form-check-input" readonly="@ViewBag.IsReadOnly" />
                 }
                 <label asp-for="Activo" class="form-check-label"></label>
-                <span asp-validation-for="Activo" class="text-danger"></span>
             </div>
 
             <div class="form-group">

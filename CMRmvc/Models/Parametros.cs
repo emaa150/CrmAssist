@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace CMRmvc.Models
 {
     public partial class Parametros
     {
         public long IdParametro { get; set; }
+        [DisplayName("Tipo")]
         public long IdParametroTipo { get; set; }
+        [DisplayName("Clave")]
         public string ParClave { get; set; }
+        [DisplayName("Nombre")]
         public string ParNombre { get; set; }
+        [DisplayName("Valor")]
         public string ParValor { get; set; }
+        [DisplayName("Dato")]
         public short ParTipo { get; set; }
         public short ParAdmin { get; set; }
         public DateTime? FecIns { get; set; }

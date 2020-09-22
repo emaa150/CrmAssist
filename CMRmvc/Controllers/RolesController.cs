@@ -2,6 +2,7 @@
 using CRMmvc.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -132,6 +133,7 @@ namespace CMRmvc.Controllers
                 ViewData["Menu"] = _cacheHelper.GetMenu();
                 ViewBag.IsReadOnly = isreadonly;
                 ViewBag.Action = myaction;
+                RecuperarMenuItems();
 
                 if (id != null && id != 0)
                 {
@@ -159,6 +161,46 @@ namespace CMRmvc.Controllers
                 return NotFound();
             }
             finally
+            {
+                EndMethod();
+            }
+        }
+        private void RecuperarMenuItems() 
+        {
+            StartMethod();
+            try
+            {
+                var menuItemsPadre = _context.MenuItemPadre;
+                var menuItemsHijo = _context.MenuItemHijo;
+                var hijoAcciones = _context.MenuHijoAcciones;
+
+                var listaMenuPadre = new List<MenuItemPadre>();
+                var listaMenuHijo = new List<MenuItemHijo>();
+                var listaAccionesHijo = new List<MenuHijoAcciones>();
+
+                foreach (var hijo in menuItemsHijo) 
+                {
+                    hijo.MenuHijoAcciones.Add( hijoAcciones.FirstOrDefault( x => x.IdMenuHijo == hijo.IdMenuHijo ) );
+                    listaMenuHijo.Add(hijo);
+
+                }
+                
+                foreach (var padre in menuItemsPadre) 
+                {
+
+                  padre.MenuItemHijo.Add( listaMenuHijo.FirstOrDefault(x => x.IdMenuPadre == padre.IdMenuPadre) );
+                  listaMenuPadre.Add(padre);
+
+                }
+
+                ViewBag.MenuRoles = listaMenuPadre;
+
+            }
+            catch (Exception ex)
+            {
+                _log.LogError("Error RecuperarMenuItems: " + ex);
+            }
+            finally 
             {
                 EndMethod();
             }

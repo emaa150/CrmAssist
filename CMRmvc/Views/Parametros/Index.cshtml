@@ -1,131 +1,225 @@
 ﻿@model IEnumerable<CMRmvc.Models.Parametros>
-
+@{var parType = ViewData["ParamType"];}
+@{var menu = (List<MenuItemPadre>)ViewData["Menu"];}
 @{
     ViewData["Title"] = "Parametros";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 
 }
-    <div class="d-flex">
-        <div class="mr-auto p-2">
-            <h4><i class="fas fa-cogs"></i> Gestión de parámetros</h4>
-        </div>
-        <div class="p-2">
-           <a asp-action="Crud" asp-route-isreadonly="false" class="btn btn-primary btn-sm float-right m-3" asp-route-myaction="Create"><i class="fas fa-plus"> Agregar Parámetro</i></a>
-        </div>
-    </div>
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdParametro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParClave)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParNombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParValor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParTipo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParAdmin)
-            </th>
-            <th>
-                Acciones
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+<div class="d-flex">
+    @if (menu != null)
+    {
+        foreach (var padre in menu)
         {
-            <tr id="row_@item.IdParametro">
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdParametro)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ParClave)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ParNombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ParValor)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ParTipo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ParAdmin)
-                </td>
-                <td>
-                    <div class="btn-group">
-                        <a asp-action="Crud" class="btn btn-warning btn-sm" title="Editar" asp-route-isreadonly="false" asp-route-id="@item.IdParametro" asp-route-myaction="Edit">
-                            <i class="nav-icon fas fa-edit"></i>
-                        </a>
-                        <a asp-action="Crud" class="btn btn-info btn-sm" title="Detalles" asp-route-isreadonly="true" asp-route-id="@item.IdParametro" asp-route-myaction="Details">
-                            <i class="nav-icon fas fa-search"></i>
-                        </a>
-                        <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="ConfirmDelete(@item.IdParametro)">
-                            <i class="nav-icon fas fa-trash"></i>
-                        </a>
+            foreach (var hijo in padre.MenuItemHijo)
+            {
+                if (hijo.Nombr == "Gestion de Parametros")
+                {
+                    <div class="mr-auto p-2">
+                        @*fas fa-cogs*@
+                        <h4><i class="@hijo.Icono"></i>&nbsp;&nbsp;@hijo.Nombr</h4>
                     </div>
-                </td>
-            </tr>
+                }
+                var ac = hijo.MenuHijoAcciones.FirstOrDefault(x => x.MhaUrl == "Parametros/Create");
+                if (ac != null)
+                {
+                    <div class="p-2">
+                        <a asp-action="Crud" asp-route-isreadonly="false" class="btn btn-primary btn-sm float-right m-3" asp-route-myaction="Create"><i class="@ac.MhaIcono">@ac.MhaTexto</i></a>
+                    </div>
+                }
+            }
         }
-    </tbody>
-</table>
+    }
 
-
-
-<div class="modal" id="mymodal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirmar</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>¿Está seguro que desea eliminar el parámetro?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="DeleteParameter()" class="btn btn-danger">Eliminar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    <input type="hidden" id="parameterID"/>
 </div>
 
-<script>
 
-    var ConfirmDelete = function (ParameterId) {
 
-        $("#parameterID").val(ParameterId);
-        $("#mymodal").modal('show');
-    }
 
-    var DeleteParameter = function () {
-        var paramID = $("#parameterID").val();
 
-        $.ajax({
-            type: "POST",
-            url: "/Parametros/DeleteConfirmed",
-            data: { id: paramID },
-            success: function () {
-                $("#mymodal").modal('hide');
-                $("#row_" + paramID).remove();
-               
-            }
+
+
+<!-- Content Wrapper. Contains page content -->
+    <div class="card">
+        <!-- /.card-header -->
+        <div class="card-body">
+            
+            <div class="row">            
+                <div class="col-md-12">
+                    <div class="col-md-6 float-left">
+                        <label>
+                            Ver
+                            <select class="custom-select custom-select-sm form-control form-control-sm">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col-md-6 float-right">
+                        <label class="form-label">
+                            Buscar
+                            <input type="search" class="form-control-sm" aria-controls="example1" />
+                        </label>             
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th><a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.ParNombre)</a></th>
+                        @*<th>@Html.DisplayNameFor(model => model.ParNombre)</th>*@
+                        <th><a asp-action="Index" asp-route-sortOrder="@ViewData["ClaveSortParm"]">@Html.DisplayNameFor(model => model.ParClave)</a></th>
+                        @*<th>@Html.DisplayNameFor(model => model.ParClave)</th>*@
+                        <th><a asp-action="Index" asp-route-sortOrder="@ViewData["ValueSortParm"]">@Html.DisplayNameFor(model => model.ParValor)</a></th>
+                        @*<th>@Html.DisplayNameFor(model => model.ParValor)</th>*@
+                        <th>@Html.DisplayNameFor(model => model.ParTipo)</th>
+                        <th>@Html.DisplayNameFor(model => model.IdParametroTipo)</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="row_@item.IdParametro">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ParNombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ParClave)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ParValor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ParTipo)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdParametroTipoNavigation.TipDescripcion)
+                            </td>
+                            <td>
+                                <div class="btn-group">
+
+                                    <a asp-action="Crud" class="btn btn-info btn-sm" title="Detalles" asp-route-isreadonly="true" asp-route-id="@item.IdParametro" asp-route-myaction="Details">
+                                        <i class="nav-icon fas fa-search"></i>
+                                    </a>
+
+                                    @if (menu != null)
+                                    {
+                                        foreach (var padre in menu)
+                                        {
+                                            foreach (var hijo in padre.MenuItemHijo)
+                                            {
+                                                foreach (var acciones in hijo.MenuHijoAcciones)
+                                                {
+                                                    if (acciones.MhaUrl == "Parametros/Edit")
+                                                    {
+                                                        <a asp-action="Crud" class="btn btn-warning btn-sm" title="Editar" asp-route-isreadonly="false" asp-route-id="@item.IdParametro" asp-route-myaction="Edit">
+                                                            <i class="@acciones.MhaIcono"></i>
+                                                        </a>
+                                                    }
+                                                    if (acciones.MhaUrl == "Parametros/Delete")
+                                                    {
+                                                        <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="ConfirmDelete(@item.IdParametro)">
+                                                            <i class="@acciones.MhaIcono"></i>
+                                                        </a>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="modal" id="mymodal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar el parámetro?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="DeleteParameter()" class="btn btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="parameterID" />
+    </div>
+
+    <script>
+
+        var ConfirmDelete = function (ParameterId) {
+
+            $("#parameterID").val(ParameterId);
+            $("#mymodal").modal('show');
+        }
+
+        var DeleteParameter = function () {
+            var paramID = $("#parameterID").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Parametros/DeleteConfirmed",
+                data: { id: paramID },
+                success: function () {
+                    $("#mymodal").modal('hide');
+                    $("#row_" + paramID).remove();
+
+                }
+            });
+        }
+
+
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
         });
-    }
 
-
-</script>
+    </script>
+    <!-- DataTables  & Plugins -->
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/plugins/jszip/jszip.min.js"></script>
+    <script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/js/demo.js"></script>

@@ -1,18 +1,37 @@
 ﻿@model IEnumerable<CMRmvc.Models.User>
+@{var menu = (List<MenuItemPadre>)ViewData["Menu"];}
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
 
-<div class="d-flex">
-    <div class="mr-auto p-2">
-        <h4><i class="fas fa-cogs"></i> Gestión de Usuarios</h4>
+    <div class="d-flex">
+        @if (menu != null)
+        {
+            foreach (var padre in menu)
+            {
+                foreach (var hijo in padre.MenuItemHijo)
+                {
+                    if (hijo.Nombr == "Gestion de Usuarios")
+                    {
+                        <div class="mr-auto p-2">
+                            @*fas fa-cogs*@
+                            <h4><i class="@hijo.Icono"></i>&nbsp;&nbsp;@hijo.Nombr</h4>
+                        </div>
+                    }
+                    var ac = hijo.MenuHijoAcciones.FirstOrDefault(x => x.MhaUrl == "Users/Create");
+                    if (ac != null)
+                    {
+                        <div class="p-2">
+                            <a asp-action="Crud" asp-route-isreadonly="false" class="btn btn-primary btn-sm float-right m-3" asp-route-myaction="Create"><i class="@ac.MhaIcono">@ac.MhaTexto</i></a>
+                        </div>
+                    }
+                }
+            }
+        }
+
     </div>
-    <div class="p-2">
-        <a asp-action="Crud" asp-route-isreadonly="false" class="btn btn-primary btn-sm float-right m-3" asp-route-myaction="Create"><i class="fas fa-plus"> Agregar Usuario</i></a>
-    </div>
-</div>
 
 <table class="table">
     <thead>
@@ -86,15 +105,35 @@
                 </td>
                 <td>
                     <div class="btn-group">
-                        <a asp-action="Crud" class="btn btn-warning btn-sm" title="Editar" asp-route-isreadonly="false" asp-route-id="@item.Id" asp-route-myaction="Edit">
-                            <i class="nav-icon fas fa-edit"></i>
-                        </a>
+
                         <a asp-action="Crud" class="btn btn-info btn-sm" title="Detalles" asp-route-isreadonly="true" asp-route-id="@item.Id" asp-route-myaction="Details">
                             <i class="nav-icon fas fa-search"></i>
                         </a>
-                        <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="ConfirmDelete(@item.Id)">
-                            <i class="nav-icon fas fa-trash"></i>
-                        </a>
+
+                        @if (menu != null)
+                        {
+                            foreach (var padre in menu)
+                            {
+                                foreach (var hijo in padre.MenuItemHijo)
+                                {
+                                    foreach (var acciones in hijo.MenuHijoAcciones)
+                                    {
+                                        if (acciones.MhaUrl == "Users/Edit")
+                                        {
+                                            <a asp-action="Crud" class="btn btn-warning btn-sm" title="Editar" asp-route-isreadonly="false" asp-route-id="@item.Id" asp-route-myaction="Edit">
+                                                <i class="@acciones.MhaIcono"></i>
+                                            </a>
+                                        }
+                                        if (acciones.MhaUrl == "Users/Delete")
+                                        {
+                                            <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="ConfirmDelete(@item.Id)">
+                                                <i class="@acciones.MhaIcono"></i>
+                                            </a>
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     </div>
                 </td>
             </tr>

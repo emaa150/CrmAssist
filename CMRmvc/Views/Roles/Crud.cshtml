@@ -11,24 +11,20 @@
     else if (ViewBag.Action == "Details") { title = "Detalles Roles"; ico = "fas fa-info-circle"; }
 }
 
-    <style type="text/css">
-        .addIcon:hover, .updIcon:hover, .delIcon:hover, .actIcon:hover {
-            zoom: 1.1
-        }
-    </style>
+<style type="text/css">
+    .addIcon:hover, .updIcon:hover, .delIcon:hover, .actIcon:hover {
+        zoom: 1.1
+    }
+</style>
 
-<div class="d-flex">
     <div class="mr-auto p-2">
-        <h4><i class="@ico"></i> @title</h4>
+        <h4><i class="@ico"></i>&nbsp;@title</h4>
     </div>
-</div>
 
-<hr />
+    <hr />
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="@ViewBag.Action">
-
+    <form asp-action="@ViewBag.Action">
+        <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="ConcurrencyStamp" />
@@ -38,83 +34,143 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="IsActive" class="control-label"></label>
-                <input type="checkbox" asp-for="IsActive" class="form-check" readonly="@ViewBag.IsReadOnly" />
-                <span asp-validation-for="IsActive" class="text-danger"></span>
-            </div>
-
-
-            <hr />
-            <div class="form-group">
-                <a asp-action="Index" class="btn btn-secondary">Volver</a>
-                @if (ViewBag.Action != "Details")
+            <div class="form-check">
+                @if (ViewBag.IsReadOnly != null && ViewBag.IsReadOnly)
                 {
-                    <input type="submit" value="Guardar" class="btn btn-primary active float-right" />
+                    <input type="checkbox" style="width:22px; height:19px;" asp-for="IsActive" class="form-check-input" readonly="readonly" disabled />
                 }
+                else
+                {
+                    <input type="checkbox" style="width:22px; height:19px;" asp-for="IsActive" class="form-check-input" />
+                }
+                &nbsp;&nbsp;<label asp-for="IsActive" class="form-check-label"></label>
             </div>
-        </form>
-    </div>
-</div>
-
-@{
-    var roles = new List<Role>();
-    var menu = (List<MenuItemPadre>) ViewData["Menu"];
-
- }
-<!-------------------------------------------    ROLES     -------------------------------------------->
-<div class="col-md-12">
-    @foreach (var padre in menu)
-    {
-        <div class="col-md-4 mt-3" style="min-width:430px !important">
-            <div style="background-color:#2C3A43; color:azure; padding-bottom:8px;padding-right:8px; padding-left:8px;padding-top:-10px;">
-                &nbsp;&nbsp;&nbsp;
-                <div class="row" style="padding-right:6px">
-                    <div class="col-md-7">
-                    <span><input type="checkbox" class="padre" /></span>&nbsp;&nbsp;&nbsp;
-                    <span style="font-weight:bold"><i class="@padre.Icono" style="font-size:large">&nbsp&nbsp</i><span style="font-size:large;max-width:140px !important">@padre.Nombre</span></span>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="col-md-3">
-                            <i class="fa fa-plus-circle addIcon" title="Alta" style="cursor:pointer;vertical-align:middle;text-align:center; background-color:transparent;font-size:large"></i>
-                        </div>
-                        <div class="col-md-3">
-                            <i class="btneliminar fa fa-trash delIcon" title="Eliminar" style="cursor:pointer;vertical-align:middle;text-align:center; background-color:transparent;font-size:large"></i>
-                        </div>
-                        <div class="col-md-3">
-                            <i class="fas fa-edit updIcon" title="Modificar" style="cursor:pointer;vertical-align:middle;text-align:center; background-color:transparent;font-size:large"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            @foreach (var hijo in padre.MenuItemHijo) 
-            {
-                 <div class="row mt-3" style="padding-left:6px">
-                    <div class="col-md-7">
-                                <span style="float:left;width:10%"><input type="checkbox" class="form-check" /></span>
-                                <span style="float:right; min-width:90%"><span style="width:auto; overflow-x:visible;text-align:left !important">@hijo.Nombr</span></span>
-                    </div>
-                    <div class="col-md-5" style="text-align:left!important;margin-left:-6px">
-                        <div class="col-md-3">
-                            <input type="checkbox" class="form-check" />
-                        </div>
-                        <div class="col-md-3">
-                            <input type="checkbox" class="form-check" />
-                        </div>
-                        <div class="col-md-3">
-                            <input type="checkbox" class="form-check" />
-                        </div>
-
-                    </div>
-                    
-                    
-                 </div>     
-            
-            }
         </div>
 
 
-     }
-</div>
-    <!-------------------------------------------    ROLES     -------------------------------------------->
+        @{
+            var menu = (List<MenuItemPadre>)ViewBag.MenuRoles;
+        }
+        <!-------------------------------------------    ROLES     -------------------------------------------->
+        @if (menu != null && menu.Count > 0)
+        {
+            <div class="row m-3">
+                @{int count = 0; }
+                @foreach (var padre in menu)
+                {
+                    count++;
+
+                    <div class="col-md-4 border m-2" style="min-width:420px !important;">
+                        <!--#343A40 color menu  -- otro color #2C3A43-->
+                        <div class="row" style="background-color:#2C3A43; color:azure; padding-bottom:6px;padding-right:6px; padding-left:6px;padding-top:-8px;">
+                            <div class="col-md-7 mt-3">
+                                <span><input type="checkbox" style="width:18px; height:17px;" onclick="miCheckTotal()" id="checkSegPadre">&nbsp;&nbsp;&nbsp;</span>
+                                <span style="font-weight:bold;"><i class="@padre.Icono" style="font-size:large;">&nbsp;&nbsp;&nbsp;</i><span style="font-size:large;max-width:140px !important">@padre.Nombre</span></span>
+                            </div>
+                            <div class="col-md-5 mt-3">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <i title="Alta" class="fa fa-plus"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <i title="Eliminar" class="fa fa-trash"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <i title="Editar" class="fa fa-edit"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @foreach (var hijo in padre.MenuItemHijo)
+                        {
+                            <div class="row mt-2" style="padding-bottom:6px;padding-right:6px; padding-left:6px;padding-top:-8px;">
+                                <div class="col-md-7">
+                                    <span><input type="checkbox" style="width:16px; height:16px;" id="checkRowHijo1" onclick="miCheckHijo()"></span>&nbsp;&nbsp;&nbsp;
+                                    <span style="width:auto;font-size:small; text-align:left !important">@hijo.Nombr</span>
+                                </div>
+                                <div class="col-md-5 ">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            @if (hijo.MenuHijoAcciones.Any(x => x.MhaKey == "ADD"))
+                                            {  
+                                                <input type="checkbox" style="width:19px; height:16px;" class="checkRowHijoAcciones1">
+                                            }
+                                        </div>
+                                        <div class="col-sm-3">
+                                            @if (hijo.MenuHijoAcciones.Any(x => x.MhaKey == "DEL"))
+                                            {
+                                                <input type="checkbox" style="width:19px; height:16px;" class="checkRowHijoAcciones1">
+                                            }
+                                        </div>
+                                        <div class="col-sm-3">
+                                            @if (hijo.MenuHijoAcciones.Any(x => x.MhaKey == "UPD"))
+                                            {
+                                                <input type="checkbox" style="width:19px; height:16px;" class="checkRowHijoAcciones1">
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+        else 
+        {
+            <h4>No existen ROLES para asignar...</h4>
+        }
+        <hr />
+        <div class="form-group">
+            <a asp-action="Index" class="btn btn-secondary float-left">Volver</a>
+            @if (ViewBag.Action != "Details")
+            {
+                <input type="submit" value="Guardar" class="btn btn-primary active float-right mr-2" />
+            }
+        </div>
+
+    </form>
+
+
+<script type="text/javascript">
+
+    var miCheckTotal = function () {
+
+        if (document.getElementById('checkSegPadre').checked) {
+            $('#checkRowHijo1').prop("checked", true);
+            $('.checkRowHijoAcciones1').prop("checked", true);
+            $('#checkRowHijo2').prop("checked", true);
+            $('.checkRowHijoAcciones2').prop("checked", true);
+
+        } else {
+            $('#checkRowHijo1').prop("checked", false);
+            $('#checkRowHijo2').prop("checked", false);
+            $('.checkRowHijoAcciones1').prop("checked", false);
+            $('.checkRowHijoAcciones2').prop("checked", false);
+        }
+    }
+    var miCheckHijo = function () {
+
+        if (document.getElementById('checkRowHijo1').checked) {
+            $('.checkRowHijoAcciones1').prop("checked", true);
+
+        } else {
+            $('#checkRowHijo1').prop("checked", false);
+            $('.checkRowHijoAcciones1').prop("checked", false);
+        }
+
+
+        if (document.getElementById('checkRowHijo2').checked) {
+            $('.checkRowHijoAcciones2').prop("checked", true);
+        }
+        else {
+            $('#checkRowHijo2').prop("checked", false);
+            $('.checkRowHijoAcciones2').prop("checked", false);
+        }
+
+
+    }
+</script>
+
+<!-------------------------------------------    ROLES     -------------------------------------------->
