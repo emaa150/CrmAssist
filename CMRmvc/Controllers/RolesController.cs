@@ -170,30 +170,8 @@ namespace CMRmvc.Controllers
             StartMethod();
             try
             {
-                var menuItemsPadre = _context.MenuItemPadre;
-                var menuItemsHijo = _context.MenuItemHijo;
-                var hijoAcciones = _context.MenuHijoAcciones;
-
-                var listaMenuPadre = new List<MenuItemPadre>();
-                var listaMenuHijo = new List<MenuItemHijo>();
-                var listaAccionesHijo = new List<MenuHijoAcciones>();
-
-                foreach (var hijo in menuItemsHijo) 
-                {
-                    hijo.MenuHijoAcciones.Add( hijoAcciones.FirstOrDefault( x => x.IdMenuHijo == hijo.IdMenuHijo ) );
-                    listaMenuHijo.Add(hijo);
-
-                }
-                
-                foreach (var padre in menuItemsPadre) 
-                {
-
-                  padre.MenuItemHijo.Add( listaMenuHijo.FirstOrDefault(x => x.IdMenuPadre == padre.IdMenuPadre) );
-                  listaMenuPadre.Add(padre);
-
-                }
-
-                ViewBag.MenuRoles = listaMenuPadre;
+                _log.LogInformation("Obteniendo Menu Completo");
+                ViewBag.MenuRoles = _context.MenuItemPadre.Include("MenuItemHijo").Include("MenuItemHijo.MenuHijoAcciones").ToList();
 
             }
             catch (Exception ex)
