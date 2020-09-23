@@ -41,7 +41,6 @@ namespace CRM.Helpers
         {
             try
             {
-                 var maenu =cacheHelper.GetMenu();
                 string result = "active";
                 
                 string controllerName = urlHelper.ActionContext.RouteData.Values["controller"].ToString();

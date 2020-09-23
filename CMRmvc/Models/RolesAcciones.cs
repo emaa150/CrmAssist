@@ -10,7 +10,7 @@ namespace CMRmvc.Models
         public long IdPerfilAccion { get; set; }
         public long IdRol { get; set; }
         public long IdMenuHijoAccion { get; set; }
-      
+      [JsonIgnore]
         public virtual MenuHijoAcciones IdMenuHijoAccionNavigation { get; set; }
     }
 }

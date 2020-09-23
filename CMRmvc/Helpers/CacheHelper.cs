@@ -19,7 +19,7 @@ namespace CRMmvc.Helpers
         private readonly CRMContext _contexto;
 
         private ConcurrentDictionary<string, Parametros> listaParametros;
-        private ConcurrentDictionary<string, List<MenuItemPadre>> _menu;
+        //private ConcurrentDictionary<string, List<MenuItemPadre>> _menu;
 
         private CacheItemPolicy cacheItemPolicy;
         private readonly ILogger<CacheHelper> _logger;
@@ -28,7 +28,7 @@ namespace CRMmvc.Helpers
             _logger = logger;
             _cache = MemoryCache.Default;
             _contexto = new CRMContext(connectionString);
-            _menu = new ConcurrentDictionary<string, List<MenuItemPadre>>();
+           // _menu = new ConcurrentDictionary<string, List<MenuItemPadre>>();
             GetParameters();
         }
 
@@ -95,22 +95,22 @@ namespace CRMmvc.Helpers
         /// <summary>
         /// Carga en cache el menu a mostrar
         /// </summary>
-        public void LoadMenu(List<MenuItemPadre> menus)
-        {
-            _menu.TryAdd(EnumCacheItems.MENUS, menus);            
-            _cache.Set(EnumCacheItems.MENUS, _menu, cacheItemPolicy);
-        }
+        //public void LoadMenu(List<MenuItemPadre> menus)
+        //{
+        //    _menu.TryAdd(EnumCacheItems.MENUS, menus);            
+        //    _cache.Set(EnumCacheItems.MENUS, _menu, cacheItemPolicy);
+        //}
 
         /// <summary>
         /// Obtiene el menu del usuario
         /// </summary>
         /// <param name="menus"></param>
-        public List<MenuItemPadre> GetMenu()
-        {
-            var menu = (ConcurrentDictionary<string, List<MenuItemPadre>>)_cache.GetCacheItem(EnumCacheItems.MENUS).Value;
-            var  padres =menu.Values.FirstOrDefault();
-            return padres;
-        }
+        //public List<MenuItemPadre> GetMenu()
+        //{
+        //    var menu = (ConcurrentDictionary<string, List<MenuItemPadre>>)_cache.GetCacheItem(EnumCacheItems.MENUS).Value;
+        //    var  padres =menu.Values.FirstOrDefault();
+        //    return padres;
+        //}
 
 
         /// <summary>

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Reflection.Metadata;
-using System.Threading.Tasks;
-using CMRmvc.Helpers;
+﻿using CMRmvc.Helpers;
 using CMRmvc.Models;
 using CRMmvc.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account.Manage;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CMRmvc.Controllers
 {
@@ -64,16 +63,7 @@ namespace CMRmvc.Controllers
                         _log.LogInformation("User logged in.");
                         HttpContext.Session.SetString("UserName", user.UserName);
                         var menu = MenuHelper.GenerateMenu(user.UserName, _log, _context);
-                        cacheHelper.LoadMenu(menu);
-
-                        // string jsonMenu = JsonConvert.SerializeObject(menu, Formatting.Indented,
-                        // new JsonSerializerSettings
-                        // {
-                        //     PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                        // });
-
-                        //HttpContext.Session.SetString("Menu", jsonMenu);                   
-
+                        HttpContext.Session.SetString("Menu", JsonConvert.SerializeObject(menu));
                         ViewData["Menu"] = menu;
 
                         return RedirectToAction(nameof(AccountController.Index), "Home");
@@ -153,7 +143,7 @@ namespace CMRmvc.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-
+            HttpContext.Session.Clear();
             if (!User.Identity.IsAuthenticated) _log.LogInformation("User logged out ==> OK");
             else _log.LogInformation("User logged out ==> FAIL");
 

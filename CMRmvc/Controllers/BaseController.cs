@@ -1,9 +1,11 @@
-﻿using CRMmvc.Helpers;
+﻿using CMRmvc.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -24,7 +26,7 @@ namespace CMRmvc.Controllers
             try
             {
                 logger.LogInformation(startMethod + "BaseController()" + endMethod);
-                this.logger = logger;
+                this.logger = logger;                
             }
             catch (Exception ex)
             {
@@ -34,10 +36,24 @@ namespace CMRmvc.Controllers
 
         }
 
+        /// <summary>
+        /// Inicializa Stopwatch para verificar el tiempo del metodo.
+        /// Recupera el menu de HttpContext.Session.
+        /// </summary>
+        /// <param name="methodName"></param>
         internal void StartMethod([CallerMemberName] string methodName = "")
         {
             stopwatch = Stopwatch.StartNew();
             logger.LogInformation(string.Format(startMethod, methodName));
+            if (HttpContext != null)
+            {
+                var meStr = HttpContext.Session.GetString("Menu");
+                if (!string.IsNullOrEmpty(meStr))
+                {
+                    var me = JsonConvert.DeserializeObject<List<MenuItemPadre>>(meStr);
+                    ViewData["Menu"] = me;
+                }
+            }
         }
 
         internal void EndMethod([CallerMemberName] string methodName = "")

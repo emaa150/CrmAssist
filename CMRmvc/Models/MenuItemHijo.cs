@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace CMRmvc.Models
@@ -18,6 +19,7 @@ namespace CMRmvc.Models
         public string Accion { get; set; }
         public string Icono { get; set; }
 
+        [JsonIgnore]
         public virtual MenuItemPadre IdMenuPadreNavigation { get; set; }
         public virtual ICollection<MenuHijoAcciones> MenuHijoAcciones { get; set; }
         public virtual ICollection<PerfilMenuHijo> PerfilMenuHijo { get; set; }

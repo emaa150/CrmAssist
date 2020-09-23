@@ -19,24 +19,18 @@ namespace CMRmvc.Controllers
         private readonly CRMContext _context;
         private readonly List<ParametrosTipo> _listParamTipo;
         private readonly ILogger<ParametrosController> _log;
-        private readonly CacheHelper cacheHelper;
-        public ParametrosController(CRMContext context, ILogger<ParametrosController> log, CacheHelper cache) :base(log)
+        public ParametrosController(CRMContext context, ILogger<ParametrosController> log) :base(log)
         {
             _context = context;
             _log = log;
             _listParamTipo = _context.ParametrosTipo.ToList();
-            cacheHelper = cache;
-            ViewData["Menu"] = cacheHelper.GetMenu();
         }
 
         public async Task<IActionResult> Index(string sortOrder)
         {
             StartMethod();
             try
-            {
-                var menu = cacheHelper.GetMenu();
-                ViewData["Menu"] = menu;
-                
+            {                
                 IList<SelectListItem> lstParametroTipoDato  = Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
                 ViewData["ParamType"] = lstParametroTipoDato.ToList();
                 var param = await _context.Parametros.Include("IdParametroTipoNavigation").Where(x => x.FecDel == null && x.UsrDel == null).ToListAsync();
@@ -185,7 +179,6 @@ namespace CMRmvc.Controllers
             try
             {
                 _log.LogInformation("Cargando datos...");
-                ViewData["Menu"] = cacheHelper.GetMenu();
                 ViewBag.ParamTipo = new SelectList(_listParamTipo, "IdParametroTipo", "TipNombre");
                 ViewBag.Action = myaction;
                 ViewBag.IsReadOnly = isreadonly;
