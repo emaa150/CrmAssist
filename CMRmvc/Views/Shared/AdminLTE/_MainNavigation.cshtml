@@ -10,26 +10,6 @@
 @inject UserManager<User> UserManager
 
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $.ajax({
-            type: "POST",
-            url: "/Base/BuildMenu",
-            dataType: "Json",
-            success: function (data) {
-                alert(data);
-
-            }, error: function (data) {
-                alert(data);
-            }
-        });
-    });
-    function LoadMenu() {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/Base/BuildMenu", true);
-        xhr.send(null);
-    }
-</script>
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     @*<a href="~/Home" class="brand-link">

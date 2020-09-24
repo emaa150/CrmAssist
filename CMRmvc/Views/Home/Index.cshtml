@@ -7,40 +7,44 @@
 
 
 <div class="text-center">
-    <img src="~/img/assistsa.jpg" style="text-align:center; width:300px; height:300px;"alt="Bienvenido">
+    <img src="~/img/assistsa.jpg" style="text-align:center; width:300px; height:300px;" alt="Bienvenido">
 </div>
 <br />
 <br />
-@foreach (var padre in menu)
-{
 
-    <div class="row-cols-md-3">
-        <div class="card card-blue">
-            <div class="card-header">
-                <h3 class="card-title"><i class="@padre.Icono"></i>@padre.Nombre</h3>
+ @if (menu != null)
+  {
+    @foreach (var padre in menu)
+    {
 
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
+        <div class="row-cols-md-3">
+            <div class="card card-blue">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="@padre.Icono"></i>@padre.Nombre</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                    <!-- /.card-tools -->
                 </div>
-                <!-- /.card-tools -->
+                <!-- /.card-header -->
+                <div class="card-body">
+                    @foreach (var hijo in padre.MenuItemHijo)
+                    {
+                        <a asp-controller="@hijo.Controlador" asp-action="@hijo.Accion">
+                            <p style="color:black;">
+                                <i class="fas fa-angle-right"></i> @hijo.Nombr
+                            </p>
+                        </a>
+                    }
+                </div>
+                <!-- /.card-body -->
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                @foreach (var hijo in padre.MenuItemHijo)
-                {
-                    <a asp-controller="@hijo.Controlador" asp-action="@hijo.Accion">
-                        <p style="color:black;">
-                            <i class="fas fa-angle-right"></i> @hijo.Nombr
-                        </p>
-                    </a>
-                }
-            </div>
-            <!-- /.card-body -->
+            <!-- /.card -->
         </div>
-        <!-- /.card -->
-    </div>
 
-    <!-- /.col -->
-}
+        <!-- /.col -->
+    }
+  }

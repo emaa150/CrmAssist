@@ -17,160 +17,215 @@
     }
 </style>
 
-    <div class="mr-auto p-2">
-        <h4><i class="@ico"></i>&nbsp;@title</h4>
-    </div>
+<div class="mr-auto p-2">
+    <h4><i class="@ico"></i>&nbsp;@title</h4>
+</div>
 
-    <hr />
+<hr />
 
-    <form asp-action="@ViewBag.Action">
-        <div class="col-md-4">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="ConcurrencyStamp" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" readonly="@ViewBag.IsReadOnly" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-
-            <div class="form-check">
-                @if (ViewBag.IsReadOnly != null && ViewBag.IsReadOnly)
-                {
-                    <input type="checkbox" style="width:22px; height:19px;" asp-for="IsActive" class="form-check-input" readonly="readonly" disabled />
-                }
-                else
-                {
-                    <input type="checkbox" style="width:22px; height:19px;" asp-for="IsActive" class="form-check-input" />
-                }
-                &nbsp;&nbsp;<label asp-for="IsActive" class="form-check-label"></label>
-            </div>
+<form asp-action="@ViewBag.Action">
+    <div class="col-md-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ConcurrencyStamp" />
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" readonly="@ViewBag.IsReadOnly" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
+        <div class="form-check">
+            @if (ViewBag.IsReadOnly != null && ViewBag.IsReadOnly)
+            {
+                <input type="checkbox" style="width:22px; height:19px;" asp-for="IsActive" class="form-check-input" readonly="readonly" disabled />
+            }
+            else
+            {
+                <input type="checkbox" style="width:22px; height:19px;" asp-for="IsActive" class="form-check-input" />
+            }
+            &nbsp;&nbsp;<label asp-for="IsActive" class="form-check-label"></label>
+        </div>
+    </div>
 
-        @{
-            var menu = (List<MenuItemPadre>)ViewBag.MenuRoles;
-        }
-        <!-------------------------------------------    ROLES     -------------------------------------------->
-        @if (menu != null && menu.Count > 0)
-        {
-            <div class="row m-3">
-                @{int count = 0; }
-                @foreach (var padre in menu)
-                {
-                    count++;
 
-                    <div class="col-md-4 border m-2" style="min-width:420px !important;">
-                        <!--#343A40 color menu  -- otro color #2C3A43-->
-                        <div class="row" style="background-color:#2C3A43; color:azure; padding-bottom:6px;padding-right:6px; padding-left:6px;padding-top:-8px;">
-                            <div class="col-md-7 mt-3">
-                                <span><input type="checkbox" style="width:18px; height:17px;" onclick="miCheckTotal()" id="checkSegPadre">&nbsp;&nbsp;&nbsp;</span>
-                                <span style="font-weight:bold;"><i class="@padre.Icono" style="font-size:large;">&nbsp;&nbsp;&nbsp;</i><span style="font-size:large;max-width:140px !important">@padre.Nombre</span></span>
+    @{
+        var menu = (List<MenuItemPadre>)ViewBag.MenuRoles;
+        var rolesAcciones = (List<RolesAcciones>)ViewBag.RolesAcciones;
+        var perfilMenuHijo = (List<PerfilMenuHijo>)ViewBag.PerfilMenuHijo;
+        var idRolView = (long)ViewBag.IdRolView;
+    }
+
+    <!-- #region CHECKS ROLES -->
+
+    @if (menu != null && menu.Count > 0 && rolesAcciones != null && rolesAcciones.Count > 0 && perfilMenuHijo != null && perfilMenuHijo.Count > 0)
+    {
+        <div class="row m-3"> 
+            @for (int i=0;i < menu.Count; i++)
+            {
+            <div class="col-md-4 border m-2" style="min-width:420px !important;">
+                <!--#343A40 color menu  -- otro color #2C3A43-->
+                <div class="row" style="background-color:#2C3A43; color:azure; padding-bottom:6px;padding-right:6px; padding-left:6px;padding-top:-8px;">
+                    <div class="col-md-7 mt-3">
+                        @{ string dataClassPadre = "padre " + i; }
+                        <span><input type="checkbox" style="width:18px; height:17px;" data-forid="@i" data-id="@menu[i].IdMenuPadre" class="@dataClassPadre">&nbsp;&nbsp;&nbsp;</span>
+                        <span style="font-weight:bold;"><i class="@menu[i].Icono" style="font-size:large;">&nbsp;&nbsp;&nbsp;</i><span style="font-size:large;max-width:140px !important">@menu[i].Nombre</span></span>
+                    </div>
+                    <div class="col-md-5 mt-3">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <i title="Alta" class="fa fa-plus"></i>
                             </div>
-                            <div class="col-md-5 mt-3">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <i title="Alta" class="fa fa-plus"></i>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <i title="Eliminar" class="fa fa-trash"></i>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <i title="Editar" class="fa fa-edit"></i>
-                                    </div>
-                                </div>
+                            <div class="col-sm-3">
+                                <i title="Eliminar" class="fa fa-trash"></i>
+                            </div>
+                            <div class="col-sm-3">
+                                <i title="Editar" class="fa fa-edit"></i>
                             </div>
                         </div>
+                    </div>
+                </div>
+             
+                @for (int fila = 0; fila < menu[i].MenuItemHijo.ToList().Count; fila++)
+                {      
+                    <div class="row mt-2" style="padding-bottom:6px;padding-right:6px; padding-left:6px;padding-top:-8px;">
+                        <div class="col-md-7">
+                            @{
+                                bool checkhijo = perfilMenuHijo.Where(x => x.IdMenuHijo == menu[i].MenuItemHijo.ToList()[fila].IdMenuHijo).Any(y => y.IdRol == idRolView) ? true : false;
+                                string dataClassHijo = i + " hijo " + fila;
+                            }
+                            <span>
+                                <input type="checkbox" style="width:16px; height:16px;" data-fila="@fila" data-forid="@i" data-id="@menu[i].MenuItemHijo.ToList()[fila].IdMenuHijo" data-idpadre="@menu[i].IdMenuPadre" class="@dataClassHijo"
+                                       checked="@checkhijo" />
+                            </span>&nbsp;&nbsp;&nbsp;
+                            <span style="width:auto;font-size:small; text-align:left !important">@menu[i].MenuItemHijo.ToList()[fila].Nombr</span>
+                        </div>
+                        <div class="col-md-5 ">
+                            <div class="row">
+                                @for (int u = 0; u < menu[i].MenuItemHijo.ToList()[fila].MenuHijoAcciones.ToList().Count; u++)
+                                {
+                                    <div class="col-sm-3">
+                                        @{
+                                            bool checkaccion = rolesAcciones.Where(x => x.IdMenuHijoAccion == menu[i].MenuItemHijo.ToList()[fila].MenuHijoAcciones.ToList()[u].IdMenuHijoAccion).Any(y => y.IdRol == idRolView) ? true : false;
+                                            string dataClassAccion = i + " accion " + fila;
+                                            string idAccion = "accion_" + menu[i].MenuItemHijo.ToList()[fila].MenuHijoAcciones.ToList()[u].IdMenuHijoAccion;
+                                        }
 
-                        @foreach (var hijo in padre.MenuItemHijo)
-                        {
-                            <div class="row mt-2" style="padding-bottom:6px;padding-right:6px; padding-left:6px;padding-top:-8px;">
-                                <div class="col-md-7">
-                                    <span><input type="checkbox" style="width:16px; height:16px;" id="checkRowHijo1" onclick="miCheckHijo()"></span>&nbsp;&nbsp;&nbsp;
-                                    <span style="width:auto;font-size:small; text-align:left !important">@hijo.Nombr</span>
-                                </div>
-                                <div class="col-md-5 ">
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            @if (hijo.MenuHijoAcciones.Any(x => x.MhaKey == "ADD"))
-                                            {  
-                                                <input type="checkbox" style="width:19px; height:16px;" class="checkRowHijoAcciones1">
-                                            }
-                                        </div>
-                                        <div class="col-sm-3">
-                                            @if (hijo.MenuHijoAcciones.Any(x => x.MhaKey == "DEL"))
-                                            {
-                                                <input type="checkbox" style="width:19px; height:16px;" class="checkRowHijoAcciones1">
-                                            }
-                                        </div>
-                                        <div class="col-sm-3">
-                                            @if (hijo.MenuHijoAcciones.Any(x => x.MhaKey == "UPD"))
-                                            {
-                                                <input type="checkbox" style="width:19px; height:16px;" class="checkRowHijoAcciones1">
-                                            }
-                                        </div>
+                                        <input type="checkbox" data-foraccionid="@u" data-fila="@fila" id="@idAccion" data-forid="@i" data-idpadre="@menu[i].IdMenuPadre" data-idhijo="@menu[i].MenuItemHijo.ToList()[fila].IdMenuHijo" class="@dataClassAccion" data-id="@menu[i].MenuItemHijo.ToList()[fila].MenuHijoAcciones.ToList()[u].IdMenuHijoAccion" checked="@checkaccion" style="width:19px; height:16px;">
                                     </div>
-                                </div>
+                                }
+
                             </div>
-                        }
+                        </div>
                     </div>
                 }
             </div>
-        }
-        else 
-        {
-            <h4>No existen ROLES para asignar...</h4>
-        }
-        <hr />
-        <div class="form-group">
-            <a asp-action="Index" class="btn btn-secondary float-left">Volver</a>
-            @if (ViewBag.Action != "Details")
-            {
-                <input type="submit" value="Guardar" class="btn btn-primary active float-right mr-2" />
             }
         </div>
+    }
+    else
+    {
+        <h4>No existen ROLES para asignar...</h4>
+    }
+    <hr />
+    <div class="form-group">
+        <a asp-action="Index" class="btn btn-secondary float-left">Volver</a>
+        @if (ViewBag.Action != "Details")
+        {
+            <input type="submit" value="Guardar" class="btn btn-primary active float-right mr-2" />
+        }
+    </div>
 
-    </form>
+</form>
 
+
+<!-- #region Clicks check -->
 
 <script type="text/javascript">
 
-    var miCheckTotal = function () {
+    $(document).ready(function () {
+        $(".padre").click(function () {
+            var forID = $(this).attr("data-forid");
 
-        if (document.getElementById('checkSegPadre').checked) {
-            $('#checkRowHijo1').prop("checked", true);
-            $('.checkRowHijoAcciones1').prop("checked", true);
-            $('#checkRowHijo2').prop("checked", true);
-            $('.checkRowHijoAcciones2').prop("checked", true);
+            const myfind = "[data-forid=" + forID + "]";
+            $(document).find(myfind).prop('checked', this.checked);
 
-        } else {
-            $('#checkRowHijo1').prop("checked", false);
-            $('#checkRowHijo2').prop("checked", false);
-            $('.checkRowHijoAcciones1').prop("checked", false);
-            $('.checkRowHijoAcciones2').prop("checked", false);
-        }
-    }
-    var miCheckHijo = function () {
+        });
 
-        if (document.getElementById('checkRowHijo1').checked) {
-            $('.checkRowHijoAcciones1').prop("checked", true);
+        $(".hijo").click(function () {
+   
+            var forID = $(this).attr("data-forid");
+            var myfila = $(this).attr("data-fila");
+            const myfindfila = "[data-fila=" + myfila + "]";
+            const myfindpadre = "[data-forid=" + forID + "]";
 
-        } else {
-            $('#checkRowHijo1').prop("checked", false);
-            $('.checkRowHijoAcciones1').prop("checked", false);
-        }
+            $(document).find(myfindfila + myfindpadre).prop('checked', this.checked);
+
+            ComprobarHijoSelect(myfindpadre, myfindfila, forID); 
+
+        });
+
+        $(".accion").click(function () {
+            var forID = $(this).attr("data-forid");
+            var fila = $(this).attr("data-fila");
+            var forAccionID = $(this).attr("data-foraccionid");
+            const myfindfila = "[data-fila=" + fila + "]";
+            const myfindpadre = "[data-forid=" + forID + "]";
+            const myfindAccion = "[data-foraccionid=" + forAccionID + "]";
+
+            ComprobarChecks(myfindpadre, myfindfila, myfindAccion);  
 
 
-        if (document.getElementById('checkRowHijo2').checked) {
-            $('.checkRowHijoAcciones2').prop("checked", true);
+        });
+    });
+
+    function ComprobarHijoSelect(findPadre, findFila, forID) {
+        debugger;
+        const isCheckedHijos = $(document).find(findPadre + findFila).prop('checked');
+
+       /* $(".hijo").filter(findPadre).each(function () {
+            if (this.checked) {
+                cntChecked += 1;
+            }
+        });
+
+        if (cntChecked > 0) {
         }
         else {
-            $('#checkRowHijo2').prop("checked", false);
-            $('.checkRowHijoAcciones2').prop("checked", false);
-        }
+            $(findPadre).prop('checked', false);
+        }*/
+
 
 
     }
+
+
+    function ComprobarChecks(findPadre, findFila, findAccion) {
+        debugger;
+        const isCheckedHijos = $(document).find(findPadre + findFila).prop('checked');
+
+        if (findAccion != "") {
+            const isCheckedAccions = $(document).find(findPadre + findFila + findAccion).prop('checked');
+
+            if (isCheckedHijos) {
+                $(document).find(findFila).prop('checked', true);
+            } else {
+                $(document).find(findFila).prop('checked', false);
+            }
+
+            if (isCheckedAccions) {
+                $(document).find(findAccion).prop('checked', true);
+            } else {
+                $(document).find(findAccion).prop('checked', false);
+            }
+        }
+
+
+
+    }
+
+
 </script>
 
-<!-------------------------------------------    ROLES     -------------------------------------------->
+
+<!-- #endregion -->
+<!-- #endregion -->

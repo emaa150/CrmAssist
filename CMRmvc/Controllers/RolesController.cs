@@ -133,10 +133,12 @@ namespace CMRmvc.Controllers
                 ViewData["Menu"] = _cacheHelper.GetMenu();
                 ViewBag.IsReadOnly = isreadonly;
                 ViewBag.Action = myaction;
+                ViewBag.IdRolView = 0;
                 RecuperarMenuItems();
 
                 if (id != null && id != 0)
                 {
+                    ViewBag.IdRolView = id;
                     var listRoles = _context.UserRoles.Where(x => x.RoleId == id);
                     var listusers = new List<User>();
 
@@ -172,6 +174,12 @@ namespace CMRmvc.Controllers
             {
                 _log.LogInformation("Obteniendo Menu Completo");
                 ViewBag.MenuRoles = _context.MenuItemPadre.Include("MenuItemHijo").Include("MenuItemHijo.MenuHijoAcciones").ToList();
+
+                _log.LogInformation("Obteniendo Roles Acciones");
+                ViewBag.RolesAcciones = _context.RolesAcciones.ToList();
+
+                _log.LogInformation("Obteniendo Perfil Menu Hijo");
+                ViewBag.PerfilMenuHijo = _context.PerfilMenuHijo.ToList();
 
             }
             catch (Exception ex)

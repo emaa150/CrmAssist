@@ -27,7 +27,7 @@ namespace CMRmvc.Helpers
                     if(user != null) 
                     {                        
                         log.LogInformation("GenerateMenu() -> Usuario encontrado: " + user.UserName);                            
-                        if (user.Activo != null && Convert.ToBoolean(user.Activo))
+                        if (Convert.ToBoolean(user.Activo))
                         {
                             log.LogInformation("GenerateMenu() ->  Usuario OK!");
                             log.LogInformation("GenerateMenu() -> Iniciano reconstruccionn del Menu...");
