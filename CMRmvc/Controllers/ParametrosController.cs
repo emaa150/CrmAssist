@@ -26,40 +26,14 @@ namespace CMRmvc.Controllers
             _listParamTipo = _context.ParametrosTipo.ToList();
         }
 
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index()
         {
             StartMethod();
             try
-            {                
-                IList<SelectListItem> lstParametroTipoDato  = Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
-                ViewData["ParamType"] = lstParametroTipoDato.ToList();
-                var param = await _context.Parametros.Include("IdParametroTipoNavigation").Where(x => x.FecDel == null && x.UsrDel == null).ToListAsync();
-
-                ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-                ViewData["ClaveSortParm"] = sortOrder == "clave_asc" ? "clave_asc" : "clave_desc";
-                ViewData["ValueSortParm"] = sortOrder == "value_asc" ? "value_asc" : "value_desc";
-                
-                switch (sortOrder)
-                {
-                    case "name_desc":
-                        param = param.OrderByDescending(s => s.ParNombre).ToList();
-                        break;
-                    case "clave_asc":
-                        param = param.OrderBy(s => s.ParClave).ToList();
-                        break;
-                    case "clave_desc":
-                        param = param.OrderByDescending(s => s.ParClave).ToList();
-                        break;
-                    case "value_desc":
-                        param = param.OrderByDescending(s => s.ParValor).ToList();
-                        break;
-                    case "value_asc":
-                        param = param.OrderBy(s => s.ParValor).ToList();
-                        break;
-                    default:
-                        param = param.OrderBy(s => s.ParNombre).ToList();
-                        break;
-                }
+            {
+                List<Parametros> param = await _context.Parametros.Include("IdParametroTipoNavigation")
+                        .Where(x => x.FecDel == null && x.UsrDel == null).ToListAsync();;
+                IList<SelectListItem> lstParametroTipoDato  = Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();             
 
                 return View(param.ToList());
             }
