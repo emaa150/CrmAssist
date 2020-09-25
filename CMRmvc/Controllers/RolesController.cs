@@ -43,7 +43,7 @@ namespace CMRmvc.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,IsActive")] Role rol)
+        public async Task<IActionResult> Create([Bind("Name,IsActive")] RoleViewModel rol)
         {
             StartMethod();
             IdentityResult result = null;
@@ -51,7 +51,7 @@ namespace CMRmvc.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    result = await _roleManager.CreateAsync(rol);
+                   // result = await _roleManager.CreateAsync(rol);
                 }
                 else
                 {
@@ -81,7 +81,7 @@ namespace CMRmvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("Id,Name,ConcurrencyStamp,IsActive")] Role rol)
+        public async Task<IActionResult> Edit([Bind("Id,Name,ConcurrencyStamp,IsActive")] RoleViewModel rol)
         {
             StartMethod();
             IdentityResult result = null;
@@ -89,10 +89,10 @@ namespace CMRmvc.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var rolUpdate = await _roleManager.FindByIdAsync(rol.Id.ToString());
+                   /* var rolUpdate = await _roleManager.FindByIdAsync(rol.Id.ToString());
                     rolUpdate.Name = rol.Name;
                     rolUpdate.IsActive = rol.IsActive;
-                    result = await _roleManager.UpdateAsync(rolUpdate);
+                    result = await _roleManager.UpdateAsync(rolUpdate);*/
                 }
                 else
                 {
@@ -123,7 +123,7 @@ namespace CMRmvc.Controllers
         public IActionResult Crud(bool isreadonly, string myaction, long? id)
         {
             StartMethod();
-            Role role = null;
+            var roleViewModel = RecuperarMenuItems();
             try
             {
                 ViewBag.IsReadOnly = isreadonly;
@@ -146,11 +146,15 @@ namespace CMRmvc.Controllers
 
                     _log.LogInformation("Obteniendo Role");
 
-                    role = _context.Roles.Find(id);
-
+                   var role = _context.Roles.Find(id);
+                    roleViewModel.Id = role.Id;
+                    roleViewModel.ConcurrencyStamp = role.ConcurrencyStamp;
+                    roleViewModel.IsActive = role.IsActive;
+                    roleViewModel.Name = role.Name;
+                    roleViewModel.NormalizedName = role.NormalizedName;
                 }
 
-                return View(role);
+                return View(roleViewModel);
             }
             catch (Exception ex)
             {
@@ -162,20 +166,20 @@ namespace CMRmvc.Controllers
                 EndMethod();
             }
         }
-        private void RecuperarMenuItems() 
+        private RoleViewModel RecuperarMenuItems() 
         {
             StartMethod();
+            RoleViewModel roleViewModel = new RoleViewModel();
             try
             {
                 _log.LogInformation("Obteniendo Menu Completo");
-                ViewBag.MenuRoles = _context.MenuItemPadre.Include("MenuItemHijo").Include("MenuItemHijo.MenuHijoAcciones").ToList();
+                roleViewModel.Menu = _context.MenuItemPadre.Include("MenuItemHijo").Include("MenuItemHijo.MenuHijoAcciones").ToList();
 
                 _log.LogInformation("Obteniendo Roles Acciones");
-                ViewBag.RolesAcciones = _context.RolesAcciones.ToList();
+                roleViewModel.RolesAcciones = _context.RolesAcciones.ToList();
 
                 _log.LogInformation("Obteniendo Perfil Menu Hijo");
-                ViewBag.PerfilMenuHijo = _context.PerfilMenuHijo.ToList();
-
+                roleViewModel.PerfilMenuHijo = _context.PerfilMenuHijo.ToList();
             }
             catch (Exception ex)
             {
@@ -185,6 +189,8 @@ namespace CMRmvc.Controllers
             {
                 EndMethod();
             }
+
+            return roleViewModel;
         }
     }
 }

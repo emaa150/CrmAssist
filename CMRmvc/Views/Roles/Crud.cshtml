@@ -1,4 +1,4 @@
-﻿@model CMRmvc.Models.Role
+﻿@model CMRmvc.Models.RoleViewModel
 
 @{
     ViewData["Title"] = "Crud";
@@ -47,28 +47,22 @@
         </div>
     </div>
 
-
-    @{
-        var menu = (List<MenuItemPadre>)ViewBag.MenuRoles;
-        var rolesAcciones = (List<RolesAcciones>)ViewBag.RolesAcciones;
-        var perfilMenuHijo = (List<PerfilMenuHijo>)ViewBag.PerfilMenuHijo;
-        var idRolView = (long)ViewBag.IdRolView;
-    }
-
     <!-- #region CHECKS ROLES -->
 
-    @if (menu != null && menu.Count > 0 && rolesAcciones != null && rolesAcciones.Count > 0 && perfilMenuHijo != null && perfilMenuHijo.Count > 0)
+    @if (Model.Menu != null && Model.Menu.Count > 0 && Model.RolesAcciones != null && Model.RolesAcciones.Count > 0 && Model.PerfilMenuHijo != null && Model.PerfilMenuHijo.Count > 0)
     {
         <div class="row m-3"> 
-            @for (int i=0;i < menu.Count; i++)
+            @for (int i=0;i < Model.Menu.Count; i++)
             {
             <div class="col-md-4 border m-2" style="min-width:420px !important;">
                 <!--#343A40 color menu  -- otro color #2C3A43-->
                 <div class="row" style="background-color:#2C3A43; color:azure; padding-bottom:6px;padding-right:6px; padding-left:6px;padding-top:-8px;">
                     <div class="col-md-7 mt-3">
-                        @{ string dataClassPadre = "padre " + i; }
-                        <span><input type="checkbox" style="width:18px; height:17px;" data-forid="@i" data-id="@menu[i].IdMenuPadre" class="@dataClassPadre">&nbsp;&nbsp;&nbsp;</span>
-                        <span style="font-weight:bold;"><i class="@menu[i].Icono" style="font-size:large;">&nbsp;&nbsp;&nbsp;</i><span style="font-size:large;max-width:140px !important">@menu[i].Nombre</span></span>
+                        @{ string dataClassPadre = "padre " + i;
+                            string idPadre = "padre_" + Model.Menu[i].IdMenuPadre;
+                          }
+                        <span><input type="checkbox" style="width:18px; height:17px;" id="@idPadre" data-forid="@i" data-id="@Model.Menu[i].IdMenuPadre" class="@dataClassPadre">&nbsp;&nbsp;&nbsp;</span>
+                        <span style="font-weight:bold;"><i class="@Model.Menu[i].Icono" style="font-size:large;">&nbsp;&nbsp;&nbsp;</i><span style="font-size:large;max-width:140px !important">@Model.Menu[i].Nombre</span></span>
                     </div>
                     <div class="col-md-5 mt-3">
                         <div class="row">
@@ -85,32 +79,33 @@
                     </div>
                 </div>
              
-                @for (int fila = 0; fila < menu[i].MenuItemHijo.ToList().Count; fila++)
+                @for (int fila = 0; fila < Model.Menu[i].MenuItemHijo.ToList().Count; fila++)
                 {      
                     <div class="row mt-2" style="padding-bottom:6px;padding-right:6px; padding-left:6px;padding-top:-8px;">
                         <div class="col-md-7">
                             @{
-                                bool checkhijo = perfilMenuHijo.Where(x => x.IdMenuHijo == menu[i].MenuItemHijo.ToList()[fila].IdMenuHijo).Any(y => y.IdRol == idRolView) ? true : false;
+                                bool checkhijo = Model.PerfilMenuHijo.Where(x => x.IdMenuHijo == Model.Menu[i].MenuItemHijo.ToList()[fila].IdMenuHijo).Any(y => y.IdRol == Model.Id) ? true : false;
                                 string dataClassHijo = i + " hijo " + fila;
+                                string idFila = "fila_" + Model.Menu[i].MenuItemHijo.ToList()[fila].IdMenuHijo + "_" + i;
                             }
                             <span>
-                                <input type="checkbox" style="width:16px; height:16px;" data-fila="@fila" data-forid="@i" data-id="@menu[i].MenuItemHijo.ToList()[fila].IdMenuHijo" data-idpadre="@menu[i].IdMenuPadre" class="@dataClassHijo"
+                                <input type="checkbox" style="width:16px; height:16px;" id="@idFila" data-fila="@fila" data-forid="@i" data-id="@Model.Menu[i].MenuItemHijo.ToList()[fila].IdMenuHijo" data-idpadre="@Model.Menu[i].IdMenuPadre" class="@dataClassHijo"
                                        checked="@checkhijo" />
                             </span>&nbsp;&nbsp;&nbsp;
-                            <span style="width:auto;font-size:small; text-align:left !important">@menu[i].MenuItemHijo.ToList()[fila].Nombr</span>
+                            <span style="width:auto;font-size:small; text-align:left !important">@Model.Menu[i].MenuItemHijo.ToList()[fila].Nombr</span>
                         </div>
                         <div class="col-md-5 ">
                             <div class="row">
-                                @for (int u = 0; u < menu[i].MenuItemHijo.ToList()[fila].MenuHijoAcciones.ToList().Count; u++)
+                                @for (int u = 0; u < Model.Menu[i].MenuItemHijo.ToList()[fila].MenuHijoAcciones.ToList().Count; u++)
                                 {
                                     <div class="col-sm-3">
                                         @{
-                                            bool checkaccion = rolesAcciones.Where(x => x.IdMenuHijoAccion == menu[i].MenuItemHijo.ToList()[fila].MenuHijoAcciones.ToList()[u].IdMenuHijoAccion).Any(y => y.IdRol == idRolView) ? true : false;
+                                            bool checkaccion = Model.RolesAcciones.Where(x => x.IdMenuHijoAccion == Model.Menu[i].MenuItemHijo.ToList()[fila].MenuHijoAcciones.ToList()[u].IdMenuHijoAccion).Any(y => y.IdRol == Model.Id) ? true : false;
                                             string dataClassAccion = i + " accion " + fila;
-                                            string idAccion = "accion_" + menu[i].MenuItemHijo.ToList()[fila].MenuHijoAcciones.ToList()[u].IdMenuHijoAccion;
+                                            string idAccion = "accion_" + Model.Menu[i].MenuItemHijo.ToList()[fila].MenuHijoAcciones.ToList()[u].IdMenuHijoAccion + "_" + fila + "_" + i;
                                         }
 
-                                        <input type="checkbox" data-foraccionid="@u" data-fila="@fila" id="@idAccion" data-forid="@i" data-idpadre="@menu[i].IdMenuPadre" data-idhijo="@menu[i].MenuItemHijo.ToList()[fila].IdMenuHijo" class="@dataClassAccion" data-id="@menu[i].MenuItemHijo.ToList()[fila].MenuHijoAcciones.ToList()[u].IdMenuHijoAccion" checked="@checkaccion" style="width:19px; height:16px;">
+                                        <input type="checkbox" data-foraccionid="@u" data-fila="@fila" id="@idAccion" data-forid="@i" data-idpadre="@Model.Menu[i].IdMenuPadre" data-idhijo="@Model.Menu[i].MenuItemHijo.ToList()[fila].IdMenuHijo" class="@dataClassAccion" data-id="@Model.Menu[i].MenuItemHijo.ToList()[fila].MenuHijoAcciones.ToList()[u].IdMenuHijoAccion" checked="@checkaccion" style="width:19px; height:16px;">
                                     </div>
                                 }
 
@@ -155,76 +150,75 @@
    
             var forID = $(this).attr("data-forid");
             var myfila = $(this).attr("data-fila");
+            var idPadre = $(this).attr("data-idpadre");
             const myfindfila = "[data-fila=" + myfila + "]";
             const myfindpadre = "[data-forid=" + forID + "]";
 
             $(document).find(myfindfila + myfindpadre).prop('checked', this.checked);
 
-            ComprobarHijoSelect(myfindpadre, myfindfila, forID); 
+            ComprobarHijoSelect(myfindpadre, idPadre); 
 
         });
 
         $(".accion").click(function () {
             var forID = $(this).attr("data-forid");
             var fila = $(this).attr("data-fila");
+            var idPadre = $(this).attr("data-idpadre");
             var forAccionID = $(this).attr("data-foraccionid");
+            var idHijo = $(this).attr("data-idhijo");
+          
             const myfindfila = "[data-fila=" + fila + "]";
             const myfindpadre = "[data-forid=" + forID + "]";
             const myfindAccion = "[data-foraccionid=" + forAccionID + "]";
 
-            ComprobarAccionesSelect(myfindpadre, myfindfila, myfindAccion);  
+            ComprobarAccionesSelect(myfindpadre, myfindfila, idHijo, forID, idPadre);  
 
 
         });
     });
 
-    function ComprobarHijoSelect(findPadre, findFila, forID) {
+    function ComprobarHijoSelect(findPadre, forID) {
         debugger;
-        const isCheckedHijos = $(document).find(findPadre + findFila).prop('checked');
 
-       /* $(".hijo").filter(findPadre).each(function () {
-            if (this.checked) {
-                cntChecked += 1;
+        const elementsFila = $(document).find(findPadre);
+        var count = 0;
+        for (var x = 0; x < elementsFila.length; x++) {
+
+            const nameID = elementsFila[x].getAttribute("id");
+
+            if (nameID.includes('fila')) {
+                if (!$(document).find("#" + nameID).prop('checked')) count++;
             }
-        });
 
-        if (cntChecked > 0) {
         }
-        else {
-            $(findPadre).prop('checked', false);
-        }*/
 
-
+        if (count == 0) $(document).find("#padre_" + forID).prop('checked', true);
+        else $(document).find("#padre_" + forID).prop('checked', false);
 
     }
 
 
-    function ComprobarAccionesSelect(findPadre, findFila, findAccion) {
-        debugger;
-        const isCheckedHijos = $(document).find(findPadre + findFila + findAccion).prop('checked');
+    function ComprobarAccionesSelect(findPadre, findFila, idHijo, idFor, idPadre) {
+        
+        const hijosFila = $(document).find(findPadre + findFila);
+        var count = 0;
 
-        if (isCheckedHijos) $(document).find(findPadre + findFila).prop('checked', true);
+        for (var x = 0; x < hijosFila.length; x++) {
 
-        /*
-        if (findAccion != "") {
-            const isCheckedAccions = $(document).find(findPadre + findFila + findAccion).prop('checked');
+            const nameID = hijosFila[x].getAttribute("id");
 
-            if (isCheckedHijos) {
-                $(document).find(findFila).prop('checked', true);
-            } else {
-                $(document).find(findFila).prop('checked', false);
-            }
+            if (nameID.includes('accion')) {
+                if (!$(document).find("#" + nameID).prop('checked')) count++;
+            } 
 
-            if (isCheckedAccions) {
-                $(document).find(findAccion).prop('checked', true);
-            } else {
-                $(document).find(findAccion).prop('checked', false);
-            }
-        }*/
+        }
 
+        if (count == 0) $(document).find("#fila_" + idHijo + "_" + idFor).prop('checked', true);
+        else $(document).find("#fila_" + idHijo + "_" + idFor).prop('checked', false);
 
-
+        ComprobarHijoSelect(findPadre, idPadre);
     }
+
 
 
 </script>
