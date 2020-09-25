@@ -68,7 +68,15 @@
                         @Html.DisplayFor(modelItem => item.Email)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Activo)
+                        @if (item.Activo)
+                        {
+                            <a>SI</a>
+                        }
+                        else
+                        {
+                            <a>NO</a>
+                        }
+
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FecIns)

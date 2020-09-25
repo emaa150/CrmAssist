@@ -61,10 +61,14 @@ namespace CMRmvc.Controllers
                     if (result.Succeeded)
                     {   
                         _log.LogInformation("User logged in.");
-                        HttpContext.Session.SetString("UserName", user.UserName);
-                        var menu = MenuHelper.GenerateMenu(user.UserName, _log, _context);
+                        User usu = null;
+                        var menu = MenuHelper.GenerateMenu(user.UserName, _log, _context, out usu);
+                        HttpContext.Session.SetString("UserName", usu.UserName);
+                        HttpContext.Session.SetString("Perfil", usu.Role.NormalizedName);                        
                         HttpContext.Session.SetString("Menu", JsonConvert.SerializeObject(menu));
                         ViewData["Menu"] = menu;
+                        ViewData["UserName"] = usu.UserName;
+                        ViewData["Perfil"] = usu.Role.NormalizedName;
 
                         _log.LogInformation("Actualizando Ultimo Login");
                         var uslog = _context.Users.FirstOrDefault(x => x.UserName== user.UserName);
