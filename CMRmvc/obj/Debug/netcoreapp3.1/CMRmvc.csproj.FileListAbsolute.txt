@@ -869,3 +869,4 @@ E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.dll
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.pdb
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.genruntimeconfig.cache
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.csprojAssemblyReference.cache
+D:\Soft\CRM\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.csprojAssemblyReference.cache
