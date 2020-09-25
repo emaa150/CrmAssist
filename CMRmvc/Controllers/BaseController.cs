@@ -65,12 +65,5 @@ namespace CMRmvc.Controllers
                 logger.LogInformation(string.Format(endMethod, methodName));
             }
         }
-
-        [HttpPost]
-        public IActionResult BuildMenu() 
-        {
-
-            return Json("MI MENU PRUEBA");
-        }
     }
 }

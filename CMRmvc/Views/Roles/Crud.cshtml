@@ -172,7 +172,7 @@
             const myfindpadre = "[data-forid=" + forID + "]";
             const myfindAccion = "[data-foraccionid=" + forAccionID + "]";
 
-            ComprobarChecks(myfindpadre, myfindfila, myfindAccion);  
+            ComprobarAccionesSelect(myfindpadre, myfindfila, myfindAccion);  
 
 
         });
@@ -199,10 +199,13 @@
     }
 
 
-    function ComprobarChecks(findPadre, findFila, findAccion) {
+    function ComprobarAccionesSelect(findPadre, findFila, findAccion) {
         debugger;
-        const isCheckedHijos = $(document).find(findPadre + findFila).prop('checked');
+        const isCheckedHijos = $(document).find(findPadre + findFila + findAccion).prop('checked');
 
+        if (isCheckedHijos) $(document).find(findPadre + findFila).prop('checked', true);
+
+        /*
         if (findAccion != "") {
             const isCheckedAccions = $(document).find(findPadre + findFila + findAccion).prop('checked');
 
@@ -217,7 +220,7 @@
             } else {
                 $(document).find(findAccion).prop('checked', false);
             }
-        }
+        }*/
 
 
 
