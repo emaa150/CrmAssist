@@ -1,16 +1,16 @@
-﻿using System;
-using System.Reflection.Metadata;
-using System.Threading.Tasks;
-using CMRmvc.Helpers;
+﻿using CMRmvc.Helpers;
 using CMRmvc.Models;
 using CRMmvc.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account.Manage;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CMRmvc.Controllers
 {
@@ -60,21 +60,27 @@ namespace CMRmvc.Controllers
                     var result = await _signInManager.PasswordSignInAsync(user.UserName, user.PasswordHash, user.RememberMe, false);
                     if (result.Succeeded)
                     {
-                        _log.LogInformation("User logged in.");
+                        
+                        
                         _log.LogInformation("User logged in.");
                         HttpContext.Session.SetString("UserName", user.UserName);
                         var menu = MenuHelper.GenerateMenu(user.UserName, _log, _context);
-                        cacheHelper.LoadMenu(menu);
-
-                        // string jsonMenu = JsonConvert.SerializeObject(menu, Formatting.Indented,
-                        // new JsonSerializerSettings
-                        // {
-                        //     PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                        // });
-
-                        //HttpContext.Session.SetString("Menu", jsonMenu);                   
-
+                        HttpContext.Session.SetString("Menu", JsonConvert.SerializeObject(menu));
                         ViewData["Menu"] = menu;
+
+                        _log.LogInformation("Actualizando Ultimo Login");
+                        var uslog = _context.Users.FirstOrDefault(x => x.UserName== user.UserName);
+                        uslog.FecUltIngreso = DateTime.Now;
+                        _log.LogInformation("Guardando user editado: " + uslog.ToString());
+                        _context.Update(uslog);
+                        if (_context.SaveChanges() > 0)
+                        {
+                            _log.LogInformation("cambios guardados en db.");
+                        }
+                        else
+                        {
+                            _log.LogWarning("Error al actualizar el usuario.");
+                        }
 
                         return RedirectToAction(nameof(AccountController.Index), "Home");
                     }
@@ -153,7 +159,7 @@ namespace CMRmvc.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-
+            HttpContext.Session.Clear();
             if (!User.Identity.IsAuthenticated) _log.LogInformation("User logged out ==> OK");
             else _log.LogInformation("User logged out ==> FAIL");
 
