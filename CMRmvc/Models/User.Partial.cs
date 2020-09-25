@@ -54,7 +54,11 @@ namespace CMRmvc.Models
         public string UsrDel { get; set; }
         [Display(Name = "Recordarme")]
         public bool RememberMe { get; set; }
-      // public IFormFile Imagen { get; set; }
+
+        public long RoleID { get; set; }
+        [DisplayName("Perfil")]
+        public virtual Role Role { get; set; }
+
         public override string ToString()
         {
             return string.Format("Id: {0}, UserName: {1},Email: {2},PhoneNumber: {3},PasswordHash: {4},NombreCompleto: {5},Dni: {6},Activo: {7}"

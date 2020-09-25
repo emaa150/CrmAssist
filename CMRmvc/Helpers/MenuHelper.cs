@@ -1,4 +1,5 @@
 ﻿using CMRmvc.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -30,23 +31,22 @@ namespace CMRmvc.Helpers
                         if (Convert.ToBoolean(user.Activo))
                         {
                             log.LogInformation("GenerateMenu() ->  Usuario OK!");
-                            log.LogInformation("GenerateMenu() -> Iniciano reconstruccionn del Menu...");
+                            user.Role = context.Roles.FirstOrDefault(x => x.Id == user.RoleID);
+                            
+                            log.LogInformation("GenerateMenu() ->  Rol: "+ user.Role.NormalizedName);
 
-                            log.LogInformation("GenerateMenu() ->  Recuperando roles del usuario...");
-                            var rolUser = context.UserRoles.FirstOrDefault(x => x.UserId == user.Id);
-                            log.LogInformation("GenerateMenu() ->  Rol perteneciente al usuario: "+rolUser.RoleId);
-                            var rol = context.Roles.FirstOrDefault(x => x.Id==rolUser.RoleId);
-                            log.LogInformation("GenerateMenu() ->  Rol recuperado: "+ rol.NormalizedName);
-                            if (rol != null)
+                            if (user.Role != null)
                             {
-                                if (rol.IsActive)
+                                if (user.Role.IsActive)
                                 {
+                                    log.LogInformation("GenerateMenu() ->  Rol OK!");
+
                                     List<MenuItemPadre> menuItemPadre = new List<MenuItemPadre>();
                                     List<MenuItemHijo> menuItemHijo = new List<MenuItemHijo>();
                                     List<MenuHijoAcciones> menuHijoAcciones = new List<MenuHijoAcciones>();
 
                                     log.LogInformation("GenerateMenu() -> Consultado menuAcciones del rol");
-                                    var acciones = context.RolesAcciones.Where(x => x.IdRol == rol.Id).ToList();
+                                    var acciones = context.RolesAcciones.Where(x => x.IdRol == user.Role.Id).ToList();
                                     log.LogInformation("GenerateMenu() -> RolesAcciones encontrados: "+ acciones.Count);
                                     foreach (var item in acciones)
                                     {

@@ -59,9 +59,7 @@ namespace CMRmvc.Controllers
                 {
                     var result = await _signInManager.PasswordSignInAsync(user.UserName, user.PasswordHash, user.RememberMe, false);
                     if (result.Succeeded)
-                    {
-                        
-                        
+                    {   
                         _log.LogInformation("User logged in.");
                         HttpContext.Session.SetString("UserName", user.UserName);
                         var menu = MenuHelper.GenerateMenu(user.UserName, _log, _context);

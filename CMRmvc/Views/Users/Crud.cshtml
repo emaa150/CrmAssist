@@ -77,23 +77,25 @@
                 }
                 else
                 {
-                    <input asp-for="Activo" type="checkbox" class="form-check-input" readonly="@ViewBag.IsReadOnly" />
+                    <input asp-for="Activo" type="checkbox" checked="checked" class="form-check-input" readonly="@ViewBag.IsReadOnly" />
                 }
                 <label asp-for="Activo" class="form-check-label"></label>
             </div>
 
             <div class="form-group">
-                <label class="control-label">Rol</label>
+                <label class="control-label">Perfil</label>
                 @if (ViewBag.IsReadOnly)
                 {
-                    <select class="form-control" asp-items="@ViewBag.MyRoles" asp-for="UsrUpd" readonly="@ViewBag.IsReadOnly" disabled>
+                    <select class="form-control" asp-items="@ViewBag.MyRoles" asp-for="RoleID" readonly="@ViewBag.IsReadOnly" disabled>
                     </select>
                 }
                 else
                 {
-                    <select class="form-control" asp-items="@ViewBag.MyRoles" asp-for="UsrUpd" readonly="@ViewBag.IsReadOnly">
+                    <select class="form-control" asp-items="@ViewBag.MyRoles" asp-for="RoleID" readonly="@ViewBag.IsReadOnly">
                     </select>
+                    <span asp-validation-for="RoleID" class="text-danger"></span>
                 }
+
             </div>
 
             <div class="form-group">
