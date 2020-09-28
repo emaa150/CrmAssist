@@ -1,7 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMRmvc.Models
 {
@@ -10,7 +8,8 @@ namespace CMRmvc.Models
         public long IdPerfilAccion { get; set; }
         public long IdRol { get; set; }
         public long IdMenuHijoAccion { get; set; }
-      [JsonIgnore]
+
+        [JsonIgnore]
         public virtual MenuHijoAcciones IdMenuHijoAccionNavigation { get; set; }
     }
 }

@@ -1,18 +1,10 @@
-﻿using CRMmvc.Helpers;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Threading.Tasks;
 
 namespace CRM.Helpers
 {
     public static class NavigationIndicatorHelper
     {
-        private static readonly CacheHelper cacheHelper;
-
-
         public static string MakeActiveClass(this IUrlHelper urlHelper, string controller, string action)
         {
             try
@@ -41,7 +33,7 @@ namespace CRM.Helpers
         {
             try
             {
-                string result = "active";
+              //  string result = "active";
                 
                 string controllerName = urlHelper.ActionContext.RouteData.Values["controller"].ToString();
                 string methodName = urlHelper.ActionContext.RouteData.Values["action"].ToString();

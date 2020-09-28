@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMRmvc.Models
 {
@@ -8,7 +8,7 @@ namespace CMRmvc.Models
     {
         public MenuHijoAcciones()
         {
-            RolesAcciones = new HashSet<RolesAcciones>();
+          //  RolesAcciones = new HashSet<RolesAcciones>();
         }
 
         public long IdMenuHijoAccion { get; set; }
@@ -21,8 +21,12 @@ namespace CMRmvc.Models
         public bool? MhaNewTab { get; set; }
         public string MhaUrl { get; set; }
         public string MhaTexto { get; set; }
+
         [JsonIgnore]
         public virtual MenuItemHijo IdMenuHijoNavigation { get; set; }
-        public virtual ICollection<RolesAcciones> RolesAcciones { get; set; }
+        public virtual List<RolesAcciones> RolesAcciones { get; set; }
+
+        [NotMapped]
+        public bool IsChecked { get; set; }
     }
 }
