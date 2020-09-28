@@ -17,9 +17,9 @@ namespace CRMmvc.Common
         }
         public enum ParameterType
         {
-            DATE = 0,
-            INT = 1,
-            STRING = 2
+            DATE = 1,
+            INT = 2,
+            STRING = 3
         }
     }
 }

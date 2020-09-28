@@ -35,7 +35,7 @@
 
 <div class="card">
     <div class="card-body">
-        <table id="listTable" class="table table-bordered table-hover">
+        <table id="listTable" class="table table-bordered table-hover"  style="width:100%">
             <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.UserName)</th>
@@ -148,14 +148,14 @@
 <script>
 
     var ConfirmDelete = function (userID) {
-
+        debugger;
         $("#userID").val(userID);
         $("#mymodal").modal('show');
     }
 
     var DeleteUser = function () {
         var userID = $("#userID").val();
-
+        debugger;
         $.ajax({
             type: "POST",
             url: "/Users/DeleteConfirmed",
