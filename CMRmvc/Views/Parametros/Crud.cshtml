@@ -12,73 +12,118 @@
 }
 
 
-    <div class="d-flex">
-        <div class="mr-auto p-2">
-            <h4><i class="@ico"></i> @title</h4>
-        </div>
-    </div>
-
-<hr />
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="@ViewBag.Action">
-
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <input type="hidden" asp-for="IdParametro" />
-            <input type="hidden" asp-for="FecIns" />
-            <input type="hidden" asp-for="FecUpd" />
-            <input type="hidden" asp-for="FecDel" />
-            <input type="hidden" asp-for="UsrIns" />
-            <input type="hidden" asp-for="UsrUpd" />
-            <input type="hidden" asp-for="UsrDel" />
-
-            <div class="form-group">
-                <label asp-for="IdParametroTipo" class="control-label"></label>
-                <select class="form-control" asp-for="IdParametroTipo" asp-items="@ViewBag.ParamTipo" readonly="@ViewBag.IsReadOnly">
-                </select>
-                <span asp-validation-for="IdParametroTipo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ParClave" class="control-label"></label>
-                <input asp-for="ParClave" class="form-control" readonly="@ViewBag.IsReadOnly" />
-                <span asp-validation-for="ParClave" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ParNombre" class="control-label"></label>
-                <input asp-for="ParNombre" class="form-control" readonly="@ViewBag.IsReadOnly" />
-                <span asp-validation-for="ParNombre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ParValor" class="control-label"></label>
-                <input asp-for="ParValor" class="form-control" readonly="@ViewBag.IsReadOnly" />
-                <span asp-validation-for="ParValor" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ParTipo" class="control-label"></label>
-                <select class="form-control" asp-items="@ViewBag.ParameterType" asp-for="ParTipo" readonly="@ViewBag.IsReadOnly">
-                </select>
-                <span asp-validation-for="ParTipo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ParAdmin" class="control-label"></label>
-                <input asp-for="ParAdmin" class="form-control" readonly="@ViewBag.IsReadOnly" />
-                <span asp-validation-for="ParAdmin" class="text-danger"></span>
-            </div>
-
-            <hr />
-            <div class="form-group">
-                <a asp-action="Index" class="btn btn-secondary">Volver</a>
-                @if (ViewBag.Action != "Details")
-                {
-                    <input type="submit" value="Guardar" class="btn btn-primary active float-right" />
-                }
-            </div>
-        </form>
+<div class="d-flex">
+    <div class="mr-auto p-2">
+        <h4><i class="@ico"></i> @title</h4>
     </div>
 </div>
 
+<hr />
 
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            <i class="@ico"></i> @title
+                        </h4>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal" method="post" asp-action="@ViewBag.Action">
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input id="IdParametro" type="hidden" asp-for="IdParametro" />
+                            <div class="form-group row">
+                                <label asp-for="IdParametroTipo" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    @if (ViewBag.IsReadOnly)
+                                    {
+                                    <select class="form-control select2" asp-items="@ViewBag.ParamTipo" asp-for="IdParametroTipo" readonly="@ViewBag.IsReadOnly" disabled>
+                                        <option selected="selected" id="0">-- Seleccionar --</option>
+
+                                    </select>
+                                    }
+                                    else
+                                    {
+                                            <select class="form-control select2" asp-items="@ViewBag.ParamTipo" asp-for="IdParametroTipo" readonly="@ViewBag.IsReadOnly">
+                                                <option selected="selected" id="0">-- Seleccionar --</option>
+
+                                            </select>
+                                        <span asp-validation-for="IdParametroTipo" class="text-danger"></span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="ParClave" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="ParClave" class="form-control" readonly="@ViewBag.IsReadOnly" placeholder="">
+                                    <span asp-validation-for="ParClave" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label asp-for="ParNombre" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="ParNombre" class="form-control" readonly="@ViewBag.IsReadOnly">
+                                    <span asp-validation-for="ParNombre" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label asp-for="ParValor" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="ParValor" class="form-control" readonly="@ViewBag.IsReadOnly">
+                                    <span asp-validation-for="ParValor" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label asp-for="ParTipo" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    @if (ViewBag.IsReadOnly)
+                                    {
+                                        <select class="form-control select2" asp-items="@ViewBag.ParameterType" asp-for="ParTipo" readonly="@ViewBag.IsReadOnly" disabled>
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                <select class="form-control select2" asp-items="@ViewBag.ParameterType" asp-for="ParTipo" readonly="@ViewBag.IsReadOnly">
+                                    <option selected="selected" id="0">-- Seleccionar --</option>
+                                </select>
+                                        <span asp-validation-for="ParTipo" class="text-danger"></span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="ParAdmin" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">                                 
+                                    <input asp-for="ParAdmin" class="form-control" readonly="@ViewBag.IsReadOnly">
+                                    <span asp-validation-for="ParAdmin" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="submit" asp-action="Index" class="btn btn-default">Volver</button>
+                            @if (!ViewBag.IsReadOnly)
+                            {
+                                <button type="submit" value="Guardar" class="btn btn-primary float-right">Guardar</button>
+                            }
+                        </div>
+
+                        <!-- /.card-footer -->
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+
+    </div>
+</section>
 
 

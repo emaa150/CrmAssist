@@ -21,6 +21,8 @@ namespace CMRmvc.Models
         public override string Email { get; set; }
         [StringLength(50)]
         [DataType(DataType.PhoneNumber)]
+        [DisplayName("Telefono")]
+
         [Required(ErrorMessage = "Debe completar el número de teléfono.")]
         public override string PhoneNumber { get; set; }
         [DataType(DataType.Password)]
@@ -54,7 +56,7 @@ namespace CMRmvc.Models
         public string UsrDel { get; set; }
         [Display(Name = "Recordarme")]
         public bool RememberMe { get; set; }
-
+        [DisplayName("Perfil")]
         public long RoleID { get; set; }
         [DisplayName("Perfil")]
         public virtual Role Role { get; set; }

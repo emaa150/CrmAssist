@@ -46,7 +46,9 @@ namespace CMRmvc.Controllers
             stopwatch = Stopwatch.StartNew();
             logger.LogInformation(string.Format(startMethod, methodName));
             if (HttpContext != null)
-            {
+            {                              
+                ViewData["UserName"] = HttpContext.Session.GetString("UserName");
+                ViewData["Perfil"] = HttpContext.Session.GetString("Perfil");
                 var meStr = HttpContext.Session.GetString("Menu");
                 if (!string.IsNullOrEmpty(meStr))
                 {

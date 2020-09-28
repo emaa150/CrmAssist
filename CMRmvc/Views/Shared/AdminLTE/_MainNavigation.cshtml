@@ -3,8 +3,8 @@
 
 @{
     var menu = (List<MenuItemPadre>)ViewData["Menu"];
-    //var me = JsonConvert.DeserializeObject<List<MenuItemPadre>>(HttpContext.Session.GetString("Menu"));
-
+    var userName = (string)ViewData["UserName"];
+    var Perfil = (string)ViewData["Perfil"];
 }
 
 
@@ -14,22 +14,19 @@
 
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    @*<a href="~/Home" class="brand-link">
-            <img src="~/img/icLogoAsisst.svg" alt="Assist Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-            <span class="brand-text font-weight-light">CRM</span>
-        </a>*@
     <img src="~/img/icLogoAsisst.svg" alt="Assist Logo" class="brand-image ml-4 mt-2 mb-1" style="opacity: .8;">
 
     <div class="sidebar">
         @if (SignInManager.IsSignedIn(User))
         {
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex ">
                 <div class="image">
                     <img src="~/img/logo-avatar.png" class="img-circle elevation-2" alt="Bienvenido">
                 </div>
                 <div class="info">
-                    @*<a href="#" class="d-block">Admin Assist</a>*@
-                    <a id="manage" class="d-block">@UserManager.GetUserName(User)</a>
+                    <a id="manage" style="color:lightgray; font-size:medium;" class="d-block">@userName
+                    @*<a style="color:lightgray; font-size:x-small">@Perfil</a>*@
+                    </a>
                 </div>
             </div>
             <nav class="mt-2">

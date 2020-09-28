@@ -10,6 +10,8 @@ using CRMmvc.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using CRMmvc.Helpers;
+using System.ComponentModel.Design;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace CMRmvc.Controllers
 {
@@ -19,22 +21,26 @@ namespace CMRmvc.Controllers
         private readonly CRMContext _context;
         private readonly List<ParametrosTipo> _listParamTipo;
         private readonly ILogger<ParametrosController> _log;
+        IList<SelectListItem> lstParametroTipoDato;
         public ParametrosController(CRMContext context, ILogger<ParametrosController> log) :base(log)
         {
             _context = context;
             _log = log;
             _listParamTipo = _context.ParametrosTipo.ToList();
+            //_listParamTipo.Insert(0, new ParametrosTipo { IdParametroTipo=0, TipNombre= "-- SELECCIONAR --" });
+            lstParametroTipoDato = Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
+            //lstParametroTipoDato.Insert(0, new SelectListItem { Value="0",Text= "-- SELECCIONAR --" });
+
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             StartMethod();
             try
             {
-                List<Parametros> param = await _context.Parametros.Include("IdParametroTipoNavigation")
-                        .Where(x => x.FecDel == null && x.UsrDel == null).ToListAsync();;
-                IList<SelectListItem> lstParametroTipoDato  = Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();             
-
+                _log.LogInformation("Cargando parametros...");
+                List<Parametros> param = _context.Parametros.Include("IdParametroTipoNavigation")
+                        .Where(x => x.FecDel == null && x.UsrDel == null).ToList();;
                 return View(param.ToList());
             }
             catch (Exception ex)
@@ -51,23 +57,41 @@ namespace CMRmvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin")] Parametros parametros)
+        public IActionResult Create([Bind("IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin")] Parametros parametros)
         {
             StartMethod();
             try
             {
+                bool modelStateRol = false;
+                if (parametros.IdParametroTipo != 0) modelStateRol = true;
+                else { ModelState.AddModelError("IdParametroTipo", "Debe seleccionar un tipo de parametro."); }
+                if (parametros.ParTipo != 0) modelStateRol = true;
+                else { ModelState.AddModelError("ParTipo", "Debe seleccionar un tipo dato."); }
+
+                _log.LogInformation("Validando ModelState");
                 if (ModelState.IsValid)
                 {
+                    _log.LogInformation("Creando parametro: "+parametros.ParClave);
                     parametros.FecIns = DateTime.Now;
                     parametros.UsrIns = User.Identity.Name;
 
                     _context.Add(parametros);
-
-                    await _context.SaveChangesAsync(); 
+                    _log.LogInformation("Guardando en db...");
+                    if (_context.SaveChanges() > 0)
+                    { _log.LogInformation("GUARDADO: "+ parametros.ParClave); }
+                    else
+                    {
+                        _log.LogWarning("Error al guardar en db.");
+                    }
                     return RedirectToAction(nameof(Index));
                 }
                 else 
                 {
+                    _log.LogInformation("Modelo no valido");
+                    ViewBag.IsReadOnly = false;
+                    ViewBag.Action = nameof(Create);
+                    ViewBag.ParamTipo = new SelectList(_listParamTipo, "IdParametroTipo", "TipNombre");
+                    ViewBag.ParameterType = lstParametroTipoDato;// Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList(); ;
                     return View(nameof(Crud));
                 }
 
@@ -87,22 +111,49 @@ namespace CMRmvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("IdParametro,IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin,FecIns,FecUpd,FecDel,UsrIns,UsrUpd,UsrDel")] Parametros parametros)
+        public  IActionResult Edit([Bind("IdParametro,IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin")] Parametros parametros)
         {
             StartMethod();
             try
             {
+                _log.LogInformation("Validando ModelState");
+
                 if (ModelState.IsValid)
                 {
-                    parametros.FecUpd = DateTime.Now;
-                    parametros.UsrUpd = User.Identity.Name;
-                    _context.Update(parametros);
-                    await _context.SaveChangesAsync();
+                    var param = _context.Parametros.FirstOrDefault(x => x.IdParametro==parametros.IdParametro);
+                    if (param != null)
+                    {
+                        param.IdParametroTipo = parametros.IdParametroTipo;
+                        param.ParNombre = parametros.ParNombre;
+                        param.ParClave = parametros.ParClave;
+                        param.ParValor = parametros.ParValor;
+                        param.ParAdmin = parametros.ParAdmin;
+                        param.ParTipo = parametros.ParTipo;
+                        param.FecUpd = DateTime.Now;
+                        param.UsrUpd = User.Identity.Name;
+                        _context.Update(param);
+                        if (_context.SaveChanges() > 0)
+                        { _log.LogInformation("GUARDADO: " + param.ParClave); }
+                        else
+                        {
+                            _log.LogWarning("Error al guardar en db.");
+                        }
+                        return RedirectToAction(nameof(Index));
+                    }
+                    ModelState.AddModelError("", "Error al modificar el parametro.");
+                    return View(nameof(Crud));
 
-                    return RedirectToAction(nameof(Index));                
                 }
                 else 
                 {
+
+                    _log.LogInformation("Modelo invalido");
+                    ModelState.AddModelError("", "Error al intentar actualizar el parametro.");
+                    ViewBag.IsReadOnly = false;
+                    ViewBag.Action = nameof(Edit);
+                    ViewBag.ParamTipo = new SelectList(_listParamTipo, "IdParametroTipo", "TipNombre");
+                    ViewBag.ParameterType = lstParametroTipoDato;
+
                     return View(nameof(Crud));
                 }
             }
@@ -119,21 +170,34 @@ namespace CMRmvc.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        public IActionResult DeleteConfirmed(long id)
         {
             StartMethod();
             try
             {
-                var parametros = await _context.Parametros.FindAsync(id);
+                _log.LogInformation("Recuperando parametro ID : "+id);
+                var parametros = _context.Parametros.FirstOrDefault(x => x.IdParametro == id);
+                if (parametros != null)
+                {
+                    parametros.FecDel = DateTime.Now;
+                    parametros.UsrDel = User.Identity.Name;
+                    _log.LogInformation("guardado en db...");
+                    _context.Parametros.Update(parametros);
 
-                parametros.FecDel = DateTime.Now;
-                parametros.UsrDel = User.Identity.Name;
-
-                _context.Parametros.Update(parametros);
-
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction(nameof(Index));
+                    if (_context.SaveChanges() > 0)
+                    { _log.LogInformation("GUARDADO: " + parametros.ParClave); }
+                    else
+                    {
+                        _log.LogWarning("Error al guardar en db.");
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Error al modificar el parametro.");
+                    return View(nameof(Crud));
+                }
+                
             }
             catch (Exception ex)
             {
@@ -152,18 +216,22 @@ namespace CMRmvc.Controllers
             Parametros param =null;
             try
             {
+                _log.LogInformation(string.Format("INIT CRUD: isreadonly:{0}, myaction:{1}, id:{2}", isreadonly, myaction, id));
+
                 _log.LogInformation("Cargando datos...");
                 ViewBag.ParamTipo = new SelectList(_listParamTipo, "IdParametroTipo", "TipNombre");
+                IList<SelectListItem> lstParametroTipoDato = Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
+
                 ViewBag.Action = myaction;
                 ViewBag.IsReadOnly = isreadonly;
                 _log.LogInformation("Cargando lista de tipo de dato de param");
-                IList<SelectListItem> lstParametroTipoDato = Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
                 ViewBag.ParameterType = lstParametroTipoDato;
                 _log.LogInformation("Verificando id a inicializar");
                 if (id != null && id != 0)
                 {
                     _log.LogInformation("Inicializando parametro id: "+id);
                     param =_context.Parametros.Find(id);
+
                 }
             }
             catch (Exception ex)

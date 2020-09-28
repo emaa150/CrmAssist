@@ -189,7 +189,7 @@ namespace CMRmvc.Controllers
             try
             {
                 _log.LogInformation("Obteniendo user a eliminar..");
-                var userDel = _context.Users.Find(id);
+                var userDel = _context.Users.FirstOrDefault(x => x.Id== id);
                 _log.LogInformation("User: " + userDel.ToString());
 
                 _log.LogInformation("Modificando fecha delete y user delete");

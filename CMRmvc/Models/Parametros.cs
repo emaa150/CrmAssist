@@ -15,8 +15,9 @@ namespace CMRmvc.Models
         public string ParNombre { get; set; }
         [DisplayName("Valor")]
         public string ParValor { get; set; }
-        [DisplayName("Dato")]
+        [DisplayName("Tipo Dato")]
         public short ParTipo { get; set; }
+        [DisplayName("Admin")]
         public short ParAdmin { get; set; }
         public DateTime? FecIns { get; set; }
         public DateTime? FecUpd { get; set; }

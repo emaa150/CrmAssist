@@ -11,12 +11,13 @@ namespace CMRmvc.Helpers
 {
     public class MenuHelper
     {
-        public static List<MenuItemPadre> GenerateMenu(string UserName,ILogger log, CRMContext context)
+        public static List<MenuItemPadre> GenerateMenu(string UserName,ILogger log, CRMContext context, out User usu)
         {
             log.LogInformation("********** GenerateMenu() START **********");
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             List<MenuItemPadre> _listMenu = null;
+            usu = null;
             try
             {
                 log.LogInformation("GenerateMenu() -> Validando Username: " + UserName);
@@ -39,6 +40,7 @@ namespace CMRmvc.Helpers
                             {
                                 if (user.Role.IsActive)
                                 {
+                                    usu = user;
                                     log.LogInformation("GenerateMenu() ->  Rol OK!");
 
                                     List<MenuItemPadre> menuItemPadre = new List<MenuItemPadre>();
