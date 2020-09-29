@@ -8,7 +8,7 @@ namespace CMRmvc.Models
     {
         public MenuItemHijo()
         {
-         //   MenuHijoAcciones = new HashSet<MenuHijoAcciones>();
+            //   MenuHijoAcciones = new HashSet<MenuHijoAcciones>();
             PerfilMenuHijo = new HashSet<PerfilMenuHijo>();
         }
 

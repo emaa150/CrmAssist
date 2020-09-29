@@ -8,7 +8,7 @@ namespace CMRmvc.Models
     {
         public MenuHijoAcciones()
         {
-          //  RolesAcciones = new HashSet<RolesAcciones>();
+            //RolesAcciones = new HashSet<RolesAcciones>();
         }
 
         public long IdMenuHijoAccion { get; set; }

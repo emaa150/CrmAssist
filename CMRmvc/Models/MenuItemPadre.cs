@@ -8,7 +8,7 @@ namespace CMRmvc.Models
     {
         public MenuItemPadre()
         {
-          //MenuItemHijo = new HashSet<MenuItemHijo>();
+            //MenuItemHijo = new HashSet<MenuItemHijo>();
         }
 
         public long IdMenuPadre { get; set; }
@@ -16,7 +16,7 @@ namespace CMRmvc.Models
         public string Icono { get; set; }
 
         [NotMapped]
-        public bool IsChecked { get; set; } 
+        public bool IsChecked { get; set; }
 
         public virtual List<MenuItemHijo> MenuItemHijo { get; set; }
     }
