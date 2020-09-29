@@ -74,10 +74,10 @@
                     <!--#343A40 color menu  -- otro color #2C3A43-->
                     <div class="row" style="background-color:#2C3A43; color:azure; padding-bottom:6px;padding-right:6px; padding-left:6px;padding-top:-8px;">
                         <div class="col-md-7 mt-3">
-                            @{ string dataClassPadre = "padre " + i;
-                                string idPadre = "padre_" + Model.Menu[i].IdMenuPadre;
-                                int countHijosNotChecked = 0;
-                            }
+                            @{ 
+                               string dataClassPadre = "padre " + i;
+                               string idPadre = "padre_" + Model.Menu[i].IdMenuPadre;
+                             }
                             <input type="hidden" asp-for="Menu[i].IdMenuPadre" />
                             <input type="hidden" asp-for="Menu[i].Icono" />
                             <input type="hidden" asp-for="Menu[i].Nombre" />
@@ -104,9 +104,7 @@
 
                         <div class="row mt-2" style="padding-bottom:6px;padding-right:6px; padding-left:6px;padding-top:-8px;">
                             <div class="col-md-7">
-                                @{
-                                    //Model.Menu[i].MenuItemHijo[fila].IsChecked = Model.PerfilMenuHijo.Where(x => x.IdMenuHijo == Model.Menu[i].MenuItemHijo[fila].IdMenuHijo).Any(y => y.IdRol == Model.Id) ? true : false;
-                                    if (!Model.Menu[i].MenuItemHijo[fila].IsChecked) countHijosNotChecked++;
+                                @{                                  
                                     string dataClassHijo = i + " hijo " + fila;
                                     string idFila = "fila_" + Model.Menu[i].MenuItemHijo[fila].IdMenuHijo + "_" + i;
                                 }
@@ -140,7 +138,6 @@
                         </div>
                     }
                 </div>
-                    @if (countHijosNotChecked == 0) Model.Menu[i].IsChecked = true;
                 }
             </div>
         }
@@ -164,50 +161,7 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
-        console.log('SE EJECUTO AJAX');
-        $(".padre").click(function () {
-            var forID = $(this).attr("data-forid");
-
-            const myfind = "[data-forid=" + forID + "]";
-            $(document).find(myfind).prop('checked', this.checked);
-
-        });
-
-        $(".hijo").click(function () {
-   
-            var forID = $(this).attr("data-forid");
-            var myfila = $(this).attr("data-fila");
-            var idPadre = $(this).attr("data-idpadre");
-            const myfindfila = "[data-fila=" + myfila + "]";
-            const myfindpadre = "[data-forid=" + forID + "]";
-
-            $(document).find(myfindfila + myfindpadre).prop('checked', this.checked);
-
-            ComprobarHijoSelect(myfindpadre, idPadre); 
-
-        });
-
-        $(".accion").click(function () {
-            var forID = $(this).attr("data-forid");
-            var fila = $(this).attr("data-fila");
-            var idPadre = $(this).attr("data-idpadre");
-            var forAccionID = $(this).attr("data-foraccionid");
-            var idHijo = $(this).attr("data-idhijo");
-          
-            const myfindfila = "[data-fila=" + fila + "]";
-            const myfindpadre = "[data-forid=" + forID + "]";
-            const myfindAccion = "[data-foraccionid=" + forAccionID + "]";
-
-            ComprobarAccionesSelect(myfindpadre, myfindfila, idHijo, forID, idPadre);  
-
-
-        });
-    });
-
     function ComprobarHijoSelect(findPadre, forID) {
-        debugger;
-
         const elementsFila = $(document).find(findPadre);
         var count = 0;
         for (var x = 0; x < elementsFila.length; x++) {
@@ -227,7 +181,7 @@
 
 
     function ComprobarAccionesSelect(findPadre, findFila, idHijo, idFor, idPadre) {
-        
+
         const hijosFila = $(document).find(findPadre + findFila);
         var count = 0;
 
@@ -237,7 +191,7 @@
 
             if (nameID.includes('accion')) {
                 if (!$(document).find("#" + nameID).prop('checked')) count++;
-            } 
+            }
 
         }
 
@@ -246,6 +200,45 @@
 
         ComprobarHijoSelect(findPadre, idPadre);
     }
+
+    $(document).ready(function () {
+
+        $(".padre").click(function () {
+            var forID = $(this).attr("data-forid");
+            const myfind = "[data-forid=" + forID + "]";
+            $(document).find(myfind).prop('checked', this.checked);
+
+        });
+
+        $(".hijo").click(function () {
+
+            var forID = $(this).attr("data-forid");
+            var myfila = $(this).attr("data-fila");
+            var idPadre = $(this).attr("data-idpadre");
+            const myfindfila = "[data-fila=" + myfila + "]";
+            const myfindpadre = "[data-forid=" + forID + "]";
+
+            $(document).find(myfindfila + myfindpadre).prop('checked', this.checked);
+
+            ComprobarHijoSelect(myfindpadre, idPadre);
+
+        });
+
+        $(".accion").click(function () {
+            var forID = $(this).attr("data-forid");
+            var fila = $(this).attr("data-fila");
+            var idPadre = $(this).attr("data-idpadre");
+            var idHijo = $(this).attr("data-idhijo");
+
+            const myfindfila = "[data-fila=" + fila + "]";
+            const myfindpadre = "[data-forid=" + forID + "]";
+
+            ComprobarAccionesSelect(myfindpadre, myfindfila, idHijo, forID, idPadre);
+
+        });
+
+
+    });
 
 
 

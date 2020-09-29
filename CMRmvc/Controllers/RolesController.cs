@@ -202,7 +202,7 @@ namespace CMRmvc.Controllers
                 ViewBag.IsReadOnly = isreadonly;
                 ViewBag.Action = myaction;
 
-                RoleViewModel roleViewModel = RecuperarMenuItems();
+                RoleViewModel roleViewModel = RecuperarMenuItems(id);
 
                 if (id != null && id != 0)
                 {
@@ -239,17 +239,19 @@ namespace CMRmvc.Controllers
                 EndMethod();
             }
         }
-        private RoleViewModel RecuperarMenuItems() 
+        private RoleViewModel RecuperarMenuItems(long? idRol) 
         {
             StartMethod();
             RoleViewModel roleViewModel = new RoleViewModel();
             try
             {
+                _log.LogInformation("Obteniendo Roles Acciones");
+                roleViewModel.RolesAcciones = _context.RolesAcciones.ToList();
+
                 _log.LogInformation("Obteniendo Menu Completo");
                 roleViewModel.Menu = _context.MenuItemPadre.Include("MenuItemHijo").Include("MenuItemHijo.MenuHijoAcciones").ToList();
 
-                _log.LogInformation("Obteniendo Roles Acciones");
-                roleViewModel.RolesAcciones = _context.RolesAcciones.ToList();
+                roleViewModel.Menu = VerifyChecked(roleViewModel.Menu, roleViewModel.RolesAcciones, idRol);
 
                 _log.LogInformation("Obteniendo Perfil Menu Hijo");
                 roleViewModel.PerfilMenuHijo = _context.PerfilMenuHijo.ToList();
@@ -266,6 +268,30 @@ namespace CMRmvc.Controllers
             {
                 EndMethod();
             }
+        }
+
+        private List<MenuItemPadre> VerifyChecked(List<MenuItemPadre> menuPadre,List<RolesAcciones> rolesAcciones, long? rolID) 
+        {
+            if (rolID != null) 
+            {
+                    menuPadre.ForEach(mp =>
+                    {
+                        int countPadre = 0;
+                            mp.MenuItemHijo.ForEach(mih => 
+                            {
+                                int countHijo = 0;
+                                mih.MenuHijoAcciones.ForEach(mia => 
+                                {
+                                   if (!rolesAcciones.Where(ra => ra.IdMenuHijoAccion == mia.IdMenuHijoAccion).Any(y => y.IdRol == rolID)) countHijo++;
+                                });
+                                if (countHijo == 0) mih.IsChecked = true;
+                                    else countPadre++;
+                            });
+
+                       if (countPadre == 0) mp.IsChecked = true;
+                    });
+            }
+            return menuPadre;
         }
     }
 }
