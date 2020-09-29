@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using CRMmvc.Helpers;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices.ComTypes;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 
 namespace CMRmvc.Controllers
 {
@@ -62,19 +63,31 @@ namespace CMRmvc.Controllers
             StartMethod();
             try
             {
+                _log.LogInformation("Validando que se selecciono un tipo de parametro y el dato del param.");
                 bool modelStateRol = false;
+                bool modelStateType = false;
                 if (parametros.IdParametroTipo != 0) modelStateRol = true;
                 else { ModelState.AddModelError("IdParametroTipo", "Debe seleccionar un tipo de parametro."); }
                 if (parametros.ParTipo != 0) modelStateRol = true;
                 else { ModelState.AddModelError("ParTipo", "Debe seleccionar un tipo dato."); }
+                _log.LogInformation("Validando clave");
+                if (_context.Parametros.FirstOrDefault(x => x.ParClave == parametros.ParClave) == null) modelStateRol = true;
+                else { ModelState.AddModelError("ParClave", "La clave ingresada ya se encuentra en el sistema."); }
+                _log.LogInformation("Validanto tipo de valor");
+                int a;
+                DateTime b;
+                if (parametros.ParTipo == (int)Enums.ParameterType.INT && !int.TryParse(parametros.ParValor, out a))
+                { ModelState.AddModelError("ParValor", "El valor ingresado no coincide con el tipo de dato cargado."); }
+                else if (parametros.ParTipo == (int)Enums.ParameterType.DATE && !DateTime.TryParse(parametros.ParValor, out b))
+                { ModelState.AddModelError("ParValor", "El valor ingresado no coincide con el tipo de dato cargado."); }
+                else modelStateType = true;
 
                 _log.LogInformation("Validando ModelState");
-                if (ModelState.IsValid)
-                {
+                if (ModelState.IsValid && modelStateRol && modelStateType)
+                {                    
                     _log.LogInformation("Creando parametro: "+parametros.ParClave);
                     parametros.FecIns = DateTime.Now;
                     parametros.UsrIns = User.Identity.Name;
-
                     _context.Add(parametros);
                     _log.LogInformation("Guardando en db...");
                     if (_context.SaveChanges() > 0)
@@ -91,10 +104,9 @@ namespace CMRmvc.Controllers
                     ViewBag.IsReadOnly = false;
                     ViewBag.Action = nameof(Create);
                     ViewBag.ParamTipo = new SelectList(_listParamTipo, "IdParametroTipo", "TipNombre");
-                    ViewBag.ParameterType = lstParametroTipoDato;// Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList(); ;
+                    ViewBag.ParameterType = lstParametroTipoDato;
                     return View(nameof(Crud));
                 }
-
             }
             catch (Exception ex) 
             {
@@ -105,7 +117,6 @@ namespace CMRmvc.Controllers
             {
                 EndMethod();
             }
-
         }
 
 
