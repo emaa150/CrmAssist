@@ -10,10 +10,7 @@
     else if (ViewBag.Action == "Create") { title = "Alta Usuario"; ico = "fas fa-plus-circle"; }
     else if (ViewBag.Action == "Details") { title = "Detalles Usuario"; ico = "fas fa-info-circle"; }
 }
-
 <br />
-<br />
-
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -124,7 +121,7 @@
 
                                     <div class="custom-file">
                                         <input asp-for="Imagen" type="file" class="custom-file-input" id="customFile">
-                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                        <label class="custom-file-label" for="customFile">Cargar foto</label>
                                     </div>
                                 </div>
                             </div>
@@ -176,5 +173,8 @@
         });
     }
 
+    $(function () {
+        bsCustomFileInput.init();
+    });
 
 </script>

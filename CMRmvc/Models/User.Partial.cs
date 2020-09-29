@@ -63,8 +63,8 @@ namespace CMRmvc.Models
 
         public override string ToString()
         {
-            return string.Format("Id: {0}, UserName: {1},Email: {2},PhoneNumber: {3},PasswordHash: {4},NombreCompleto: {5},Dni: {6},Activo: {7}"
-                    , Id, UserName, Email, PhoneNumber, PasswordHash, NombreCompleto, Dni, Activo);
+            return string.Format("Id: {0}, UserName: {1},Email: {2},PhoneNumber: {3},NombreCompleto: {4},Dni: {5},Activo: {6}"
+                    , Id, UserName, Email, PhoneNumber, NombreCompleto, Dni, Activo);
         }
     }
 }
