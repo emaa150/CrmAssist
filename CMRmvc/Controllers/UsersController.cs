@@ -68,7 +68,6 @@ namespace CMRmvc.Controllers
                 {
                     user.FecIns = DateTime.Now;
                     user.UsrIns = User.Identity.Name;
-                    //user.UsrUpd = null;
 
                     _log.LogInformation("Creando User");
 

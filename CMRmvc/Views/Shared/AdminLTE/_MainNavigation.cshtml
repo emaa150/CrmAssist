@@ -14,58 +14,61 @@
 
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <img src="~/img/icLogoAsisst.svg" alt="Assist Logo" class="brand-image ml-4 mt-2 mb-1" style="opacity: .8;">
-
+    @*<img src="~/img/icLogoAsisst.svg" alt="Assist Logo" class="brand-image ml-4 mt-2 mb-1" style="opacity: .8;">*@
+    <a href="" class="brand-link">
+        <img src="~/img/logo-avatar.png" alt="Assist Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">ASSIST S.A.</span>
+    </a>
     <div class="sidebar">
         @if (SignInManager.IsSignedIn(User))
         {
             <div class="user-panel mt-3 pb-3 mb-3 d-flex ">
                 <div class="image">
-                    <img src="~/img/logo-avatar.png" class="img-circle elevation-2" alt="Bienvenido">
+                    <img src="~/img/avatar.png"  style="background-color:white;"class="img-circle elevation-2" alt="Bienvenido">
                 </div>
                 <div class="info">
-                    <a id="manage" style="color:lightgray; font-size:medium;" class="d-block">@userName
-                    @*<a style="color:lightgray; font-size:x-small">@Perfil</a>*@
-                    </a>
-                </div>
+                    <a id="manage" style="color:lightgray; font-size:medium;" class="d-block">
+                        @userName
+                </a>
             </div>
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-header" style="align-content:center;">CRM CR</li>
-                    @if (menu != null)
+        </div>
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-header" style="align-content:center;">CRM CR</li>
+                @if (menu != null)
+                {
+                    @foreach (var padre in menu)
                     {
-                        @foreach (var padre in menu)
-                        {
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="@padre.Icono nav-icon"></i>
-                                    <p>
-                                        @padre.Nombre
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                @if (padre.MenuItemHijo != null)
-                                {
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="@padre.Icono nav-icon"></i>
+                                <p>
+                                    @padre.Nombre
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            @if (padre.MenuItemHijo != null)
+                            {
 
-                                    <ul class="nav nav-treeview">
-                                        @foreach (var hijo in padre.MenuItemHijo)
-                                        {
-                                            <li class="nav-item">
-                                                <a class="nav-link @Url.MakeActiveClass(@hijo.Controlador, @hijo.Accion)" asp-controller="@hijo.Controlador" asp-action="@hijo.Accion">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    <p>@hijo.Nombr</p>
-                                                </a>
-                                            </li>
-                                        }
-                                    </ul>
-                                }
-                            </li>
-                        }
-
+                                <ul class="nav nav-treeview">
+                                    @foreach (var hijo in padre.MenuItemHijo)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link @Url.MakeActiveClass(@hijo.Controlador, @hijo.Accion)" asp-controller="@hijo.Controlador" asp-action="@hijo.Accion">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>@hijo.Nombr</p>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </li>
                     }
 
-                </ul>
-            </nav>
-        }
+                }
+
+            </ul>
+        </nav>
+    }
     </div>
 </aside>
