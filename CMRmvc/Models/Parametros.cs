@@ -21,7 +21,7 @@ namespace CMRmvc.Models
         public short ParTipo { get; set; }
         [Required(ErrorMessage = "Debe seleccionar Admin.")]
         [DisplayName("Admin")]
-        public short ParAdmin { get; set; }
+        public bool ParAdmin { get; set; }
         public DateTime? FecIns { get; set; }
         public DateTime? FecUpd { get; set; }
         public DateTime? FecDel { get; set; }

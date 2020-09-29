@@ -101,16 +101,16 @@
                             <div class="form-group row">
                                 <label asp-for="ParAdmin" class="col-sm-2 col-form-label"></label>
                                 <div class="col-sm-10">
-                                    @*@if (ViewBag.IsReadOnly != null && ViewBag.IsReadOnly)
+                                    @if (ViewBag.IsReadOnly != null && ViewBag.IsReadOnly)
                                     {
                                         <input asp-for="ParAdmin" type="checkbox" data-bootstrap-switch data-off-color="danger" data-on-color="success" readonly="@ViewBag.IsReadOnly" disabled />
                                     }
                                     else
                                     {
                                         <input asp-for="ParAdmin" type="checkbox" checked="checked" data-bootstrap-switch data-off-color="danger" data-on-color="success" readonly="@ViewBag.IsReadOnly" />
-                                    }*@
+                                    }
 
-                                    <input asp-for="ParAdmin" class="form-control" readonly="@ViewBag.IsReadOnly">
+                                    @*<input asp-for="ParAdmin" class="form-control" readonly="@ViewBag.IsReadOnly">*@
                                     <span asp-validation-for="ParAdmin" class="text-danger"></span>
                                 </div>
                             </div>

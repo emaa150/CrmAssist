@@ -30,6 +30,6 @@ namespace CMRmvc.Models
 Scaffold-DbContext "Server=appti.assist.sa;Initial Catalog=CRM;User ID=CRMAdmin;Password=`$CRM123;application name=CRM;MultipleActiveResultSets=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Tables  "dbo.Parametros", "dbo.ParametrosTipo", "dbo.MenuItemPadre", "dbo.MenuItemHijo", "dbo.MenuHijoAcciones", "dbo.RolesAcciones", "dbo.PerfilMenuHijo" -Force
                     
     3-Luego de correr el comando ir a la clase CRMContext para:
-        a- quitar la herencia de DbContext
+        a- quitar la herencia de DbContext 
         b- cambiar el connection string en OnConfiguring por: connectionStrings.Value.DefaultConnection
 */
