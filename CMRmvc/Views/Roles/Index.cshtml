@@ -34,73 +34,84 @@
 </div>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                Acciones
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr id="row_@item.Id">
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                <div class="btn-group">
-
-                    <a asp-action="Crud" class="btn btn-info btn-sm" title="Detalles" asp-route-isreadonly="true" asp-route-id="@item.Id" asp-route-myaction="Details">
-                        <i class="nav-icon fas fa-search"></i>
-                    </a>
-
-                    @if (menu != null)
-                    {
-                        foreach (var padre in menu)
+<div class="card">
+    <div class="card-body">
+        <table id="listTable" class="table table-bordered table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsActive)
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr id="row_@item.Id">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @if (item.IsActive)
                         {
-                            foreach (var hijo in padre.MenuItemHijo)
+                            <a>SI</a>
+                        }
+                        else
+                        {
+                            <a>NO</a>
+                        }
+                    </td>
+                    <td>
+                        <div class="btn-group">
+
+                            <a asp-action="Crud" class="btn btn-info btn-sm" title="Detalles" asp-route-isreadonly="true" asp-route-id="@item.Id" asp-route-myaction="Details">
+                                <i class="nav-icon fas fa-search"></i>
+                            </a>
+
+                            @if (menu != null)
                             {
-                                foreach (var acciones in hijo.MenuHijoAcciones)
+                                foreach (var padre in menu)
                                 {
-                                    if (acciones.MhaUrl == "Roles/Edit")
+                                    foreach (var hijo in padre.MenuItemHijo)
                                     {
-                                        <a asp-action="Crud" class="btn btn-warning btn-sm" title="Editar" asp-route-isreadonly="false" asp-route-id="@item.Id" asp-route-myaction="Edit">
-                                            <i class="@acciones.MhaIcono"></i>
-                                        </a>
-                                    }
-                                    if (acciones.MhaUrl == "Roles/Delete")
-                                    {
-                                        <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="ConfirmDelete(@item.Id)">
-                                            <i class="@acciones.MhaIcono"></i>
-                                        </a>
+                                        foreach (var acciones in hijo.MenuHijoAcciones)
+                                        {
+                                            if (acciones.MhaUrl == "Roles/Edit")
+                                            {
+                                                <a asp-action="Crud" class="btn btn-warning btn-sm" title="Editar" asp-route-isreadonly="false" asp-route-id="@item.Id" asp-route-myaction="Edit">
+                                                    <i class="@acciones.MhaIcono"></i>
+                                                </a>
+                                            }
+                                            if (acciones.MhaUrl == "Roles/Delete")
+                                            {
+                                                <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="ConfirmDelete(@item.Id)">
+                                                    <i class="@acciones.MhaIcono"></i>
+                                                </a>
+                                            }
+                                        }
                                     }
                                 }
                             }
-                        }
-                    }
-                </div>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 
 
