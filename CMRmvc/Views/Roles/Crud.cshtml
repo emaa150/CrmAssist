@@ -29,13 +29,10 @@
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal" method="post" asp-action="@ViewBag.Action">
-                        <div class="col-md-4">
+                        <div class="card-body">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                            <div class="form-group">
-                                <label asp-for="Name" class="control-label"></label>
-                                <input asp-for="Name" class="form-control" readonly="@ViewBag.IsReadOnly" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
+                            <div class="form-group row">
                                 <input type="hidden" asp-for="Id" />
                                 <input type="hidden" asp-for="ConcurrencyStamp" />
 
@@ -53,30 +50,35 @@
                                     <input type="hidden" asp-for="RolesAcciones[ra].IdPerfilAccion" />
                                 }
 
+                                <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="Name" class="form-control" readonly="@ViewBag.IsReadOnly">
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+ 
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label" asp-for="IsActive"></label>
+                                <div class="col-sm-10">
+                                    @if (ViewBag.IsReadOnly != null && ViewBag.IsReadOnly)
+                                    {
+                                        <input asp-for="IsActive" type="checkbox" data-bootstrap-switch data-off-color="danger" data-on-color="success" readonly="@ViewBag.IsReadOnly" disabled />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="IsActive" type="checkbox" checked="checked" data-bootstrap-switch data-off-color="danger" data-on-color="success" readonly="@ViewBag.IsReadOnly" />
+                                    }
+                                </div>
                             </div>
 
-                            <div class="form-check">
-                                @if (ViewBag.IsReadOnly != null && ViewBag.IsReadOnly)
-                                {
-                                    <input type="checkbox" style="width:22px; height:19px;" asp-for="IsActive" class="form-check-input" readonly="readonly" disabled />
-                                }
-                                else
-                                {
-                                    <input type="checkbox" style="width:22px; height:19px;" asp-for="IsActive" class="form-check-input" />
-                                }
-                                &nbsp;&nbsp;<label asp-for="IsActive" class="form-check-label"></label>
-                            </div>
-                        </div>
-
-                        <!-- #region CHECKS ROLES -->
-                        @if (Model != null && Model.Menu != null && Model.Menu.Count > 0)
-                        {
-                            <div class="row m-3" id="rowGroupChecks">
-                                @for (int i = 0; i < Model.Menu.Count; i++)
-                                {
+                            <!-- #region CHECKS ROLES -->
+                            @if (Model != null && Model.Menu != null && Model.Menu.Count > 0)
+                            {
+                                <div class="row m-3" id="rowGroupChecks">
+                                    @for (int i = 0; i < Model.Menu.Count; i++)
+                                    {
                                     <div class="col-md-4 border m-2" style="min-width:420px !important;">
-                                        <!--#343A40 color menu  -- otro color #2C3A43-->
-                                        <div class="row" style="background-color:#2C3A43; color:azure; padding-bottom:6px;padding-right:6px; padding-left:6px;padding-top:-8px;">
+                                        <div class="row" style="background-color:#0050cb; color:azure; padding-bottom:6px;padding-right:6px; padding-left:6px;padding-top:-8px;">
                                             <div class="col-md-7 mt-3">
                                                 @{
                                                     string dataClassPadre = "padre " + i;
@@ -85,7 +87,7 @@
                                                 <input type="hidden" asp-for="Menu[i].IdMenuPadre" />
                                                 <input type="hidden" asp-for="Menu[i].Icono" />
                                                 <input type="hidden" asp-for="Menu[i].Nombre" />
-                                                <span><input type="checkbox" asp-for="Menu[i].IsChecked" style="width:18px; height:17px;" id="@idPadre" data-forid="@i" data-id="@Model.Menu[i].IdMenuPadre" class="@dataClassPadre">&nbsp;&nbsp;&nbsp;</span>
+                                                <span><input type="checkbox" data-readonly="@ViewBag.IsReadOnly" asp-for="Menu[i].IsChecked" style="width:18px; height:17px;" id="@idPadre" data-forid="@i" data-id="@Model.Menu[i].IdMenuPadre" class="@dataClassPadre" >&nbsp;&nbsp;&nbsp;</span>
                                                 <span style="font-weight:bold;"><i class="@Model.Menu[i].Icono" style="font-size:large;">&nbsp;&nbsp;&nbsp;</i><span style="font-size:large;max-width:140px !important">@Model.Menu[i].Nombre</span></span>
                                             </div>
                                             <div class="col-md-5 mt-3">
@@ -117,7 +119,7 @@
                                                     <input type="hidden" asp-for="Menu[i].MenuItemHijo[fila].Icono" />
                                                     <input type="hidden" asp-for="Menu[i].MenuItemHijo[fila].Nombr" />
                                                     <span>
-                                                        <input type="checkbox" style="width:16px; height:16px;" asp-for="Menu[i].MenuItemHijo[fila].IsChecked" id="@idFila" data-fila="@fila" data-forid="@i" data-id="@Model.Menu[i].MenuItemHijo[fila].IdMenuHijo" data-idpadre="@Model.Menu[i].IdMenuPadre" class="@dataClassHijo" />
+                                                        <input type="checkbox" data-readonly="@ViewBag.IsReadOnly" style="width:16px; height:16px;" asp-for="Menu[i].MenuItemHijo[fila].IsChecked" id="@idFila" data-fila="@fila" data-forid="@i" data-id="@Model.Menu[i].MenuItemHijo[fila].IdMenuHijo" data-idpadre="@Model.Menu[i].IdMenuPadre" class="@dataClassHijo" />
                                                     </span>&nbsp;&nbsp;&nbsp;
                                                     <span style="width:auto;font-size:small; text-align:left !important">@Model.Menu[i].MenuItemHijo[fila].Nombr</span>
                                                 </div>
@@ -134,7 +136,7 @@
                                                                 <input type="hidden" asp-for="Menu[i].MenuItemHijo[fila].MenuHijoAcciones[u].IdMenuHijoAccion" />
                                                                 <input type="hidden" asp-for="Menu[i].MenuItemHijo[fila].MenuHijoAcciones[u].IdMenuHijo" />
                                                                 <input type="hidden" asp-for="Menu[i].MenuItemHijo[fila].MenuHijoAcciones[u].RolesAcciones" />
-                                                                <input type="checkbox" asp-for="Menu[i].MenuItemHijo[fila].MenuHijoAcciones[u].IsChecked" data-foraccionid="@u" data-fila="@fila" id="@idAccion" data-forid="@i" data-idpadre="@Model.Menu[i].IdMenuPadre" data-idhijo="@Model.Menu[i].MenuItemHijo[fila].IdMenuHijo" class="@dataClassAccion" data-id="@Model.Menu[i].MenuItemHijo[fila].MenuHijoAcciones[u].IdMenuHijoAccion" style="width:19px; height:16px;">
+                                                                <input type="checkbox" data-readonly="@ViewBag.IsReadOnly" asp-for="Menu[i].MenuItemHijo[fila].MenuHijoAcciones[u].IsChecked" data-foraccionid="@u" data-fila="@fila" id="@idAccion" data-forid="@i" data-idpadre="@Model.Menu[i].IdMenuPadre" data-idhijo="@Model.Menu[i].MenuItemHijo[fila].IdMenuHijo" class="@dataClassAccion" data-id="@Model.Menu[i].MenuItemHijo[fila].MenuHijoAcciones[u].IdMenuHijoAccion" style="width:19px; height:16px;">
                                                             </div>
                                                         }
                                                     </div>
@@ -142,19 +144,19 @@
                                             </div>
                                         }
                                     </div>
-                                }
-                            </div>
-                        }
-                        else
-                        {
-                            <h5 class="mt-3 text-danger">No existen ROLES para asignar.</h5>
-                        }
-                        <hr />
-                        <div class="form-group">
-                            <a asp-action="Index" class="btn btn-secondary float-left">Volver</a>
-                            @if (ViewBag.Action != "Details")
+                                    }
+                                </div>
+                            }
+                            else
                             {
-                                <input type="submit" value="Guardar" class="btn btn-primary active float-right mr-2" />
+                                <h5 class="mt-3 text-danger">No existen ROLES para asignar.</h5>
+                            }
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" asp-action="Index" class="btn btn-default">Volver</button>
+                            @if (!ViewBag.IsReadOnly)
+                            {
+                                <button type="submit" value="Guardar" class="btn btn-primary float-right">Guardar</button>
                             }
                         </div>
                     </form>
@@ -214,36 +216,62 @@
     $(document).ready(function () {
 
         $(".padre").click(function () {
-            var forID = $(this).attr("data-forid");
-            const myfind = "[data-forid=" + forID + "]";
-            $(document).find(myfind).prop('checked', this.checked);
+ 
+            const isreadOnly = $(this).attr("data-readonly");
+            if (isreadOnly.toLowerCase() == 'false') {
+                var forID = $(this).attr("data-forid");
+                const myfind = "[data-forid=" + forID + "]";
+                $(document).find(myfind).prop('checked', this.checked);
+            } else {
+                if (this.checked) $(document).find("#"+ $(this).attr("id")).prop('checked', false);
+                else $(document).find("#" + $(this).attr("id")).prop('checked', true);
+            }
 
         });
 
         $(".hijo").click(function () {
 
-            var forID = $(this).attr("data-forid");
-            var myfila = $(this).attr("data-fila");
-            var idPadre = $(this).attr("data-idpadre");
-            const myfindfila = "[data-fila=" + myfila + "]";
-            const myfindpadre = "[data-forid=" + forID + "]";
+            const isreadOnly = $(this).attr("data-readonly");
 
-            $(document).find(myfindfila + myfindpadre).prop('checked', this.checked);
+            if (isreadOnly.toLowerCase() == 'false') {
 
-            ComprobarHijoSelect(myfindpadre, idPadre);
+                var forID = $(this).attr("data-forid");
+                var myfila = $(this).attr("data-fila");
+                var idPadre = $(this).attr("data-idpadre");
+                const myfindfila = "[data-fila=" + myfila + "]";
+                const myfindpadre = "[data-forid=" + forID + "]";
+
+                $(document).find(myfindfila + myfindpadre).prop('checked', this.checked);
+
+                ComprobarHijoSelect(myfindpadre, idPadre);
+
+            } else {
+                if (this.checked) $(document).find("#" + $(this).attr("id")).prop('checked', false);
+                else $(document).find("#" + $(this).attr("id")).prop('checked', true);
+            }
 
         });
 
         $(".accion").click(function () {
-            var forID = $(this).attr("data-forid");
-            var fila = $(this).attr("data-fila");
-            var idPadre = $(this).attr("data-idpadre");
-            var idHijo = $(this).attr("data-idhijo");
 
-            const myfindfila = "[data-fila=" + fila + "]";
-            const myfindpadre = "[data-forid=" + forID + "]";
+            const isreadOnly = $(this).attr("data-readonly");
 
-            ComprobarAccionesSelect(myfindpadre, myfindfila, idHijo, forID, idPadre);
+            if (isreadOnly.toLowerCase() == 'false') {
+
+                var forID = $(this).attr("data-forid");
+                var fila = $(this).attr("data-fila");
+                var idPadre = $(this).attr("data-idpadre");
+                var idHijo = $(this).attr("data-idhijo");
+
+                const myfindfila = "[data-fila=" + fila + "]";
+                const myfindpadre = "[data-forid=" + forID + "]";
+
+                ComprobarAccionesSelect(myfindpadre, myfindfila, idHijo, forID, idPadre);
+
+            } else {
+                if (this.checked) $(document).find("#" + $(this).attr("id")).prop('checked', false);
+                else $(document).find("#" + $(this).attr("id")).prop('checked', true);
+            }
 
         });
 
