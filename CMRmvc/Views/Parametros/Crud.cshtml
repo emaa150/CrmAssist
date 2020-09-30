@@ -94,11 +94,11 @@
                                 <div class="col-sm-10">
                                     @if (ViewBag.IsReadOnly != null && ViewBag.IsReadOnly)
                                     {
-                                        <input asp-for="ParAdmin" type="checkbox" data-bootstrap-switch data-off-color="danger" data-on-color="success" readonly="@ViewBag.IsReadOnly" disabled />
+                                        <input type="checkbox" asp-for="ParAdmin" id="myswitch" class="checkbox_switch" data-on-text="SI" data-off-text="NO" checked data-bootstrap-switch data-off-color="danger" data-on-color="success" disabled>
                                     }
                                     else
                                     {
-                                        <input asp-for="ParAdmin" type="checkbox" checked="checked" data-bootstrap-switch data-off-color="danger" data-on-color="success" readonly="@ViewBag.IsReadOnly" />
+                                        <input type="checkbox" asp-for="ParAdmin" id="myswitch" class="checkbox_switch" data-on-text="SI" data-off-text="NO" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
                                     }
                                     <span asp-validation-for="ParAdmin" class="text-danger"></span>
                                 </div>
@@ -122,5 +122,25 @@
 
     </div>
 </section>
+<script>
+    $(function () {
 
+        $("input[data-bootstrap-switch]").each(function () {
+           $(this).bootstrapSwitch('state', $(this).prop('checked'));
+        });
+
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#myswitch").bootstrapSwitch();
+
+        $('#myswitch').on('switchChange.bootstrapSwitch', function (e, data) {
+            $("#myswitch").prop("checked", data);
+
+        });
+    });
+
+</script>
 

@@ -61,8 +61,8 @@ namespace CMRmvc.Controllers
         public async Task<IActionResult> Create([Bind("UserName,PasswordHash,NombreCompleto,Dni,PhoneNumber,Activo,RoleID,Email,Imagen,Foto")] User user)
         {
             StartMethod();
-            try
-            {
+            try 
+            {              
                 bool modelStateRol = false;
                 if (user.RoleID != 0 ) modelStateRol = true;
                 else{ ModelState.AddModelError("RoleID", "Debe seleccionar un perfil.");}
