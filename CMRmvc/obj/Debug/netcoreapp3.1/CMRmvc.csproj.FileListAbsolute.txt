@@ -870,10 +870,10 @@ E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\staticwebassets\CM
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.dll
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.pdb
 E:\RepositorioAssist\CrmAssist\CMRmvc\obj\Debug\netcoreapp3.1\CMRmvc.genruntimeconfig.cache
-D:\Soft\CRM\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\Magick.NET-Q16-AnyCPU.dll
-D:\Soft\CRM\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\Magick.NET.Core.dll
-D:\Soft\CRM\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\SixLabors.ImageSharp.dll
-D:\Soft\CRM\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\Magick.Native-Q16-x64.dll.so
-D:\Soft\CRM\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\runtimes\osx-x64\native\Magick.Native-Q16-x64.dll.dylib
-D:\Soft\CRM\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\Magick.Native-Q16-x64.dll
-D:\Soft\CRM\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\Magick.Native-Q16-x86.dll
+E:\RepositorioAssist\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\Magick.NET-Q16-AnyCPU.dll
+E:\RepositorioAssist\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\Magick.NET.Core.dll
+E:\RepositorioAssist\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\SixLabors.ImageSharp.dll
+E:\RepositorioAssist\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\Magick.Native-Q16-x64.dll.so
+E:\RepositorioAssist\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\runtimes\osx-x64\native\Magick.Native-Q16-x64.dll.dylib
+E:\RepositorioAssist\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\Magick.Native-Q16-x64.dll
+E:\RepositorioAssist\CrmAssist\CMRmvc\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\Magick.Native-Q16-x86.dll
