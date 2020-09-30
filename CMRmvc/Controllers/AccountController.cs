@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -69,7 +68,17 @@ namespace CMRmvc.Controllers
                         ViewData["Menu"] = menu;
                         ViewData["UserName"] = usu.UserName;
                         ViewData["Perfil"] = usu.Role.NormalizedName;
-
+                        if (usu.Imagen != null)
+                        {
+                            //var memory = new MemoryStream();
+                            //using var image = Image.Load(Convert.FromBase64String(usu.Imagen));
+                            //image.Mutate(x => x.Resize(512,512));
+                            //image.Save(memory, new JpegEncoder());
+                            //_log.LogInformation("Tamaño a guardar: " + memory.Length);
+                            //var foto = Convert.ToBase64String(memory.ToArray());
+                            HttpContext.Session.Set("FotoPerfil", Convert.FromBase64String(usu.Imagen));
+                            ViewData["FotoPerfil"] = Convert.FromBase64String(usu.Imagen);
+                        }
                         _log.LogInformation("Actualizando Ultimo Login");
                         var uslog = _context.Users.FirstOrDefault(x => x.UserName== user.UserName);
                         uslog.FecUltIngreso = DateTime.Now;

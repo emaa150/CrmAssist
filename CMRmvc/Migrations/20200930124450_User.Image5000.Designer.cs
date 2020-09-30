@@ -4,14 +4,16 @@ using CMRmvc.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CMRmvc.Migrations
 {
     [DbContext(typeof(CRMContext))]
-    partial class CRMmvcContextModelSnapshot : ModelSnapshot
+    [Migration("20200930124450_User.Image5000")]
+    partial class UserImage5000
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,13 +1,16 @@
 ﻿using CMRmvc.Models;
+using ImageMagick;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Logging;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -52,9 +55,10 @@ namespace CMRmvc.Controllers
                 EndMethod();
             }
         }
+       
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("UserName,PasswordHash,NombreCompleto,Dni,PhoneNumber,Activo,RoleID,Email,Imagen")] User user)
+        public async Task<IActionResult> Create([Bind("UserName,PasswordHash,NombreCompleto,Dni,PhoneNumber,Activo,RoleID,Email,Imagen,Foto")] User user)
         {
             StartMethod();
             try
@@ -62,13 +66,34 @@ namespace CMRmvc.Controllers
                 bool modelStateRol = false;
                 if (user.RoleID != 0 ) modelStateRol = true;
                 else{ ModelState.AddModelError("RoleID", "Debe seleccionar un perfil.");}
+                _log.LogInformation("Verificando imagen");
+                if (user.Foto == null)
+                { _log.LogInformation("no se cargo imagen para el usuario: " + user.UserName); }
+                else
+                {
+                    if (user.Foto.Length < 4200000)
+                    {
+                        _log.LogInformation("Resize Imagen de usuario" + user.UserName);
+                        var memory = new MemoryStream();
+                        using var image = Image.Load(user.Foto.OpenReadStream());
+                        image.Mutate(x => x.Resize(80, 80));
+                        image.Save(memory, new JpegEncoder());
+                        _log.LogInformation("Tamaño a guardar: "+memory.Length);
+                        user.Imagen = Convert.ToBase64String(memory.ToArray());
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Foto", "Debe cargar una imagen max 4mb.");
+                        modelStateRol = false;
+                    }
 
+                }
 
                 if (ModelState.IsValid && modelStateRol)
                 {
                     user.FecIns = DateTime.Now;
                     user.UsrIns = User.Identity.Name;
-
+                                        
                     _log.LogInformation("Creando User");
 
                     IdentityResult rtaCreateUser = await _userManager.CreateAsync(user, user.PasswordHash);
@@ -114,7 +139,7 @@ namespace CMRmvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([Bind("Id,UserName,PasswordHash,NombreCompleto,Dni,PhoneNumber,Activo,RoleID,Email")] User user)
+        public IActionResult Edit([Bind("Id,UserName,PasswordHash,NombreCompleto,Dni,PhoneNumber,Activo,RoleID,Email,Foto")] User user)
         {
             StartMethod();
             try
@@ -122,6 +147,28 @@ namespace CMRmvc.Controllers
                 bool modelStateRol = false;
                 if (user.RoleID != 0) modelStateRol = true;
                 else { ModelState.AddModelError("RoleID", "Debe seleccionar un perfil."); }
+
+                if (user.Foto == null)
+                { _log.LogInformation("no se cargo imagen para el usuario: " + user.UserName); }
+                else
+                {
+                    if (user.Foto.Length < 4200000)
+                    {
+                        _log.LogInformation("Resize Imagen de usuario" + user.UserName);
+                        var memory = new MemoryStream();
+                        using var image = Image.Load(user.Foto.OpenReadStream());
+                        image.Mutate(x => x.Resize(80, 80));
+                        image.Save(memory, new JpegEncoder());
+                        _log.LogInformation("Tamaño a guardar: " + memory.Length);
+                        user.Imagen = Convert.ToBase64String(memory.ToArray());
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Foto", "Debe cargar una imagen max 4mb.");
+                        modelStateRol = false;
+                    }
+
+                }
 
                 if (ModelState.IsValid && modelStateRol)
                 {
@@ -144,6 +191,7 @@ namespace CMRmvc.Controllers
                         userDB.Email = user.Email;
                         userDB.FecUpd = DateTime.Now;
                         userDB.UsrUpd = User.Identity.Name;
+                        userDB.Imagen = user.Imagen;
                         _log.LogInformation("Guardando user editado: " + userDB.ToString());
                         _context.Update(userDB);
                         if (_context.SaveChanges() > 0)
