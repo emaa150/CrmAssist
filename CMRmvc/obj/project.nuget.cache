@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "SEc/CdcZ5A1mmZLO/5Md2K6vbI1h4i649dG7kiM4Nswlm2U1wOiCGXzzGuwC169ChpO8DTv+R4QicFvboOSpvg==",
+  "dgSpecHash": "+5eCICLqYJtcaIA6Qd1yFwXYqM55Zv/O7MJDxlAr64ckrzk6Vycg8aodJM9e6z6XVfRDzVIVgeS4UI0QRyD1kA==",
   "success": true,
   "projectFilePath": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\emaa_\\.nuget\\packages\\magick.net-q16-anycpu\\7.22.0\\magick.net-q16-anycpu.7.22.0.nupkg.sha512",
+    "C:\\Users\\emaa_\\.nuget\\packages\\magick.net.core\\5.0.0\\magick.net.core.5.0.0.nupkg.sha512",
     "C:\\Users\\emaa_\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.8\\microsoft.aspnetcore.cryptography.internal.3.1.8.nupkg.sha512",
     "C:\\Users\\emaa_\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.8\\microsoft.aspnetcore.cryptography.keyderivation.3.1.8.nupkg.sha512",
     "C:\\Users\\emaa_\\.nuget\\packages\\microsoft.aspnetcore.dataprotection\\2.2.0\\microsoft.aspnetcore.dataprotection.2.2.0.nupkg.sha512",
@@ -110,6 +112,7 @@
     "C:\\Users\\emaa_\\.nuget\\packages\\serilog.sinks.console\\3.1.1\\serilog.sinks.console.3.1.1.nupkg.sha512",
     "C:\\Users\\emaa_\\.nuget\\packages\\serilog.sinks.debug\\1.0.1\\serilog.sinks.debug.1.0.1.nupkg.sha512",
     "C:\\Users\\emaa_\\.nuget\\packages\\serilog.sinks.file\\4.1.0\\serilog.sinks.file.4.1.0.nupkg.sha512",
+    "C:\\Users\\emaa_\\.nuget\\packages\\sixlabors.imagesharp\\1.0.1\\sixlabors.imagesharp.1.0.1.nupkg.sha512",
     "C:\\Users\\emaa_\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.0.2\\sqlitepclraw.bundle_e_sqlite3.2.0.2.nupkg.sha512",
     "C:\\Users\\emaa_\\.nuget\\packages\\sqlitepclraw.core\\2.0.2\\sqlitepclraw.core.2.0.2.nupkg.sha512",
     "C:\\Users\\emaa_\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.0.2\\sqlitepclraw.lib.e_sqlite3.2.0.2.nupkg.sha512",
