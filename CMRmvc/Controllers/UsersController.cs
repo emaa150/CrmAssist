@@ -161,6 +161,18 @@ namespace CMRmvc.Controllers
                         image.Save(memory, new JpegEncoder());
                         _log.LogInformation("Tamaño a guardar: " + memory.Length);
                         user.Imagen = Convert.ToBase64String(memory.ToArray());
+
+                        if (user.Imagen != null)
+                        {
+                            //var memory = new MemoryStream();
+                            //using var image = Image.Load(Convert.FromBase64String(usu.Imagen));
+                            //image.Mutate(x => x.Resize(512,512));
+                            //image.Save(memory, new JpegEncoder());
+                            //_log.LogInformation("Tamaño a guardar: " + memory.Length);
+                            //var foto = Convert.ToBase64String(memory.ToArray());
+                            HttpContext.Session.Set("FotoPerfil", Convert.FromBase64String(user.Imagen));
+                            ViewData["FotoPerfil"] = Convert.FromBase64String(user.Imagen);
+                        }
                     }
                     else
                     {

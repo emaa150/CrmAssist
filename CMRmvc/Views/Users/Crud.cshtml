@@ -38,7 +38,7 @@
                             </div>
                             <div class="form-group row">
                                 <label asp-for="PasswordHash" class="col-sm-2 col-form-label"></label>
-                                <div class="col-sm-10">
+                                <div class="input-group col-sm-10">
                                     @if (ViewBag.Action != null && ViewBag.Action == "Edit" || ViewBag.Action == "Details")
                                     {
                                         <input asp-for="PasswordHash" id="passwordInput" type="password" value="1234" class="form-control" readonly="readonly" />
@@ -50,9 +50,9 @@
                                     <span asp-validation-for="PasswordHash" class="text-danger"></span>
                                     @if (ViewBag.Action == "Edit")
                                     {
-                                        @*<div class="input-group-append">*@
-                                        <button onclick="ResetPassword()" type="button" title="Reset Contraseña" class="btn btn-default mt-3"><i class="fas fa-key"></i></button>
-                                        @*</div>*@
+                                        <div class="input-group-append">
+                                            <button onclick="ResetPassword()" type="button" title="Resetear Contraseña" class="btn btn-default"><i class="fas fa-key"></i></button>
+                                        </div>
                                     }
                                 </div>
                             </div>
@@ -122,7 +122,6 @@
                                         <input asp-for="Foto" type="file" class="custom-file-input" id="customFile">
                                         <label class="custom-file-label" for="customFile">Cargar foto...(max 4mb.)</label>
                                         <span asp-validation-for="Foto" class="text-danger"></span>
-
                                     </div>
                                 </div>                               
                             </div>
