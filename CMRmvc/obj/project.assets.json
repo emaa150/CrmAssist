@@ -2,6 +2,45 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
+      "Magick.NET-Q16-AnyCPU/7.22.0": {
+        "type": "package",
+        "dependencies": {
+          "Magick.NET.Core": "5.0.0"
+        },
+        "compile": {
+          "lib/netstandard20/Magick.NET-Q16-AnyCPU.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard20/Magick.NET-Q16-AnyCPU.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux-x64/native/Magick.Native-Q16-x64.dll.so": {
+            "assetType": "native",
+            "rid": "linux-x64"
+          },
+          "runtimes/osx-x64/native/Magick.Native-Q16-x64.dll.dylib": {
+            "assetType": "native",
+            "rid": "osx-x64"
+          },
+          "runtimes/win-x64/native/Magick.Native-Q16-x64.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/Magick.Native-Q16-x86.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          }
+        }
+      },
+      "Magick.NET.Core/5.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard20/Magick.NET.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard20/Magick.NET.Core.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Cryptography.Internal/3.1.8": {
         "type": "package",
         "compile": {
@@ -1554,6 +1593,15 @@
         },
         "runtime": {
           "lib/netstandard2.0/Serilog.Sinks.File.dll": {}
+        }
+      },
+      "SixLabors.ImageSharp/1.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/SixLabors.ImageSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/SixLabors.ImageSharp.dll": {}
         }
       },
       "SQLitePCLRaw.bundle_e_sqlite3/2.0.2": {
@@ -3223,6 +3271,52 @@
     }
   },
   "libraries": {
+    "Magick.NET-Q16-AnyCPU/7.22.0": {
+      "sha512": "5H6IGEDWUT9mJIeA08bHywVIAVRwKwsbF8PQfjznC/Mzz3UspVtEG7zquXkM2oL2C/ra3R2pbmFJUn0mO7Fidg==",
+      "type": "package",
+      "path": "magick.net-q16-anycpu/7.22.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Copyright.txt",
+        "Magick.NET.icon.png",
+        "lib/net20/Magick.NET-Q16-AnyCPU.dll",
+        "lib/net20/Magick.NET-Q16-AnyCPU.xml",
+        "lib/net40/Magick.NET-Q16-AnyCPU.dll",
+        "lib/net40/Magick.NET-Q16-AnyCPU.xml",
+        "lib/netstandard13/Magick.NET-Q16-AnyCPU.dll",
+        "lib/netstandard13/Magick.NET-Q16-AnyCPU.xml",
+        "lib/netstandard20/Magick.NET-Q16-AnyCPU.dll",
+        "lib/netstandard20/Magick.NET-Q16-AnyCPU.xml",
+        "magick.net-q16-anycpu.7.22.0.nupkg.sha512",
+        "magick.net-q16-anycpu.nuspec",
+        "runtimes/linux-x64/native/Magick.Native-Q16-x64.dll.so",
+        "runtimes/osx-x64/native/Magick.Native-Q16-x64.dll.dylib",
+        "runtimes/win-x64/native/Magick.Native-Q16-x64.dll",
+        "runtimes/win-x86/native/Magick.Native-Q16-x86.dll"
+      ]
+    },
+    "Magick.NET.Core/5.0.0": {
+      "sha512": "w43b+Wk1Il8+Xe1//SRZMsGgXJRzVB0ZwcbQimfx4bUzzBhrHHJ45dgYg1izWxaWV34sJp6N26j0viwwCQsGtA==",
+      "type": "package",
+      "path": "magick.net.core/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Copyright.txt",
+        "Magick.NET.icon.png",
+        "lib/net20/Magick.NET.Core.dll",
+        "lib/net20/Magick.NET.Core.xml",
+        "lib/net40/Magick.NET.Core.dll",
+        "lib/net40/Magick.NET.Core.xml",
+        "lib/netstandard13/Magick.NET.Core.dll",
+        "lib/netstandard13/Magick.NET.Core.xml",
+        "lib/netstandard20/Magick.NET.Core.dll",
+        "lib/netstandard20/Magick.NET.Core.xml",
+        "magick.net.core.5.0.0.nupkg.sha512",
+        "magick.net.core.nuspec"
+      ]
+    },
     "Microsoft.AspNetCore.Cryptography.Internal/3.1.8": {
       "sha512": "CV5LFXiGRbegNRK6WL49uk/lBQHddetnc1Y7KvnuA5gQb4GV0r3rZ1drcJqWV5zsd7oytfp05sKI1NPxY+cxbQ==",
       "type": "package",
@@ -5550,6 +5644,30 @@
         "lib/netstandard2.0/Serilog.Sinks.File.xml",
         "serilog.sinks.file.4.1.0.nupkg.sha512",
         "serilog.sinks.file.nuspec"
+      ]
+    },
+    "SixLabors.ImageSharp/1.0.1": {
+      "sha512": "DjLoFNdUfsDP7RhPpr5hcUhl1XiejqBML9uDWuOUwCkc0Y+sG9IJLLbqSOi9XeoWqPviwdcDm1F8nKdF0qTYIQ==",
+      "type": "package",
+      "path": "sixlabors.imagesharp/1.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net472/SixLabors.ImageSharp.dll",
+        "lib/net472/SixLabors.ImageSharp.xml",
+        "lib/netcoreapp2.1/SixLabors.ImageSharp.dll",
+        "lib/netcoreapp2.1/SixLabors.ImageSharp.xml",
+        "lib/netcoreapp3.1/SixLabors.ImageSharp.dll",
+        "lib/netcoreapp3.1/SixLabors.ImageSharp.xml",
+        "lib/netstandard1.3/SixLabors.ImageSharp.dll",
+        "lib/netstandard1.3/SixLabors.ImageSharp.xml",
+        "lib/netstandard2.0/SixLabors.ImageSharp.dll",
+        "lib/netstandard2.0/SixLabors.ImageSharp.xml",
+        "lib/netstandard2.1/SixLabors.ImageSharp.dll",
+        "lib/netstandard2.1/SixLabors.ImageSharp.xml",
+        "sixlabors.imagesharp.1.0.1.nupkg.sha512",
+        "sixlabors.imagesharp.128.png",
+        "sixlabors.imagesharp.nuspec"
       ]
     },
     "SQLitePCLRaw.bundle_e_sqlite3/2.0.2": {
@@ -9960,6 +10078,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "Magick.NET-Q16-AnyCPU >= 7.22.0",
       "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore >= 3.1.7",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 3.1.7",
       "Microsoft.AspNetCore.Identity.UI >= 3.1.7",
@@ -9970,27 +10089,28 @@
       "Microsoft.Extensions.Identity.Stores >= 3.1.8",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.4",
       "Serilog.AspNetCore >= 3.4.0",
+      "SixLabors.ImageSharp >= 1.0.1",
       "System.Runtime.Caching >= 4.7.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\emaa_\\.nuget\\packages\\": {},
+    "C:\\Users\\juamp\\.nuget\\packages\\": {},
     "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
+      "projectUniqueName": "D:\\Soft\\CRM\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
       "projectName": "CMRmvc",
-      "projectPath": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
-      "packagesPath": "C:\\Users\\emaa_\\.nuget\\packages\\",
-      "outputPath": "E:\\RepositorioAssist\\CrmAssist\\CMRmvc\\obj\\",
+      "projectPath": "D:\\Soft\\CRM\\CrmAssist\\CMRmvc\\CMRmvc.csproj",
+      "packagesPath": "C:\\Users\\juamp\\.nuget\\packages\\",
+      "outputPath": "D:\\Soft\\CRM\\CrmAssist\\CMRmvc\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\emaa_\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\juamp\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -10015,6 +10135,10 @@
     "frameworks": {
       "netcoreapp3.1": {
         "dependencies": {
+          "Magick.NET-Q16-AnyCPU": {
+            "target": "Package",
+            "version": "[7.22.0, )"
+          },
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
             "target": "Package",
             "version": "[3.1.7, )"
@@ -10055,6 +10179,10 @@
             "target": "Package",
             "version": "[3.4.0, )"
           },
+          "SixLabors.ImageSharp": {
+            "target": "Package",
+            "version": "[1.0.1, )"
+          },
           "System.Runtime.Caching": {
             "target": "Package",
             "version": "[4.7.0, )"
@@ -10078,7 +10206,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
