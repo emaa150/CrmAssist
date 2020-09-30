@@ -17,10 +17,21 @@
 @*<script src="~/plugins/bs-stepper/js/bs-stepper.min.js"></script>*@
 <!-- dropzonejs -->
 @*<script src="~/plugins/dropzone/min/dropzone.min.js"></script>*@
+<!-- DataTables -->
+<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+
 <script>
 
     $(document).ready(function () {
         $('#listTable').DataTable({
+            //"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+            //"autoWidth": true,
+            //"responsive": true,
             "pagingType": "full_numbers",
             "language": {
                 "search": "Buscar",
@@ -37,11 +48,10 @@
                 },
             }
         });
+        $('#listTable_filter').css('float', 'right');
+        $('#listTable_paginate').css('float', 'right');
+        //listTable_length
+
     });
 </script>
 
-<!-- DataTables -->
-<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
