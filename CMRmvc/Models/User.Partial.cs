@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMRmvc.Models
 {
@@ -37,7 +38,7 @@ namespace CMRmvc.Models
         [DisplayName("Dni")]
         [Required(ErrorMessage = "Debe completar el documento.")]
         public string Dni { get; set; }
-        [StringLength(500)]
+        [StringLength(5000)]
         [DisplayName("Foto")]
         public string Imagen { get; set; }
         [DisplayName("Activo")]
@@ -60,7 +61,8 @@ namespace CMRmvc.Models
         public long RoleID { get; set; }
         [DisplayName("Perfil")]
         public virtual Role Role { get; set; }
-
+        [NotMapped]
+        public IFormFile Foto { get; set; }
         public override string ToString()
         {
             return string.Format("Id: {0}, UserName: {1},Email: {2},PhoneNumber: {3},NombreCompleto: {4},Dni: {5},Activo: {6}"

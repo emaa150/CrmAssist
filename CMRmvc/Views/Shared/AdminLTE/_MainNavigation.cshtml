@@ -5,6 +5,7 @@
     var menu = (List<MenuItemPadre>)ViewData["Menu"];
     var userName = (string)ViewData["UserName"];
     var Perfil = (string)ViewData["Perfil"];
+    var FotoPerfil = (byte[])ViewData["FotoPerfil"];
 }
 
 
@@ -24,7 +25,12 @@
         {
             <div class="user-panel mt-3 pb-3 mb-3 d-flex ">
                 <div class="image">
-                    <img src="~/img/avatar.png"  style="background-color:white;"class="img-circle elevation-2" alt="Bienvenido">
+                    @if (FotoPerfil != null)
+                    {
+                        <img src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(FotoPerfil))" class="img-circle elevation-2" style="width:40px; height:40px;" alt="Bienvenido"/>
+                    }
+                    else
+                    { <img src="~/img/avatar.png" style="background-color:white;" class="img-circle elevation-2" alt="Bienvenido">}
                 </div>
                 <div class="info">
                     <a id="manage" style="color:lightgray; font-size:medium;" class="d-block">
