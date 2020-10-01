@@ -14,6 +14,7 @@ namespace CMRmvc.Controllers
             ViewBag.Action = myaction;
 
 
+
             return View();
         }
     }
