@@ -24,7 +24,7 @@
                 if (ac != null)
                 {
 <div class="p-2">
-    <a asp-route-myaction="Create" asp-action="Crud" asp-route-isreadonly="false" class="btn btn-primary"><i class="@ac.MhaIcono"></i>&nbsp;&nbsp;@ac.MhaTexto</a>
+    <a asp-route-myaction="Create" asp-action="Crud" asp-route-isreadonly="false" class="btn btn-primary btn-sm btn-lg"><i class="@ac.MhaIcono"></i>&nbsp;&nbsp;@ac.MhaTexto</a>
 </div>
                 }
             }
@@ -35,85 +35,87 @@
 
 <div class="card">
     <div class="card-body">
-        <table id="listTable" class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.ParNombre)</th>
-                    <th>@Html.DisplayNameFor(model => model.ParClave)</th>
-                    <th>@Html.DisplayNameFor(model => model.ParValor)</th>
-                    <th>@Html.DisplayNameFor(model => model.ParTipo)</th>
-                    <th>@Html.DisplayNameFor(model => model.IdParametroTipo)</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr id="row_@item.IdParametro">
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ParNombre)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ParClave)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ParValor)
-                        </td>
-                        <td>
-                            @if (item.ParTipo == 1)
-                            {
-                                <a>DATE</a>
-                            }
-                            else  if(item.ParTipo == 2)
-                            {
-                                <a>INT</a>
-                            }
-                            else if(item.ParTipo == 3)
-                            {
-                                <a>STRING</a>
-                            }
-                        </td>
-
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdParametroTipoNavigation.TipDescripcion)
-                        </td>
-                        <td>
-                            <div class="btn-group">
-
-                                <a asp-action="Crud" class="btn btn-info btn-sm" title="Detalles" asp-route-isreadonly="true" asp-route-id="@item.IdParametro" asp-route-myaction="Details">
-                                    <i class="nav-icon fas fa-search"></i>
-                                </a>
-
-                                @if (menu != null)
+        <div class="table-responsive">
+            <table id="listTable" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.ParNombre)</th>
+                        <th>@Html.DisplayNameFor(model => model.ParClave)</th>
+                        <th>@Html.DisplayNameFor(model => model.ParValor)</th>
+                        <th>@Html.DisplayNameFor(model => model.ParTipo)</th>
+                        <th>@Html.DisplayNameFor(model => model.IdParametroTipo)</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="row_@item.IdParametro">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ParNombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ParClave)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ParValor)
+                            </td>
+                            <td>
+                                @if (item.ParTipo == 1)
                                 {
-                                    foreach (var padre in menu)
+                                    <a>DATE</a>
+                                }
+                                else if (item.ParTipo == 2)
+                                {
+                                    <a>INT</a>
+                                }
+                                else if (item.ParTipo == 3)
+                                {
+                                    <a>STRING</a>
+                                }
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdParametroTipoNavigation.TipDescripcion)
+                            </td>
+                            <td>
+                                <div class="btn-group">
+
+                                    <a asp-action="Crud" class="btn btn-info btn-sm" title="Detalles" asp-route-isreadonly="true" asp-route-id="@item.IdParametro" asp-route-myaction="Details">
+                                        <i class="nav-icon fas fa-search"></i>
+                                    </a>
+
+                                    @if (menu != null)
                                     {
-                                        foreach (var hijo in padre.MenuItemHijo)
+                                        foreach (var padre in menu)
                                         {
-                                            foreach (var acciones in hijo.MenuHijoAcciones)
+                                            foreach (var hijo in padre.MenuItemHijo)
                                             {
-                                                if (acciones.MhaUrl == "Parametros/Edit")
+                                                foreach (var acciones in hijo.MenuHijoAcciones)
                                                 {
-                                                    <a asp-action="Crud" class="btn btn-warning btn-sm" title="Editar" asp-route-isreadonly="false" asp-route-id="@item.IdParametro" asp-route-myaction="Edit">
-                                                        <i class="@acciones.MhaIcono"></i>
-                                                    </a>
-                                                }
-                                                if (acciones.MhaUrl == "Parametros/Delete")
-                                                {
-                                                    <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="ConfirmDelete(@item.IdParametro)">
-                                                        <i class="@acciones.MhaIcono"></i>
-                                                    </a>
+                                                    if (acciones.MhaUrl == "Parametros/Edit")
+                                                    {
+                                                        <a asp-action="Crud" class="btn btn-warning btn-sm" title="Editar" asp-route-isreadonly="false" asp-route-id="@item.IdParametro" asp-route-myaction="Edit">
+                                                            <i class="@acciones.MhaIcono"></i>
+                                                        </a>
+                                                    }
+                                                    if (acciones.MhaUrl == "Parametros/Delete")
+                                                    {
+                                                        <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="ConfirmDelete(@item.IdParametro)">
+                                                            <i class="@acciones.MhaIcono"></i>
+                                                        </a>
+                                                    }
                                                 }
                                             }
                                         }
                                     }
-                                }
-                            </div>
-                        </td>
-                    </tr>
-                }
+                                </div>
+                            </td>
+                        </tr>
+                    }
 
-        </table>
+            </table>
+        </div>
     </div>
 </div>
 <div class="modal" id="mymodal" tabindex="-1" role="dialog">

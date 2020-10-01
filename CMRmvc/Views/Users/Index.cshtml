@@ -24,7 +24,7 @@
                     if (ac != null)
                     {
     <div class="p-2">
-        <a asp-route-myaction="Create" asp-action="Crud" asp-route-isreadonly="false" class="btn btn-primary"><i class="@ac.MhaIcono"></i>&nbsp;&nbsp;@ac.MhaTexto</a>
+        <a asp-route-myaction="Create" asp-action="Crud" asp-route-isreadonly="false" class="btn btn-primary btn-sm btn-lg"><i class="@ac.MhaIcono"></i>&nbsp;&nbsp;@ac.MhaTexto</a>
     </div>
                     }
                 }
@@ -35,7 +35,8 @@
 
         <div class="card">
             <div class="card-body">
-                <table id="listTable" class="table table-bordered table-hover" style="width:100%">
+                <div class="table-responsive">
+                    <table id="listTable" class="table table-bordered table-hover" style="width:100%">
                         <thead>
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.UserName)</th>
@@ -122,6 +123,7 @@
                             }
 
                     </table>
+                </div>
 
             </div>
         </div>

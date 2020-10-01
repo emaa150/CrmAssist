@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Crud";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Crud";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+
+    string title = "Cliente";
+    string ico = "fas fa-align-justify";
+    if (ViewBag.Action == "Edit") { title = "Modificar Cliente"; ico = "far fa-edit"; }
+    else if (ViewBag.Action == "Create") { title = "Alta Cliente"; ico = "fas fa-plus-circle"; }
+    else if (ViewBag.Action == "Details") { title = "Detalles Cliente"; ico = "fas fa-info-circle"; }
+}
+<br />
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            <i class="@ico"></i> @title
+                        </h4>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal" method="post" asp-action="@ViewBag.Action">
+                        <div class="card-body">
+                        
+                            
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="submit" asp-action="Index" class="btn btn-default">Volver</button>
+                            @if (!ViewBag.IsReadOnly)
+                            {
+                                <button type="submit" value="Guardar" class="btn btn-primary float-right">Guardar</button>
+                            }
+                        </div>
+
+                        <!-- /.card-footer -->
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
