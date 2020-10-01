@@ -1,4 +1,5 @@
 ﻿using CMRmvc.Models;
+using CMRmvc.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

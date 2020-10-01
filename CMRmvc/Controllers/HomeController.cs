@@ -1,4 +1,5 @@
 ﻿using CMRmvc.Models;
+using CMRmvc.ViewModel;
 using CRMmvc.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

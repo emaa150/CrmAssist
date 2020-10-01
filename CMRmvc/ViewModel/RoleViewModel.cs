@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using CMRmvc.Models;
+using System.Collections.Generic;
 
-namespace CMRmvc.Models
+namespace CMRmvc.ViewModel
 {
     public class RoleViewModel : Role
     {

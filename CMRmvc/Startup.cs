@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using CRMmvc.Helpers;
 using CMRmvc.Models;
 using Microsoft.AspNetCore.Http;
+using AutoMapper;
 
 namespace CMRmvc
 {
@@ -30,6 +31,7 @@ namespace CMRmvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddSession(options =>
             {

@@ -1,4 +1,7 @@
-﻿using CMRmvc.Models;
+﻿using AutoMapper;
+using CMRmvc.AutoMapper;
+using CMRmvc.Models;
+using CMRmvc.ViewModel;
 using CRMmvc.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,14 +21,15 @@ namespace CMRmvc.Controllers
         private readonly List<ParametrosTipo> _listParamTipo;
         private readonly ILogger<ParametrosController> _log;
         IList<SelectListItem> lstParametroTipoDato;
-        public ParametrosController(CRMContext context, ILogger<ParametrosController> log) :base(log)
+        private readonly IMapper _mapper;
+
+        public ParametrosController(CRMContext context, ILogger<ParametrosController> log, IMapper mapper) :base(log)
         {
             _context = context;
             _log = log;
             _listParamTipo = _context.ParametrosTipo.ToList();
-            //_listParamTipo.Insert(0, new ParametrosTipo { IdParametroTipo=0, TipNombre= "-- SELECCIONAR --" });
+            _mapper = mapper;
             lstParametroTipoDato = Enum.GetValues(typeof(Enums.ParameterType)).Cast<Enums.ParameterType>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
-            //lstParametroTipoDato.Insert(0, new SelectListItem { Value="0",Text= "-- SELECCIONAR --" });
 
         }
 
@@ -35,9 +39,9 @@ namespace CMRmvc.Controllers
             try
             {
                 _log.LogInformation("Cargando parametros...");
-                List<Parametros> param = _context.Parametros.Include("IdParametroTipoNavigation")
-                        .Where(x => x.FecDel == null && x.UsrDel == null).ToList();;
-                return View(param.ToList());
+                var var = _mapper.Map<IEnumerable<ParametrosViewModel>>(_context.Parametros.Include("IdParametroTipoNavigation")
+                        .Where(x => x.FecDel == null && x.UsrDel == null).ToList());
+                return View(var);
             }
             catch (Exception ex)
             {
@@ -53,7 +57,7 @@ namespace CMRmvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin")] Parametros parametros)
+        public IActionResult Create([Bind("IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin")] ParametrosViewModel parametros)
         {
             StartMethod();
             try
@@ -83,7 +87,7 @@ namespace CMRmvc.Controllers
                     _log.LogInformation("Creando parametro: "+parametros.ParClave);
                     parametros.FecIns = DateTime.Now;
                     parametros.UsrIns = User.Identity.Name;
-                    _context.Add(parametros);
+                    _context.Add(_mapper.Map<Parametros>(parametros));
                     _log.LogInformation("Guardando en db...");
                     if (_context.SaveChanges() > 0)
                     { _log.LogInformation("GUARDADO: "+ parametros.ParClave); }
@@ -117,7 +121,7 @@ namespace CMRmvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  IActionResult Edit([Bind("IdParametro,IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin")] Parametros parametros)
+        public  IActionResult Edit([Bind("IdParametro,IdParametroTipo,ParClave,ParNombre,ParValor,ParTipo,ParAdmin")] ParametrosViewModel parametros)
         {
             StartMethod();
             try
@@ -249,7 +253,7 @@ namespace CMRmvc.Controllers
             {
                 EndMethod();                
             }
-            return View(param);
+            return View(_mapper.Map<ParametrosViewModel>(param));
         }
     }
 }
