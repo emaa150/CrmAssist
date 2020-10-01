@@ -15,18 +15,23 @@ namespace CMRmvc.Models
         {
         }
 
+        public virtual DbSet<Clientes> Clientes { get; set; }
+        public virtual DbSet<DocumentoTipo> DocumentoTipo { get; set; }
+        public virtual DbSet<Localidades> Localidades { get; set; }
         public virtual DbSet<MenuHijoAcciones> MenuHijoAcciones { get; set; }
         public virtual DbSet<MenuItemHijo> MenuItemHijo { get; set; }
         public virtual DbSet<MenuItemPadre> MenuItemPadre { get; set; }
         public virtual DbSet<Parametros> Parametros { get; set; }
         public virtual DbSet<ParametrosTipo> ParametrosTipo { get; set; }
         public virtual DbSet<PerfilMenuHijo> PerfilMenuHijo { get; set; }
+        public virtual DbSet<Provincias> Provincias { get; set; }
         public virtual DbSet<RolesAcciones> RolesAcciones { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(connectionStrings.Value.DefaultConnection);
             }
         }
@@ -34,6 +39,123 @@ namespace CMRmvc.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Clientes>(entity =>
+            {
+                entity.HasKey(e => e.IdCliente)
+                    .HasName("PK__Clientes__885457EE8F021A97");
+
+                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
+
+                entity.Property(e => e.Apellido)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Clave)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Direccion)
+                    .HasMaxLength(220)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FecDel)
+                    .HasColumnName("FecDEL")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.FecIns)
+                    .HasColumnName("FecINS")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.FecUltimoLogin).HasColumnType("datetime");
+
+                entity.Property(e => e.FecUpd)
+                    .HasColumnName("FecUPD")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IdDocumentoTipo).HasColumnName("idDocumentoTipo");
+
+                entity.Property(e => e.Mail)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NombreUsuario)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NroDocumento)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Telefono)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UsrDel)
+                    .HasColumnName("UsrDEL")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UsrIns)
+                    .HasColumnName("UsrINS")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UsrUpd)
+                    .HasColumnName("UsrUPD")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.IdDocumentoTipoNavigation)
+                    .WithMany(p => p.Clientes)
+                    .HasForeignKey(d => d.IdDocumentoTipo)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Clientes_DocumentoTipo_FK");
+
+                entity.HasOne(d => d.IdLocalidadNavigation)
+                    .WithMany(p => p.Clientes)
+                    .HasForeignKey(d => d.IdLocalidad)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Cliente_Localidades_FK");
+            });
+
+            modelBuilder.Entity<DocumentoTipo>(entity =>
+            {
+                entity.HasKey(e => e.IdDocTipo)
+                    .HasName("PK__Document__CF0ADB7CDF482392");
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Localidades>(entity =>
+            {
+                entity.HasKey(e => e.IdLocalidad)
+                    .HasName("PK__Localida__274326129999B75C");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.IdProvinciaNavigation)
+                    .WithMany(p => p.Localidades)
+                    .HasForeignKey(d => d.IdProvincia)
+                    .HasConstraintName("Localidades_Provincia_FK");
+            });
+
             modelBuilder.Entity<MenuHijoAcciones>(entity =>
             {
                 entity.HasKey(e => e.IdMenuHijoAccion)
@@ -204,6 +326,16 @@ namespace CMRmvc.Models
                     .HasForeignKey(d => d.IdMenuHijo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("MenuItemHijo_PerfilMenuHijo_FK");
+            });
+
+            modelBuilder.Entity<Provincias>(entity =>
+            {
+                entity.HasKey(e => e.IdProvincia)
+                    .HasName("PK__Provinci__EED744550FF5BB36");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<RolesAcciones>(entity =>
