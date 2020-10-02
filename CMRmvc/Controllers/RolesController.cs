@@ -250,15 +250,16 @@ namespace CMRmvc.Controllers
             try
             {
                 _log.LogInformation("Obteniendo Roles Acciones");
-                roleViewModel.RolesAcciones = _mapper.Map<IEnumerable<RolesAccionesViewModel>>(_context.RolesAcciones.ToList()).ToList();
+                roleViewModel.RolesAcciones = (List<RolesAccionesViewModel>)(_mapper.Map<IEnumerable<RolesAccionesViewModel>>(_context.RolesAcciones.ToList()));
 
                 _log.LogInformation("Obteniendo Menu Completo");
-                roleViewModel.Menu = _mapper.Map<IEnumerable<MenuItemPadreViewModel>>(_context.MenuItemPadre.Include("MenuItemHijo").Include("MenuItemHijo.MenuHijoAcciones").ToList()).ToList();
+                var mip = _context.MenuItemPadre.Include("MenuItemHijo").Include("MenuItemHijo.MenuHijoAcciones").ToList();
+                roleViewModel.Menu = (List<MenuItemPadreViewModel>)_mapper.Map<IEnumerable<MenuItemPadreViewModel>>(mip);
 
                 roleViewModel.Menu = VerifyChecked(roleViewModel.Menu, roleViewModel.RolesAcciones, idRol);
 
                 _log.LogInformation("Obteniendo Perfil Menu Hijo");
-                roleViewModel.PerfilMenuHijo = _mapper.Map<IEnumerable<PerfilMenuHijoViewModel>>(_context.PerfilMenuHijo.ToList()).ToList();
+                roleViewModel.PerfilMenuHijo = (List<PerfilMenuHijoViewModel>)_mapper.Map<IEnumerable<PerfilMenuHijoViewModel>>(_context.PerfilMenuHijo.ToList());
 
                 return roleViewModel;
             }
@@ -274,7 +275,7 @@ namespace CMRmvc.Controllers
             }
         }
 
-        private List<MenuItemPadreViewModel> VerifyChecked(List<MenuItemPadreViewModel> menuPadre,List<RolesAccionesViewModel> rolesAcciones, long? rolID) 
+        private List<MenuItemPadreViewModel> VerifyChecked(List<MenuItemPadreViewModel> menuPadre, List<RolesAccionesViewModel> rolesAcciones, long? rolID) 
         {
             if (rolID != null) 
             {
