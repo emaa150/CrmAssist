@@ -1,7 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Crud";
-    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
-}
+﻿@model CMRmvc.ViewModel.ClienteViewModel
 
 @{
     ViewData["Title"] = "Crud";
@@ -28,11 +25,148 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="post" asp-action="@ViewBag.Action">
+                    <form class="form-horizontal" enctype="multipart/form-data" method="post" asp-action="@ViewBag.Action">
                         <div class="card-body">
-                        
-                            
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input id="idCli" type="hidden" asp-for="IdCliente" />
+                            <div class="form-group row">
+                                <label asp-for="NombreUsuario" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="NombreUsuario" class="form-control" readonly="@ViewBag.IsReadOnly">
+                                    <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Clave" class="col-sm-2 col-form-label"></label>
+                                <div class="input-group col-sm-10">
+                                    @if (ViewBag.Action != null && ViewBag.Action == "Edit" || ViewBag.Action == "Details")
+                                    {
+                                        <input asp-for="Clave" id="passwordInput" type="password" value="1234" class="form-control" readonly="readonly" />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="Clave" id="passwordInput" type="password" class="form-control" readonly="@ViewBag.IsReadOnly" />
+                                    }
+                                    <span asp-validation-for="Clave" class="text-danger"></span>
+                                    @if (ViewBag.Action == "Edit")
+                                    {
+                                        <div class="input-group-append">
+                                            <button onclick="ResetPassword()" type="button" title="Resetear Contraseña" class="btn btn-default"><i class="fas fa-key"></i></button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Mail" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="Mail" class="form-control" readonly="@ViewBag.IsReadOnly">
+                                    <span asp-validation-for="Mail" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Nombre" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="Nombre" class="form-control" readonly="@ViewBag.IsReadOnly" />
+                                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Apellido" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="Apellido" class="form-control" readonly="@ViewBag.IsReadOnly" />
+                                    <span asp-validation-for="Apellido" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Sexo" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+
+                                    @if (ViewBag.IsReadOnly)
+                                    {
+                                        <select class="form-control select2" asp-items="@ViewBag.Generos" asp-for="Sexo" disabled>
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select class="form-control select2" asp-items="@ViewBag.Generos" asp-for="Sexo">
+                                        </select>
+                                        <span asp-validation-for="Sexo" class="text-danger"></span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label" asp-for="IdDocumentoTipo"></label>
+                                <div class="col-sm-10">
+
+                                    @if (ViewBag.IsReadOnly)
+                                    {
+                                        <select class="form-control select2" asp-items="@ViewBag.DocumentoTipos" asp-for="IdDocumentoTipo" disabled>
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select class="form-control select2" asp-items="@ViewBag.DocumentoTipos" asp-for="IdDocumentoTipo">
+                                        </select>
+                                        <span asp-validation-for="IdDocumentoTipo" class="text-danger"></span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="NroDocumento" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="NroDocumento" class="form-control" readonly="@ViewBag.IsReadOnly" />
+                                    <span asp-validation-for="NroDocumento" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Activo</label>
+                                <div class="col-sm-10">
+                                    @if (ViewBag.IsReadOnly != null && ViewBag.IsReadOnly)
+                                    {
+                                        <input type="checkbox" asp-for="Activo" id="myswitch" class="checkbox_switch" data-on-text="SI" data-off-text="NO" checked data-bootstrap-switch data-off-color="danger" data-on-color="success" disabled>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" asp-for="Activo" id="myswitch" class="checkbox_switch" data-on-text="SI" data-off-text="NO" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Provincia</label>
+                                <div class="col-sm-10">
+
+                                    @if (ViewBag.IsReadOnly)
+                                    {
+                                        <select class="form-control select2" asp-items="@ViewBag.Provincias" id="provinciaSelect" disabled>
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select class="form-control select2" asp-items="@ViewBag.Provincias" id="provinciaSelect">
+                                        </select>
+                                        @*<span asp-validation-for="UsrDel" class="text-danger"></span>*@
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group row" id="visLocalidad" style="display: none;">
+                                <label asp-for="IdLocalidad" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+
+                                    @if (ViewBag.IsReadOnly)
+                                    {
+                                        <select class="form-control select2" id="selectLocalidad" name="@nameof(Model.IdLocalidad)" asp-for="IdLocalidad" disabled>
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select class="form-control select2" id="selectLocalidad" name="@nameof(Model.IdLocalidad)" asp-for="IdLocalidad">
+                                        </select>
+                                        <span asp-validation-for="IdLocalidad" class="text-danger"></span>
+                                    }
+                                </div>
+                            </div>
                         </div>
+
                         <!-- /.card-body -->
                         <div class="card-footer">
                             <button type="submit" asp-action="Index" class="btn btn-default">Volver</button>
@@ -41,15 +175,85 @@
                                 <button type="submit" value="Guardar" class="btn btn-primary float-right">Guardar</button>
                             }
                         </div>
-
                         <!-- /.card-footer -->
                     </form>
                 </div>
                 <!-- /.card -->
             </div>
         </div>
-
     </div>
 </section>
 
 
+<script type="text/javascript">
+    var ResetPassword = function () {
+        var clientID = $('#idCli').val();
+        $.ajax({
+            type: "POST",
+            url: "/Users/ResetPassword",
+            dataType: "Json",
+            data: jQuery.param({ id: clientID }),
+            success: function (data) {
+                $("#passwordInput").attr("type", "");
+                $("#passwordInput").val(data);
+                alert('Su contraseña ha sido restablecida con éxito');
+
+            }, error: function (data) {
+                alert(data);
+            }
+        });
+    }
+
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $("input[data-bootstrap-switch]").each(function () {
+           $(this).bootstrapSwitch('state', $(this).prop('checked'));
+        });
+
+    });
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#myswitch").bootstrapSwitch();
+
+        $('#myswitch').on('switchChange.bootstrapSwitch', function (e, data) {
+            $("#myswitch").prop("checked", data);
+
+        });
+
+        $("#provinciaSelect").change(function () {
+            var selectProv = $(this).children("option:selected").val();
+            var selectLoc = $("#selectLocalidad");
+            var visLocalidad = $("#visLocalidad");
+
+            $.ajax({
+                type: "POST",
+                url: "/Clientes/GetLocalidadesByIdProvincia",
+                dataType: "Json",
+                data: jQuery.param({ idProv: selectProv }),
+                success: function (data) {
+
+                    if (selectProv == 0) visLocalidad.css("display", "none");
+                        else visLocalidad.css("display", "");
+
+                    selectLoc.empty();
+
+                    $.each(data, function (index,value) {
+                        console.log(value);
+                        selectLoc.append(new Option(value.nombre, value.idLocalidad));
+                    });
+
+                }, error: function (data) {
+                    visLocalidad.css("display", "none");
+                    alert(data);
+                }
+            });
+
+        });
+    });
+
+</script>

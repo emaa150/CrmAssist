@@ -250,15 +250,15 @@ namespace CMRmvc.Controllers
             try
             {
                 _log.LogInformation("Obteniendo Roles Acciones");
-                roleViewModel.RolesAcciones = _mapper.Map<List<RolesAccionesViewModel>>(_context.RolesAcciones.ToList());
+                roleViewModel.RolesAcciones = _mapper.Map<IEnumerable<RolesAccionesViewModel>>(_context.RolesAcciones.ToList()).ToList();
 
                 _log.LogInformation("Obteniendo Menu Completo");
-                roleViewModel.Menu = _mapper.Map<List<MenuItemPadreViewModel>>(_context.MenuItemPadre.Include("MenuItemHijo").Include("MenuItemHijo.MenuHijoAcciones").ToList());
+                roleViewModel.Menu = _mapper.Map<IEnumerable<MenuItemPadreViewModel>>(_context.MenuItemPadre.Include("MenuItemHijo").Include("MenuItemHijo.MenuHijoAcciones").ToList()).ToList();
 
                 roleViewModel.Menu = VerifyChecked(roleViewModel.Menu, roleViewModel.RolesAcciones, idRol);
 
                 _log.LogInformation("Obteniendo Perfil Menu Hijo");
-                roleViewModel.PerfilMenuHijo = _mapper.Map<List<PerfilMenuHijoViewModel>>(_context.PerfilMenuHijo.ToList());
+                roleViewModel.PerfilMenuHijo = _mapper.Map<IEnumerable<PerfilMenuHijoViewModel>>(_context.PerfilMenuHijo.ToList()).ToList();
 
                 return roleViewModel;
             }

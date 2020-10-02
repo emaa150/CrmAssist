@@ -21,5 +21,10 @@ namespace CRMmvc.Common
             INT = 2,
             STRING = 3
         }
+        public enum Genero
+        {
+            MASCULINO = 1,
+            FEMENINO = 2,
+        }
     }
 }

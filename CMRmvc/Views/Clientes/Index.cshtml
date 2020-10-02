@@ -1,62 +1,168 @@
-﻿
+﻿@model IEnumerable<CMRmvc.ViewModel.ClienteViewModel>
+@{ var menu = (List<CMRmvc.ViewModel.MenuItemPadreViewModel>)ViewData["Menu"]; 
+ }
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
 
 <div class="d-flex">
-
-         <div class="mr-auto p-2">
-            <h4><i class="fas fa-plus"></i>&nbsp;&nbsp;Clientes</h4>
-         </div>
-
-         <div class="p-2">
-             <a asp-route-myaction="Create" asp-action="Crud" asp-route-isreadonly="false" class="btn btn-primary btn-sm btn-lg"><i class="fas fa-plus"></i>&nbsp;&nbsp;Agregar Cliente</a>
-         </div>
-
+    @if (menu != null)
+    {
+        foreach (var padre in menu)
+        {
+            foreach (var hijo in padre.MenuItemHijo)
+            {
+                if (hijo.Nombr == "Gestion de Clientes")
+                {
+                    <div class="mr-auto p-2">
+                        <h4><i class="@hijo.Icono"></i>&nbsp;&nbsp;@hijo.Nombr</h4>
+                    </div>
+                }
+                var ac = hijo.MenuHijoAcciones.FirstOrDefault(x => x.MhaUrl == "Clientes/Create");
+                if (ac != null)
+                {
+                    <div class="p-2">
+                        <a asp-route-myaction="Create" asp-action="Crud" asp-route-isreadonly="false" class="btn btn-primary btn-sm btn-lg"><i class="@ac.MhaIcono"></i>&nbsp;&nbsp;@ac.MhaTexto</a>
+                    </div>
+                }
+            }
+        }
+    }
 
 </div>
 
 <div class="card">
-
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table">
+            <table id="listTable" class="table table-bordered table-hover" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>Dni</th>
-                        <th>Email</th>
-                        <th>Ciudad</th>
+                        <th>@Html.DisplayNameFor(model => model.NombreUsuario)</th>
+                        <th>@Html.DisplayNameFor(model => model.Mail)</th>
+                        <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+                        <th>@Html.DisplayNameFor(model => model.Apellido)</th>
+                        <th>@Html.DisplayNameFor(model => model.Activo)</th>
+                        <th>@Html.DisplayNameFor(model => model.FecUltimoLogin)</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Emanuel</td>
-                        <td>388455877</td>
-                        <td>e.samana@assist.com.ar</td>
-                        <td>Rosario</td>
+                    @foreach (var item in Model)
+                    {
+                    <tr id="row_@item.IdCliente">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombreUsuario)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mail)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Apellido)
+                        </td>
+                        <td>
+                            @if (item.Activo)
+                            {
+                                <a>SI</a>
+                            }
+                            else
+                            {
+                                <a>NO</a>
+                            }
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FecUltimoLogin)
+                        </td>
                         <td>
                             <div class="btn-group">
 
-                                <a asp-action="Crud" class="btn btn-info btn-sm" title="Detalles" asp-route-isreadonly="true" asp-route-myaction="Details">
+                                <a asp-action="Crud" class="btn btn-info btn-sm" title="Detalles" asp-route-isreadonly="true" asp-route-id="@item.IdCliente" asp-route-myaction="Details">
                                     <i class="nav-icon fas fa-search"></i>
                                 </a>
-                                <a asp-action="Crud" class="btn btn-warning btn-sm" title="Editar" asp-route-isreadonly="true" asp-route-myaction="Edit">
-                                    <i class="nav-icon fas fa-edit"></i>
-                                </a>
-                                <a asp-action="Crud" class="btn btn-danger btn-sm" title="Eliminar" asp-route-isreadonly="true" asp-route-myaction="Create">
-                                    <i class="nav-icon fas fa-brush"></i>
-                                </a>
+
+                                @if (menu != null)
+                                {
+                                    foreach (var padre in menu)
+                                    {
+                                        foreach (var hijo in padre.MenuItemHijo)
+                                        {
+                                            foreach (var acciones in hijo.MenuHijoAcciones)
+                                            {
+                                                if (acciones.MhaUrl == "Clientes/Edit")
+                                                {
+
+                                                    <a asp-action="Crud" class="btn btn-warning btn-sm" title="Editar" asp-route-isreadonly="false" asp-route-id="@item.IdCliente" asp-route-myaction="Edit">
+                                                        <i class="@acciones.MhaIcono"></i>
+                                                    </a>
+                                                }
+                                                if (acciones.MhaUrl == "Clientes/Delete")
+                                                {
+                                                    <a href="#" class="btn btn-danger btn-sm" title="Eliminar" onclick="ConfirmDelete(@item.IdCliente)">
+                                                        <i class="@acciones.MhaIcono"></i>
+                                                    </a>
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             </div>
                         </td>
                     </tr>
-                </tbody>
+                    }
+
             </table>
         </div>
+
     </div>
-
-
+</div>
+<div class="modal" id="mymodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro que desea eliminar el cliente?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="DeleteUser()" class="btn btn-danger">Eliminar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="clientID" />
 </div>
 
+<script>
+
+            var ConfirmDelete = function (clientID) {
+                debugger;
+                $("#clientID").val(clientID);
+                $("#mymodal").modal('show');
+            }
+
+            var DeleteUser = function () {
+                var cliID = $("#clientID").val();
+                debugger;
+                $.ajax({
+                    type: "POST",
+                    url: "/Users/DeleteConfirmed",
+                    data: { id: cliID },
+                    success: function () {
+                        $("#mymodal").modal('hide');
+                        $("#row_" + cliID).remove();
+
+                    }
+                });
+            }
+
+
+</script>
