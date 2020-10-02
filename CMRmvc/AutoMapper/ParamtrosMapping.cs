@@ -8,23 +8,15 @@ using System.Threading.Tasks;
 
 namespace CMRmvc.AutoMapper
 {
-    public class AutoMapping : Profile
+    public class ParamtrosMapping : Profile
     {
-        public AutoMapping()
+        public ParamtrosMapping()
         {
             #region PARAMETROS            
             CreateMap<Parametros, ParametrosViewModel>();
             CreateMap<ParametrosViewModel, Parametros>();
             CreateMap<List<Parametros>, List<ParametrosViewModel>>();
-            CreateMap<List<ParametrosViewModel>, List<Parametros>>();
             #endregion
-
-            //#region USUARIOS        
-            //CreateMap<Parametros, ParametrosViewModel>();
-            //CreateMap<ParametrosViewModel, Parametros>();
-            //CreateMap<List<Parametros>, List<ParametrosViewModel>>();
-            //CreateMap<List<ParametrosViewModel>, List<Parametros>>();
-            //#endregion
 
         }
 
