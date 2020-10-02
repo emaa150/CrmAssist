@@ -1,11 +1,9 @@
-﻿using CMRmvc.Interface;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMRmvc.Models
 {
-    public partial class MenuItemHijo : ICheckedProperty
+    public partial class MenuItemHijo
     {
         public MenuItemHijo()
         {
@@ -19,10 +17,6 @@ namespace CMRmvc.Models
         public string Controlador { get; set; }
         public string Accion { get; set; }
         public string Icono { get; set; }
-
-        [NotMapped]
-        public bool IsChecked { get; set; }
-
         [JsonIgnore]
         public virtual MenuItemPadre IdMenuPadreNavigation { get; set; }
         public virtual List<MenuHijoAcciones> MenuHijoAcciones { get; set; }

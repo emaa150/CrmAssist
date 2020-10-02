@@ -1,5 +1,7 @@
-﻿using CMRmvc.Helpers;
+﻿using AutoMapper;
+using CMRmvc.Helpers;
 using CMRmvc.Models;
+using CMRmvc.ViewModel;
 using CRMmvc.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -22,9 +24,10 @@ namespace CMRmvc.Controllers
         private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<User> _signInManager;
         private readonly CacheHelper cacheHelper;
+        private readonly IMapper mapper;
         [TempData]
         public string ErrorMessage { get; set; }
-        public AccountController(CRMContext context, ILogger<AccountController> _logger, SignInManager<User> signInManager, UserManager<User> userManager,RoleManager<Role> roleManager, CacheHelper cache) :base(_logger)
+        public AccountController(CRMContext context, ILogger<AccountController> _logger, SignInManager<User> signInManager, UserManager<User> userManager,RoleManager<Role> roleManager, CacheHelper cache, IMapper _mapper) :base(_logger)
         {            
             _userManager = userManager;
             _signInManager = signInManager;
@@ -32,6 +35,7 @@ namespace CMRmvc.Controllers
             _context = context;
             _log = _logger;
             cacheHelper= cache;
+            mapper=_mapper;
         }
 
         public IActionResult Index()
@@ -44,24 +48,19 @@ namespace CMRmvc.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login([Bind("UserName,PasswordHash,RememberMe")] User user)
+        public async Task<IActionResult> Login([Bind("UserName,PasswordHash")] LoginViewModel user)
         {
             StartMethod();
             try
             {
-                ModelState.Remove("Email");
-                ModelState.Remove("PhoneNumber");
-                ModelState.Remove("NombreCompleto");
-                ModelState.Remove("Dni");
-            
                 if (ModelState.IsValid)
                 {
-                    var result = await _signInManager.PasswordSignInAsync(user.UserName, user.PasswordHash, user.RememberMe, false);
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName, user.PasswordHash, false, false);
                     if (result.Succeeded)
                     {   
                         _log.LogInformation("User logged in.");
                         User usu = null;
-                        var menu = MenuHelper.GenerateMenu(user.UserName, _log, _context, out usu);
+                        var menu = MenuHelper.GenerateMenu(user.UserName, _log, _context, out usu,mapper);
                         HttpContext.Session.SetString("UserName", usu.UserName);
                         HttpContext.Session.SetString("Perfil", usu.Role.NormalizedName);                        
                         HttpContext.Session.SetString("Menu", JsonConvert.SerializeObject(menu));

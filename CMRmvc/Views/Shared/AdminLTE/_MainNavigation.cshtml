@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Identity;
 
 @{
-    var menu = (List<MenuItemPadre>)ViewData["Menu"];
+    var menu = (List<CMRmvc.ViewModel.MenuItemPadreViewModel>)ViewData["Menu"];
     var userName = (string)ViewData["UserName"];
     var Perfil = (string)ViewData["Perfil"];
     var FotoPerfil = (byte[])ViewData["FotoPerfil"];

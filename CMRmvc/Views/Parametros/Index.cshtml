@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<CMRmvc.ViewModel.ParametrosViewModel>
 @{var parType = ViewData["ParamType"];}
-@{var menu = (List<MenuItemPadre>)ViewData["Menu"];}
+@{    var menu = (List<CMRmvc.ViewModel.MenuItemPadreViewModel>)ViewData["Menu"];
+}
 @{
     ViewData["Title"] = "Parametros";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";

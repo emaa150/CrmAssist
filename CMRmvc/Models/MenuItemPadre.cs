@@ -1,10 +1,8 @@
-﻿using CMRmvc.Interface;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
 
 namespace CMRmvc.Models
 {
-    public partial class MenuItemPadre : ICheckedProperty
+    public partial class MenuItemPadre
     {
         public MenuItemPadre()
         {
@@ -14,9 +12,6 @@ namespace CMRmvc.Models
         public long IdMenuPadre { get; set; }
         public string Nombre { get; set; }
         public string Icono { get; set; }
-
-        [NotMapped]
-        public bool IsChecked { get; set; }
 
         public virtual List<MenuItemHijo> MenuItemHijo { get; set; }
     }

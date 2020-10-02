@@ -57,8 +57,13 @@ namespace CMRmvc.ViewModel
         [DisplayName("Perfil")]
         public long RoleID { get; set; }
         [DisplayName("Perfil")]
-        public Role Role { get; set; }
-        [NotMapped]
+        public RoleViewModel Role { get; set; }
         public IFormFile Foto { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("Id: {0}, UserName: {1},Email: {2},PhoneNumber: {3},NombreCompleto: {4},Dni: {5},Activo: {6}"
+                    , Id, UserName, Email, PhoneNumber, NombreCompleto, Dni, Activo);
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using CMRmvc.Models;
+﻿using AutoMapper;
+using CMRmvc.Models;
+using CMRmvc.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,12 +13,12 @@ namespace CMRmvc.Helpers
 {
     public class MenuHelper
     {
-        public static List<MenuItemPadre> GenerateMenu(string UserName,ILogger log, CRMContext context, out User usu)
+        public static List<MenuItemPadreViewModel> GenerateMenu(string UserName,ILogger log, CRMContext context, out User usu,IMapper mapper)
         {
             log.LogInformation("********** GenerateMenu() START **********");
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            List<MenuItemPadre> _listMenu = null;
+            List<MenuItemPadreViewModel> _listMenu = null;
             usu = null;
             try
             {
@@ -43,25 +45,25 @@ namespace CMRmvc.Helpers
                                     usu = user;
                                     log.LogInformation("GenerateMenu() ->  Rol OK!");
 
-                                    List<MenuItemPadre> menuItemPadre = new List<MenuItemPadre>();
-                                    List<MenuItemHijo> menuItemHijo = new List<MenuItemHijo>();
-                                    List<MenuHijoAcciones> menuHijoAcciones = new List<MenuHijoAcciones>();
+                                    List<MenuItemPadreViewModel> menuItemPadre = new List<MenuItemPadreViewModel>();
+                                    List<MenuItemHijoViewModel> menuItemHijo = new List<MenuItemHijoViewModel>();
+                                    List<MenuHijoAccionesViewModel> menuHijoAcciones = new List<MenuHijoAccionesViewModel>();
 
                                     log.LogInformation("GenerateMenu() -> Consultado menuAcciones del rol");
                                     var acciones = context.RolesAcciones.Where(x => x.IdRol == user.Role.Id).ToList();
                                     log.LogInformation("GenerateMenu() -> RolesAcciones encontrados: "+ acciones.Count);
                                     foreach (var item in acciones)
                                     {
-                                        MenuHijoAcciones mAcciones = new MenuHijoAcciones();
-                                        mAcciones = context.MenuHijoAcciones.FirstOrDefault(x=>x.IdMenuHijoAccion == item.IdMenuHijoAccion);
+                                        MenuHijoAccionesViewModel mAcciones = new MenuHijoAccionesViewModel();
+                                        mAcciones =mapper.Map<MenuHijoAccionesViewModel>(context.MenuHijoAcciones.FirstOrDefault(x=>x.IdMenuHijoAccion == item.IdMenuHijoAccion));
                                         menuHijoAcciones.Add(mAcciones);
                                     }
 
                                     var idMenuHijos = menuHijoAcciones.Select(x=>x.IdMenuHijo).Distinct().ToList();
                                     foreach (var item in idMenuHijos)
                                     {
-                                        MenuItemHijo mHijo = new MenuItemHijo();
-                                        mHijo = context.MenuItemHijo.FirstOrDefault(x => x.IdMenuHijo == item);
+                                        MenuItemHijoViewModel mHijo = new MenuItemHijoViewModel();
+                                        mHijo = mapper.Map<MenuItemHijoViewModel>(context.MenuItemHijo.FirstOrDefault(x => x.IdMenuHijo == item));
                                         mHijo.MenuHijoAcciones = menuHijoAcciones.Where(x => x.IdMenuHijo == item).ToList();
                                         menuItemHijo.Add(mHijo);
                                     }
@@ -69,8 +71,8 @@ namespace CMRmvc.Helpers
                                     var idMenuPadre = menuItemHijo.Select(x => x.IdMenuPadre).Distinct().ToList();
                                     foreach (var item in idMenuPadre)
                                     {
-                                        MenuItemPadre mPadre = new MenuItemPadre();
-                                        mPadre = context.MenuItemPadre.FirstOrDefault(x => x.IdMenuPadre == item);
+                                        MenuItemPadreViewModel mPadre = new MenuItemPadreViewModel();
+                                        mPadre = mapper.Map<MenuItemPadreViewModel>(context.MenuItemPadre.FirstOrDefault(x => x.IdMenuPadre == item));
                                         mPadre.MenuItemHijo = menuItemHijo.Where(x => x.IdMenuPadre == item).ToList();
                                         menuItemPadre.Add(mPadre);
                                     }

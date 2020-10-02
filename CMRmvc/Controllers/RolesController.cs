@@ -250,15 +250,15 @@ namespace CMRmvc.Controllers
             try
             {
                 _log.LogInformation("Obteniendo Roles Acciones");
-                roleViewModel.RolesAcciones = _context.RolesAcciones.ToList();
+                roleViewModel.RolesAcciones = _mapper.Map<List<RolesAccionesViewModel>>(_context.RolesAcciones.ToList());
 
                 _log.LogInformation("Obteniendo Menu Completo");
-                roleViewModel.Menu = _context.MenuItemPadre.Include("MenuItemHijo").Include("MenuItemHijo.MenuHijoAcciones").ToList();
+                roleViewModel.Menu = _mapper.Map<List<MenuItemPadreViewModel>>(_context.MenuItemPadre.Include("MenuItemHijo").Include("MenuItemHijo.MenuHijoAcciones").ToList());
 
                 roleViewModel.Menu = VerifyChecked(roleViewModel.Menu, roleViewModel.RolesAcciones, idRol);
 
                 _log.LogInformation("Obteniendo Perfil Menu Hijo");
-                roleViewModel.PerfilMenuHijo = _context.PerfilMenuHijo.ToList();
+                roleViewModel.PerfilMenuHijo = _mapper.Map<List<PerfilMenuHijoViewModel>>(_context.PerfilMenuHijo.ToList());
 
                 return roleViewModel;
             }
@@ -274,7 +274,7 @@ namespace CMRmvc.Controllers
             }
         }
 
-        private List<MenuItemPadre> VerifyChecked(List<MenuItemPadre> menuPadre,List<RolesAcciones> rolesAcciones, long? rolID) 
+        private List<MenuItemPadreViewModel> VerifyChecked(List<MenuItemPadreViewModel> menuPadre,List<RolesAccionesViewModel> rolesAcciones, long? rolID) 
         {
             if (rolID != null) 
             {

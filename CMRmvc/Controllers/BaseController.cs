@@ -1,4 +1,5 @@
 ﻿using CMRmvc.Models;
+using CMRmvc.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -53,7 +54,7 @@ namespace CMRmvc.Controllers
                 var meStr = HttpContext.Session.GetString("Menu");
                 if (!string.IsNullOrEmpty(meStr))
                 {
-                    var me = JsonConvert.DeserializeObject<List<MenuItemPadre>>(meStr);
+                    var me = JsonConvert.DeserializeObject<List<MenuItemPadreViewModel>>(meStr);
                     ViewData["Menu"] = me;
                 }
             }

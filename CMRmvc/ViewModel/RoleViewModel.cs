@@ -15,9 +15,9 @@ namespace CMRmvc.ViewModel
         public override string Name { get; set; }
         [DisplayName("Activo")]
         public bool IsActive { get; set; }
-        public List<MenuItemPadre> Menu { get; set; }
-        public List<RolesAcciones> RolesAcciones { get; set; }
-        public List<PerfilMenuHijo> PerfilMenuHijo { get; set; }
+        public List<MenuItemPadreViewModel> Menu { get; set; }
+        public List<RolesAccionesViewModel> RolesAcciones { get; set; }
+        public List<PerfilMenuHijoViewModel> PerfilMenuHijo { get; set; }
 
     }
 }
