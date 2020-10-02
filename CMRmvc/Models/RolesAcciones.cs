@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CMRmvc.Models
 {
@@ -9,7 +9,6 @@ namespace CMRmvc.Models
         public long IdRol { get; set; }
         public long IdMenuHijoAccion { get; set; }
 
-        [JsonIgnore]
         public virtual MenuHijoAcciones IdMenuHijoAccionNavigation { get; set; }
     }
 }

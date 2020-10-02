@@ -13,7 +13,7 @@ namespace CMRmvc.Helpers
 {
     public class MenuHelper
     {
-        public static List<MenuItemPadreViewModel> GenerateMenu(string UserName,ILogger log, CRMContext context, out User usu,IMapper mapper)
+        public static List<MenuItemPadreViewModel> GenerateMenu(string UserName,ILogger log, CRMContext context, out UserViewModel usu,IMapper mapper)
         {
             log.LogInformation("********** GenerateMenu() START **********");
             Stopwatch stopwatch = new Stopwatch();
@@ -26,7 +26,7 @@ namespace CMRmvc.Helpers
                 if (!string.IsNullOrEmpty(UserName))
                 {
                     log.LogInformation("GenerateMenu() ->  Consultando usuario en db...");
-                    var user = context.Users.FirstOrDefault(x => x.UserName.ToLower() == UserName.ToLower());
+                    var user = mapper.Map<UserViewModel>(context.Users.FirstOrDefault(x => x.UserName.ToLower() == UserName.ToLower()));
                     log.LogInformation("GenerateMenu() -> Validando usuario consultado...");
                     if(user != null) 
                     {                        
@@ -34,7 +34,7 @@ namespace CMRmvc.Helpers
                         if (Convert.ToBoolean(user.Activo))
                         {
                             log.LogInformation("GenerateMenu() ->  Usuario OK!");
-                            user.Role = context.Roles.FirstOrDefault(x => x.Id == user.RoleID);
+                            user.Role = mapper.Map<RoleViewModel>(context.Roles.FirstOrDefault(x => x.Id == user.RoleID));
                             
                             log.LogInformation("GenerateMenu() ->  Rol: "+ user.Role.NormalizedName);
 
@@ -51,11 +51,13 @@ namespace CMRmvc.Helpers
 
                                     log.LogInformation("GenerateMenu() -> Consultado menuAcciones del rol");
                                     var acciones = context.RolesAcciones.Where(x => x.IdRol == user.Role.Id).ToList();
+                                   // var acciones = mapper.Map<List<RolesAccionesViewModel>>(acc);
                                     log.LogInformation("GenerateMenu() -> RolesAcciones encontrados: "+ acciones.Count);
                                     foreach (var item in acciones)
                                     {
                                         MenuHijoAccionesViewModel mAcciones = new MenuHijoAccionesViewModel();
-                                        mAcciones =mapper.Map<MenuHijoAccionesViewModel>(context.MenuHijoAcciones.FirstOrDefault(x=>x.IdMenuHijoAccion == item.IdMenuHijoAccion));
+                                        var hijo = context.MenuHijoAcciones.FirstOrDefault(x => x.IdMenuHijoAccion == item.IdMenuHijoAccion);
+                                        mAcciones =mapper.Map<MenuHijoAccionesViewModel>(hijo);
                                         menuHijoAcciones.Add(mAcciones);
                                     }
 

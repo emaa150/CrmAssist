@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System;
 using System.Collections.Generic;
 
 namespace CMRmvc.Models
@@ -7,7 +7,7 @@ namespace CMRmvc.Models
     {
         public MenuItemHijo()
         {
-            //   MenuHijoAcciones = new HashSet<MenuHijoAcciones>();
+            MenuHijoAcciones = new HashSet<MenuHijoAcciones>();
             PerfilMenuHijo = new HashSet<PerfilMenuHijo>();
         }
 
@@ -17,9 +17,9 @@ namespace CMRmvc.Models
         public string Controlador { get; set; }
         public string Accion { get; set; }
         public string Icono { get; set; }
-        [JsonIgnore]
+
         public virtual MenuItemPadre IdMenuPadreNavigation { get; set; }
-        public virtual List<MenuHijoAcciones> MenuHijoAcciones { get; set; }
+        public virtual ICollection<MenuHijoAcciones> MenuHijoAcciones { get; set; }
         public virtual ICollection<PerfilMenuHijo> PerfilMenuHijo { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace CMRmvc.ViewModel
     {
         public MenuHijoAccionesViewModel()
         {
-            //RolesAcciones = new HashSet<RolesAcciones>();
+            RolesAcciones = new List<RolesAccionesViewModel>();
         }
 
         public long IdMenuHijoAccion { get; set; }
@@ -33,7 +33,7 @@ namespace CMRmvc.ViewModel
         public string MhaUrl { get; set; }
         public string MhaTexto { get; set; }
         [JsonIgnore]
-        public MenuItemHijoViewModel IdMenuHijoNavigation { get; set; }
+        public virtual MenuItemHijoViewModel IdMenuHijoNavigation { get; set; }
         public List<RolesAccionesViewModel> RolesAcciones { get; set; }
 
     }
@@ -42,6 +42,7 @@ namespace CMRmvc.ViewModel
     {
         public MenuItemHijoViewModel()
         {
+            PerfilMenuHijo = new HashSet<PerfilMenuHijoViewModel>();
         }
 
         public long IdMenuHijo { get; set; }
@@ -53,6 +54,7 @@ namespace CMRmvc.ViewModel
         [JsonIgnore]
         public virtual MenuItemPadreViewModel IdMenuPadreNavigation { get; set; }
         public virtual List<MenuHijoAccionesViewModel> MenuHijoAcciones { get; set; }
+        public virtual ICollection<PerfilMenuHijoViewModel> PerfilMenuHijo { get; set; }
     }
 
     public class MenuItemPadreViewModel : CheckedProperty
@@ -72,8 +74,9 @@ namespace CMRmvc.ViewModel
         public long IdPerfilAccion { get; set; }
         public long IdRol { get; set; }
         public long IdMenuHijoAccion { get; set; }
+
         [JsonIgnore]
-        public MenuHijoAccionesViewModel IdMenuHijoAccionNavigation { get; set; }
+        public virtual  MenuHijoAccionesViewModel IdMenuHijoAccionNavigation { get; set; }
     }
 
     public class PerfilMenuHijoViewModel

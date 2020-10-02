@@ -8,6 +8,12 @@ namespace CMRmvc.ViewModel
 {
     public class RoleViewModel : IdentityRole<long>
     {
+        public RoleViewModel()
+        {
+            RolesAcciones = new List<RolesAccionesViewModel>();
+            Menu = new List<MenuItemPadreViewModel>();
+            PerfilMenuHijo = new List<PerfilMenuHijoViewModel>();
+        }
 
         [StringLength(50)]
         [Required(ErrorMessage = "Debe completar el nombre del rol")]

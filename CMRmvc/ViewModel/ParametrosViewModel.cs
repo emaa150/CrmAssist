@@ -33,7 +33,7 @@ namespace CMRmvc.ViewModel
         public string UsrUpd { get; set; }
         public string UsrDel { get; set; }
 
-        public virtual ParametrosTipo IdParametroTipoNavigation { get; set; }
+        public ParametrosTipoViewModel IdParametroTipoNavigation { get; set; }
 
     }
 

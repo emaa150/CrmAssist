@@ -59,7 +59,7 @@ namespace CMRmvc.Controllers
                     if (result.Succeeded)
                     {   
                         _log.LogInformation("User logged in.");
-                        User usu = null;
+                        UserViewModel usu = null;
                         var menu = MenuHelper.GenerateMenu(user.UserName, _log, _context, out usu,mapper);
                         HttpContext.Session.SetString("UserName", usu.UserName);
                         HttpContext.Session.SetString("Perfil", usu.Role.NormalizedName);                        

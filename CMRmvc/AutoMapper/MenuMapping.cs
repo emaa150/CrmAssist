@@ -15,6 +15,16 @@ namespace CMRmvc.AutoMapper
         {
             #region RolesAcciones
             CreateMap<List<RolesAcciones>, List<RolesAccionesViewModel>>();
+            CreateMap<List<RolesAccionesViewModel>, List<RolesAcciones>>();
+            CreateMap<RolesAcciones, RolesAccionesViewModel>();
+            CreateMap<RolesAccionesViewModel, RolesAcciones>();
+            #endregion
+
+            #region PerfilMenuHijo
+            CreateMap<List<PerfilMenuHijoViewModel>, List<PerfilMenuHijo>>();
+            CreateMap<List<PerfilMenuHijo>, List<PerfilMenuHijoViewModel>>();
+            CreateMap<PerfilMenuHijoViewModel, PerfilMenuHijo>();
+            CreateMap<PerfilMenuHijo, PerfilMenuHijoViewModel>();
             #endregion
 
             #region MenuItemPadre
@@ -24,7 +34,6 @@ namespace CMRmvc.AutoMapper
             #region PerfilMenuHijo
             CreateMap<List<PerfilMenuHijo>, List<PerfilMenuHijoViewModel>>();
             #endregion
-
 
             #region MenuHijoAcciones
             CreateMap<MenuHijoAcciones, MenuHijoAccionesViewModel>();
