@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CMRmvc.Interface;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMRmvc.Models
 {
-    public partial class MenuItemPadre
+    public partial class MenuItemPadre : ICheckedProperty
     {
         public MenuItemPadre()
         {

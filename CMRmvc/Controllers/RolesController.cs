@@ -1,4 +1,5 @@
-﻿using CMRmvc.Models;
+﻿using AutoMapper;
+using CMRmvc.Models;
 using CMRmvc.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ namespace CMRmvc.Controllers
         private readonly ILogger<RolesController> _log;
         private readonly CRMContext _context;
         private readonly RoleManager<Role> _roleManager;
-        public RolesController(ILogger<RolesController> log, CRMContext context, RoleManager<Role> roleManager) : base(log) 
+        private readonly IMapper _mapper;
+        public RolesController(ILogger<RolesController> log, CRMContext context, RoleManager<Role> roleManager, IMapper mapper) : base(log) 
         {
             _log = log;
             _context = context;
             _roleManager = roleManager;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
@@ -28,7 +31,7 @@ namespace CMRmvc.Controllers
             StartMethod();
             try
             {
-                return View(_roleManager.Roles);
+                return View(_mapper.Map<List<RoleViewModel>>(_context.Roles));
             }
             catch (Exception ex)
             {

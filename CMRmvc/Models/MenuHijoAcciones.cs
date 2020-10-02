@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using CMRmvc.Interface;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMRmvc.Models
 {
-    public partial class MenuHijoAcciones
+    public partial class MenuHijoAcciones : ICheckedProperty
     {
         public MenuHijoAcciones()
         {
