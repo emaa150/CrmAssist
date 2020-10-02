@@ -1,7 +1,10 @@
-﻿using CMRmvc.Models;
+﻿using AutoMapper;
+using CMRmvc.Models;
+using CMRmvc.ViewModel;
 using ImageMagick;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account.Manage;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -23,11 +26,13 @@ namespace CMRmvc.Controllers
         private readonly ILogger<UsersController> _log;
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
+        private readonly IMapper mapper;
         List<Role> misRoles = new List<Role>();
-        public UsersController(CRMContext context, ILogger<UsersController> log, RoleManager<Role> roleManager, UserManager<User> userManager) : base(log)
+        public UsersController(CRMContext context, ILogger<UsersController> log, RoleManager<Role> roleManager, UserManager<User> userManager, IMapper _mapper) : base(log)
         {
             _context = context;
             _log = log;
+            mapper = _mapper;
             _roleManager = roleManager;            
             _userManager = userManager;
             misRoles= _context.Roles.ToList();
@@ -43,7 +48,8 @@ namespace CMRmvc.Controllers
                 var listUsers = _context.Users.Where(x => x.FecDel == null && x.UsrDel == null).ToList();
                 listUsers.ForEach(x =>x.Role = _context.Roles.FirstOrDefault(r => r.Id == x.RoleID));
                 _log.LogInformation(string.Format("Users count:{0}", listUsers.Count));
-                return View(listUsers);
+                var map = mapper.Map<IEnumerable<UserViewModel>>(listUsers);
+                return View(map);
             }
             catch (Exception ex)
             {
@@ -58,7 +64,7 @@ namespace CMRmvc.Controllers
        
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("UserName,PasswordHash,NombreCompleto,Dni,PhoneNumber,Activo,RoleID,Email,Imagen,Foto")] User user)
+        public async Task<IActionResult> Create([Bind("UserName,PasswordHash,NombreCompleto,Dni,PhoneNumber,Activo,RoleID,Email,Imagen,Foto")] UserViewModel user)
         {
             StartMethod();
             try 
@@ -95,8 +101,8 @@ namespace CMRmvc.Controllers
                     user.UsrIns = User.Identity.Name;
                                         
                     _log.LogInformation("Creando User");
-
-                    IdentityResult rtaCreateUser = await _userManager.CreateAsync(user, user.PasswordHash);
+                    var us = mapper.Map<User>(user);
+                    IdentityResult rtaCreateUser = await _userManager.CreateAsync(us, user.PasswordHash);
 
                     _log.LogInformation(string.Format("CreateUser:{0}", rtaCreateUser.Succeeded));
 
@@ -139,7 +145,7 @@ namespace CMRmvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([Bind("Id,UserName,PasswordHash,NombreCompleto,Dni,PhoneNumber,Activo,RoleID,Email,Foto")] User user)
+        public IActionResult Edit([Bind("Id,UserName,PasswordHash,NombreCompleto,Dni,PhoneNumber,Activo,RoleID,Email,Foto")] UserViewModel user)
         {
             StartMethod();
             try
@@ -161,15 +167,8 @@ namespace CMRmvc.Controllers
                         image.Save(memory, new JpegEncoder());
                         _log.LogInformation("Tamaño a guardar: " + memory.Length);
                         user.Imagen = Convert.ToBase64String(memory.ToArray());
-
                         if (user.Imagen != null)
                         {
-                            //var memory = new MemoryStream();
-                            //using var image = Image.Load(Convert.FromBase64String(usu.Imagen));
-                            //image.Mutate(x => x.Resize(512,512));
-                            //image.Save(memory, new JpegEncoder());
-                            //_log.LogInformation("Tamaño a guardar: " + memory.Length);
-                            //var foto = Convert.ToBase64String(memory.ToArray());
                             HttpContext.Session.Set("FotoPerfil", Convert.FromBase64String(user.Imagen));
                             ViewData["FotoPerfil"] = Convert.FromBase64String(user.Imagen);
                         }
@@ -318,7 +317,7 @@ namespace CMRmvc.Controllers
                 EndMethod();
             }
             _log.LogInformation("Redirect CRUD VIEW");
-            return View(user);
+            return View(mapper.Map<UserViewModel>(user));
         }
         public ActionResult chooseItemView()
         {

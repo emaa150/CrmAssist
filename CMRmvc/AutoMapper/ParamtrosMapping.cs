@@ -16,7 +16,6 @@ namespace CMRmvc.AutoMapper
             CreateMap<Parametros, ParametrosViewModel>();
             CreateMap<ParametrosViewModel, Parametros>();
             CreateMap<List<Parametros>, List<ParametrosViewModel>>();
-            CreateMap<List<ParametrosViewModel>, List<Parametros>>();
             #endregion
 
         }
