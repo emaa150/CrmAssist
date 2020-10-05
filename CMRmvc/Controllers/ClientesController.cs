@@ -96,6 +96,9 @@ namespace CMRmvc.Controllers
                         clientDB.IdLocalidad = client.IdLocalidad;
                         clientDB.Sexo = client.Sexo;
 
+                        clientDB.FecUpd = DateTime.Now;
+                        clientDB.UsrUpd = User.Identity.Name;
+
                         _context.Update(clientDB);
 
                         if (_context.SaveChanges() > 0) 
@@ -172,26 +175,40 @@ namespace CMRmvc.Controllers
                 EndMethod();
             }
         }
-    
-        public IActionResult Delete()
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(long id)
         {
             StartMethod();
             try
             {
+                _logger.LogInformation("Obteniendo Cliente a eliminar..");
+                var clientDel = _context.Clientes.FirstOrDefault(x => x.IdCliente == id);
+                _logger.LogInformation("Cliente: " + clientDel.ToString());
 
-                return View(nameof(Index));
+                _logger.LogInformation("Modificando fecha delete y user delete");
+                clientDel.FecDel = DateTime.Now;
+                clientDel.UsrDel = User.Identity.Name;
+
+                _logger.LogInformation("Update Cliente eliminado");
+                _context.Clientes.Update(clientDel);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Redirect Index");
+
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error: " + ex.ToString());
+                _logger.LogError("Error: " + ex);
                 return NotFound();
             }
             finally
             {
                 EndMethod();
             }
-
         }
+
         [HttpPost]
         public IActionResult GetLocalidadesByIdProvincia(long idProv) 
         {
