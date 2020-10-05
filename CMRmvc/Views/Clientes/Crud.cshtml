@@ -134,32 +134,38 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Provincia</label>
                                 <div class="col-sm-10">
-
+                                    @{
+                                        string visibilityLoc = "display: none;";
+                                        if (Model != null && Model.IdLocalidad != 0) visibilityLoc = "display:";
+                                        long locID = 0;
+                                        if (Model != null && Model.IdLocalidad != 0) locID = Model.IdLocalidad;
+                                    }
                                     @if (ViewBag.IsReadOnly)
                                     {
-                                        <select class="form-control select2" asp-items="@ViewBag.Provincias" id="provinciaSelect" disabled>
+                                        <select class="form-control select2" asp-items="@ViewBag.Provincias" asp-for="IdProvincia" id="provinciaSelect" disabled>
                                         </select>
                                     }
                                     else
                                     {
-                                        <select class="form-control select2" asp-items="@ViewBag.Provincias" id="provinciaSelect">
+                                        <select class="form-control select2" asp-items="@ViewBag.Provincias" asp-for="IdProvincia" id="provinciaSelect">
                                         </select>
-                                        @*<span asp-validation-for="UsrDel" class="text-danger"></span>*@
+                                        <span asp-validation-for="IdProvincia" class="text-danger"></span>
                                     }
                                 </div>
                             </div>
-                            <div class="form-group row" id="visLocalidad" style="display: none;">
+                      
+                            <div class="form-group row" id="visLocalidad" style="@visibilityLoc">
                                 <label asp-for="IdLocalidad" class="col-sm-2 col-form-label"></label>
                                 <div class="col-sm-10">
 
                                     @if (ViewBag.IsReadOnly)
                                     {
-                                        <select class="form-control select2" id="selectLocalidad" name="@nameof(Model.IdLocalidad)" asp-for="IdLocalidad" disabled>
+                                        <select class="form-control select2" id="selectLocalidad" data-id="@locID" name="@nameof(Model.IdLocalidad)" asp-for="IdLocalidad" disabled>
                                         </select>
                                     }
                                     else
                                     {
-                                        <select class="form-control select2" id="selectLocalidad" name="@nameof(Model.IdLocalidad)" asp-for="IdLocalidad">
+                                        <select class="form-control select2" id="selectLocalidad" data-id="@locID" name="@nameof(Model.IdLocalidad)" asp-for="IdLocalidad">
                                         </select>
                                         <span asp-validation-for="IdLocalidad" class="text-danger"></span>
                                     }
@@ -226,34 +232,45 @@
         });
 
         $("#provinciaSelect").change(function () {
-            var selectProv = $(this).children("option:selected").val();
-            var selectLoc = $("#selectLocalidad");
-            var visLocalidad = $("#visLocalidad");
 
+            GetLocalidades(true);
+
+        });
+
+        GetLocalidades(false);
+    });
+
+    function GetLocalidades(isChangeEvent)
+    {
+        const selectProv = $("#provinciaSelect").children("option:selected").val();
+        const selectLoc = $("#selectLocalidad");
+        const visLocalidad = $("#visLocalidad");
+
+        if (selectProv != 0) {
             $.ajax({
                 type: "POST",
                 url: "/Clientes/GetLocalidadesByIdProvincia",
                 dataType: "Json",
                 data: jQuery.param({ idProv: selectProv }),
                 success: function (data) {
-
-                    if (selectProv == 0) visLocalidad.css("display", "none");
-                        else visLocalidad.css("display", "");
-
+                    visLocalidad.css("display", "");
                     selectLoc.empty();
 
-                    $.each(data, function (index,value) {
+                    $.each(data, function (index, value) {
                         console.log(value);
                         selectLoc.append(new Option(value.nombre, value.idLocalidad));
                     });
+
+                    if (selectLoc.data("id") != 0 && !isChangeEvent) selectLoc.val(selectLoc.data("id")).change();
 
                 }, error: function (data) {
                     visLocalidad.css("display", "none");
                     alert(data);
                 }
             });
-
-        });
-    });
-
+        } else
+        {
+          visLocalidad.css("display", "none");
+        }
+    }
 </script>

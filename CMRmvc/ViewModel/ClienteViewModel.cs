@@ -8,6 +8,8 @@ namespace CMRmvc.ViewModel
     {
         public long IdCliente { get; set; }
         [DisplayName("Tipo Documento")]
+        //[Required(ErrorMessage = "Debe seleccionar un tipo de documento.")]
+        [Range(1, Int16.MaxValue, ErrorMessage = "Debe seleccionar un tipo de documento.")]
         public long IdDocumentoTipo { get; set; }
         [DisplayName("Documento")]
         [Required(ErrorMessage = "Debe completar el número de documento.")]
@@ -36,10 +38,13 @@ namespace CMRmvc.ViewModel
         [DataType(DataType.PhoneNumber)]
         public string Telefono { get; set; }
         [DisplayName("Localidad")]
-        [Required(ErrorMessage = "Debe seleccionar una localidad.")]
+      //  [Required(ErrorMessage = "Debe seleccionar una localidad.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Debe seleccionar una localidad.")]
         public long IdLocalidad { get; set; }
         [DisplayName("Dirección")]
         public string Direccion { get; set; }
+        //[Required(ErrorMessage = "Debe seleccionar el género.")]
+        [Range(1, Int16.MaxValue, ErrorMessage = "Debe seleccionar un género.")]
         [DisplayName("Género")]
         public int Sexo { get; set; }
         public DateTime? FecIns { get; set; }
@@ -48,5 +53,8 @@ namespace CMRmvc.ViewModel
         public string UsrIns { get; set; }
         public string UsrUpd { get; set; }
         public string UsrDel { get; set; }
+      //  [Required(ErrorMessage = "Debe seleccionar una provincia.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Debe seleccionar una provincia.")]
+        public long IdProvincia { get; set; }
     }
 }

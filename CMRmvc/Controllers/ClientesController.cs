@@ -48,14 +48,16 @@ namespace CMRmvc.Controllers
             StartMethod();
             try
             {
-                CreateViewBagItems(isreadonly, myaction);
+                CreateViewBagItems(isreadonly, myaction,false);
 
                 ClienteViewModel client = null;
 
-                if (id != null && id != 0) 
+                if (id != null && id != 0)
                 {
                     _logger.LogInformation("Obteniendo cliente mendiante ID: " + id);
                     client = _mapper.Map<ClienteViewModel>(_context.Clientes.FirstOrDefault(x => x.IdCliente == id));
+                    var idprov = _context.Localidades.FirstOrDefault(loc => loc.IdLocalidad == client.IdLocalidad).IdProvincia;
+                    client.IdProvincia = idprov ?? 0;
                     _logger.LogInformation(string.Format("Cliente: Nombre:{0}, Apellido:{1}, UserName:{2}, Documento:{3}", client.Nombre, client.Apellido, client.NombreUsuario, client.NroDocumento));
                 }
 
@@ -73,7 +75,7 @@ namespace CMRmvc.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Edit([Bind("IdCliente,IdDocumentoTipo,NroDocumento,NombreUsuario,Clave,Nombre,Apellido,Mail,Activo,IdLocalidad,Sexo")] ClienteViewModel client)
+        public IActionResult Edit([Bind("IdCliente,IdDocumentoTipo,NroDocumento,NombreUsuario,Clave,Nombre,Apellido,Mail,Activo,IdLocalidad,IdProvincia,Sexo")] ClienteViewModel client)
         {
             StartMethod();
             try
@@ -98,7 +100,7 @@ namespace CMRmvc.Controllers
 
                         if (_context.SaveChanges() > 0) 
                         {
-                            _logger.LogInformation("User editado con exito");
+                            _logger.LogInformation("Cliente editado con exito");
                             _logger.LogInformation("Redirect Index");
                             return RedirectToAction(nameof(Index));
                         }
@@ -110,8 +112,8 @@ namespace CMRmvc.Controllers
                 
                 }
 
-                CreateViewBagItems(false, nameof(Edit));
-                return View(nameof(Crud));
+                CreateViewBagItems(false, nameof(Edit),true);
+                return View(nameof(Crud), client);
             }
             catch (Exception ex)
             {
@@ -125,7 +127,7 @@ namespace CMRmvc.Controllers
         
         }
         [HttpPost]
-        public IActionResult Create([Bind("IdDocumentoTipo,NroDocumento,NombreUsuario,Clave,Nombre,Apellido,Mail,Activo,IdLocalidad,Sexo")] ClienteViewModel client)
+        public IActionResult Create([Bind("IdDocumentoTipo,NroDocumento,NombreUsuario,Clave,Nombre,Apellido,Mail,Activo,IdLocalidad,IdProvincia,Sexo")] ClienteViewModel client)
         {
             StartMethod();
             try
@@ -156,9 +158,9 @@ namespace CMRmvc.Controllers
                 }
 
                 _logger.LogInformation("Modelo invalido: " + ModelState.IsValid);
-                CreateViewBagItems(false, nameof(Create));
+                CreateViewBagItems(false, nameof(Create), true);
 
-                return View(nameof(Crud));
+                return View(nameof(Crud), client);
             }
             catch (Exception ex)
             {
@@ -212,16 +214,24 @@ namespace CMRmvc.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ResetPassword(long id)
+        public ActionResult ResetPassword(long id)
         {
             StartMethod();
             try
             {
-                return null;
+               string passNew = "assist123";
+               var cliente = _context.Clientes.FirstOrDefault(cli => cli.IdCliente == id);
+               if (cliente != null) 
+                 {
+                     cliente.Clave = passNew;
+                    _context.Clientes.Update(cliente);
+                    _context.SaveChanges();
+                 }
+                return Json(passNew);
             }
             catch (Exception ex)
             {
-               
+                _logger.LogError("Error: " + ex.ToString());
                 return Json("Ocurrió un error al resetear su contraseña.");
             }
             finally
@@ -230,16 +240,19 @@ namespace CMRmvc.Controllers
             }
         }
 
-        private void CreateViewBagItems(bool isreadonly, string myaction) 
+        private void CreateViewBagItems(bool isreadonly, string myaction, bool visLoc) 
         {
             ViewBag.IsReadOnly = isreadonly;
             ViewBag.Action = myaction;
+            ViewBag.VisLoc = visLoc;
 
             var docTipo = _context.DocumentoTipo.ToList();
             docTipo.Insert(0, new DocumentoTipo { IdDocTipo=0, Nombre="SELECCIONAR" });
             ViewBag.DocumentoTipos = new SelectList(docTipo, "IdDocTipo", "Nombre");
 
-            ViewBag.Generos = Enum.GetValues(typeof(Enums.Genero)).Cast<Enums.Genero>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
+            var listGen = Enum.GetValues(typeof(Enums.Genero)).Cast<Enums.Genero>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
+            listGen.Insert(0, new SelectListItem { Text = "SELECCIONAR", Value = "0" });
+            ViewBag.Generos = listGen;
 
             var prov = _context.Provincias.ToList();
             prov.Insert(0, new Provincias { IdProvincia = 0, Nombre = "SELECCIONAR" });
