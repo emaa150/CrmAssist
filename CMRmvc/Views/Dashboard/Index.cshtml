@@ -1,0 +1,238 @@
+﻿@model CMRmvc.ViewModel.DashboardViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+<br />
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>
+                            <label class="col-sm-2 col-form-label">@Html.DisplayFor(model => model.TotalUsuarios)</label>
+                        </h3>
+                        <p>Total Clientes</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>
+                            <label class="col-sm-2 col-form-label">@Html.DisplayFor(model => model.TotalLogueadosHoy)</label>
+
+                        </h3>
+                        <p>Visitas Hoy</p>
+                    </div>
+                    <div class="icon">
+                        <i class="far fa-eye"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-gradient-blue">
+                    <div class="inner">
+                        <h3>
+                            <label class="col-sm-2 col-form-label">@Html.DisplayFor(model => model.TotalMasculinos)</label>
+                        </h3>
+                        <p>Total Masculinos</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-male"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-pink">
+                    <div class="inner">
+                        <h3>
+                            <label class="col-sm-2 col-form-label">@Html.DisplayFor(model => model.TotalFemeninos)</label>
+                        </h3>
+                        <p>Total Femeninos</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-female"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">Clientes Registrados</h3>
+                            @*<a href="javascript:void(0);">View Report</a>*@
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex">
+                            @*<p class="d-flex flex-column">
+                                <span class="text-bold text-lg">820</span>
+                                <span>Total</span>
+                            </p>*@
+                            <p class="ml-auto d-flex flex-column text-right">
+                                <span id="PorcWeekColor">@*class="text-success"*@
+                                    <i id="PorcWeekIcon"></i>@*class="fas fa-arrow-up"*@
+                                    <a id="PorcWeek"></a>
+                                </span>
+                                <span class="text-muted">Desde ultima semana</span>
+                            </p>
+                        </div>
+                        <!-- /.d-flex -->
+
+                        <div class="position-relative mb-4">
+                            <canvas id="loginclient-chart" height="200"></canvas>
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-end">
+                            <span class="mr-2">
+                                <i class="fas fa-square text-primary"></i> Esta Semana
+                            </span>
+
+                            <span>
+                                <i class="fas fa-square text-gray"></i> Semana anterior
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var $loginclient = $('#loginclient-chart');
+
+    var ticksStyle = {
+        fontColor: '#495057',
+        fontStyle: 'bold'
+    };
+
+    var mode = 'index';
+    var intersect = true;
+    $(document).ready(function () {
+
+        $.ajax({
+            type: "POST",
+            url: "/Dashboard/LoginClient",
+            dataType: "Json",
+            //data: jQuery.param({ id: clientID }),
+            success: function (data) {
+                //$("#days").val(data);
+                $('#PorcWeek').html(data["PorcWeek"] + '%');
+                if (data["PorcWeek"] === 0) {
+                    $('#PorcWeekColor').addClass('text-warning');
+                    $('#PorcWeekIcon').addClass('fas fa-arrow-left');
+                 
+                }
+                else if (data["PorcWeek"] > 0) {
+                    $('#PorcWeekColor').addClass('text-success');
+                    $('#PorcWeekIcon').addClass('fas fa-arrow-up');
+                 
+                }
+                else {
+                    $('#PorcWeekColor').addClass('text-danger');
+                    $('#PorcWeekIcon').addClass('fas fa-arrow-down');                 
+                };
+                myLogin(data);
+            }, error: function (data) {
+                alert(data);
+            }
+        });
+
+        function myLogin(data) {
+            console.log(data);
+            new Chart($loginclient, {
+                
+                data: {
+                    labels: data['days'], //['Lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'],
+                    //THIS WEEK
+                    datasets: [{
+                        type: 'line',
+                        data: data['countThisWeek'],//[100, 120, 170, 167, 180, 177, 160],
+                        backgroundColor: 'transparent',
+                        borderColor: '#007bff',
+                        pointBorderColor: '#007bff',
+                        pointBackgroundColor: '#007bff',
+                        fill: false
+                        // pointHoverBackgroundColor: '#007bff',
+                        // pointHoverBorderColor    : '#007bff'
+                    },
+                        //LAST WEEK
+                    {
+
+                        type: 'line',
+                        data: data['countLastWeek'],//[60, 80, 70, 67, 80, 77, 100],
+                        backgroundColor: 'tansparent',
+                        borderColor: '#ced4da',
+                        pointBorderColor: '#ced4da',
+                        pointBackgroundColor: '#ced4da',
+                        fill: false
+                        // pointHoverBackgroundColor: '#ced4da',
+                        // pointHoverBorderColor    : '#ced4da'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    tooltips: {
+                        mode: mode,
+                        intersect: intersect
+                    },
+                    hover: {
+                        mode: mode,
+                        intersect: intersect
+                    },
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            // display: false,
+                            gridLines: {
+                                display: true,
+                                lineWidth: '4px',
+                                color: 'rgba(0, 0, 0, .2)',
+                                zeroLineColor: 'transparent'
+                            },
+                            ticks: $.extend({
+                                beginAtZero: true,
+                                suggestedMax: data["ejeY"]//200
+                            }, ticksStyle)
+                        }],
+                        xAxes: [{
+                            display: true,
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: ticksStyle
+                        }]
+                    }
+                }
+            });
+        }
+      
+    });
+</script>
