@@ -137,15 +137,15 @@
                             {
                                 <li>
                                     @if (string.IsNullOrEmpty(item.Foto))
-                                    { <img src="~/img/logo-avatar.png" style="width:70px; height:70px;" alt="User Image">}
+                                    { <img src="~/img/logo-avatar.png" style="width:80px; height:80px;" alt="User Image">}
                                     else 
-                                    {<img src="@String.Format("data:image/gif;base64,{0}", item.Foto)" style="width:70px; height:70px;" alt="User Image">}                                    
+                                    {<img src="@String.Format("data:image/gif;base64,{0}", item.Foto)" style="width:80px; height:80px;" alt="User Image">}                                    
                                     <a class="users-list-name" href="#">@item.Nombre @item.Apellido</a>
-                                    @if (item.FecIns == DateTime.Today)
+                                    @if (item.FecIns.Value.Date == DateTime.Today.Date)
                                     {
                                         <span class="users-list-date">Hoy</span>
                                     }
-                                    else if (item.FecIns == DateTime.Now.AddDays(-1))
+                                    else if (item.FecIns.Value.Date == DateTime.Now.AddDays(-1).Date)
                                     {
                                         <span class="users-list-date">Ayer</span>
                                     }
