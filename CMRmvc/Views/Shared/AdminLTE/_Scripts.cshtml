@@ -17,22 +17,45 @@
 @*<script src="~/plugins/bs-stepper/js/bs-stepper.min.js"></script>*@
 <!-- dropzonejs -->
 @*<script src="~/plugins/dropzone/min/dropzone.min.js"></script>*@
+
+
 <!-- DataTables -->
 <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+@*<script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>*@
+@*<script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>*@
 <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
 <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="~/plugins/chart.js/Chart.min.js"></script>
 <script src="~/js/pages/dashboard3.js"></script>
-<script>
 
+<!-- Export -->
+<script src="~/plugins/datatables-export/jpzip/jszip.min.js"></script>
+<script src="~/plugins/datatables-export/pdfmake/pdfmake.min.js"></script>
+<script src="~/plugins/datatables-export/pdfmake/vfs_fonts.js"></script>
+
+<script>
     $(document).ready(function () {
+
         $('#listTable').DataTable({
-            //"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-            //"autoWidth": true,
-            //"responsive": true,
+            dom: 'Blfrtip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    titleAttr: 'Exportar EXCEL',
+                    className: 'bg-transparent ml-5',
+                    //  text: '<i class="fas fa-file-csv"></i>',
+                    text: '<img src= "/img/exceldownload.png" width="22" height="22">',
+                },
+                {
+                    extend: 'pdfHtml5',
+                    titleAttr: 'Exportar PDF',
+                    className: 'bg-transparent',
+                    //text: '<i class="fas fa-file-pdf"></i>', 
+                    text: '<img src= "/img/pdfdownload.png" width="22" height="22">',
+                },
+            ],
             "pagingType": "full_numbers",
             "language": {
                 "search": "Buscar",
@@ -49,9 +72,11 @@
                 },
             }
         });
-        $('#listTable_filter').css('float', 'right');
-        $('#listTable_paginate').css('float', 'right');
-        //listTable_length
+
+         $('#listTable_filter').css('float', 'right');
+         $('#listTable_length').css('float', 'left');
+         $('.dt-buttons').css('float', 'right');
+         $('#listTable_paginate').css('float', 'right');
 
     });
 </script>

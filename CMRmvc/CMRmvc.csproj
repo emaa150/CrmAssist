@@ -37,6 +37,11 @@
     <None Include="Views\Users\Index.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
+    <None Include="wwwroot\plugins\datatables-export\jpzip\jszip.js" />
+    <None Include="wwwroot\plugins\datatables-export\jpzip\jszip.min.js" />
+    <None Include="wwwroot\plugins\datatables-export\pdfmake\pdfmake.js" />
+    <None Include="wwwroot\plugins\datatables-export\pdfmake\pdfmake.min.js" />
+    <None Include="wwwroot\plugins\datatables-export\pdfmake\vfs_fonts.js" />
   </ItemGroup>
 
   <ItemGroup>
