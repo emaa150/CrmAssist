@@ -5,8 +5,12 @@ using CRMmvc.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -75,12 +79,35 @@ namespace CMRmvc.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Edit([Bind("IdCliente,IdDocumentoTipo,NroDocumento,NombreUsuario,Clave,Nombre,Apellido,Mail,Activo,IdLocalidad,IdProvincia,Sexo")] ClienteViewModel client)
+        public IActionResult Edit([Bind("IdCliente,IdDocumentoTipo,NroDocumento,NombreUsuario,Clave,Nombre,Apellido,Mail,Activo,IdLocalidad,IdProvincia,Sexo,Imagen")] ClienteViewModel client)
         {
             StartMethod();
             try
             {
-                if (ModelState.IsValid) 
+                bool modelStateFoto = true;
+                var memory = new MemoryStream();
+                _logger.LogInformation(string.Format("Insertando cliente: Nombre:{0},Apellido:{1},UserName:{2},Documento:{3},Email:{4}, ", client.Nombre, client.Apellido, client.NombreUsuario, client.NroDocumento, client.Mail));
+                _logger.LogInformation("Verificando imagen");
+                if (client.Imagen == null)
+                { _logger.LogInformation("no se cargo imagen para el cliente: " + client.NombreUsuario); }
+                else
+                {
+                    if (client.Imagen.Length < 4200000)
+                    {
+                        _logger.LogInformation("Resize Imagen de usuario" + client.NombreUsuario);
+                        using var image = Image.Load(client.Imagen.OpenReadStream());
+                        image.Mutate(x => x.Resize(80, 80));
+                        image.Save(memory, new JpegEncoder());
+                        _logger.LogInformation("Tamaño a guardar: " + memory.Length);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Imagen", "Debe cargar una imagen max 4mb.");
+                        modelStateFoto = false;
+                    }
+
+                }
+                if (ModelState.IsValid && modelStateFoto)
                 {
                   var clientDB = _context.Clientes.FirstOrDefault(x => x.IdCliente == client.IdCliente);
                     if (clientDB != null) 
@@ -95,7 +122,10 @@ namespace CMRmvc.Controllers
                         clientDB.Activo = client.Activo;
                         clientDB.IdLocalidad = client.IdLocalidad;
                         clientDB.Sexo = client.Sexo;
-
+                        if (memory.Length > 0)
+                        {
+                            clientDB.Foto = Convert.ToBase64String(memory.ToArray());
+                        }
                         clientDB.FecUpd = DateTime.Now;
                         clientDB.UsrUpd = User.Identity.Name;
 
@@ -130,19 +160,44 @@ namespace CMRmvc.Controllers
         
         }
         [HttpPost]
-        public IActionResult Create([Bind("IdDocumentoTipo,NroDocumento,NombreUsuario,Clave,Nombre,Apellido,Mail,Activo,IdLocalidad,IdProvincia,Sexo")] ClienteViewModel client)
+        public IActionResult Create([Bind("IdDocumentoTipo,NroDocumento,NombreUsuario,Clave,Nombre,Apellido,Mail,Activo,IdLocalidad,IdProvincia,Sexo,Imagen")] ClienteViewModel client)
         {
             StartMethod();
             try
             {
+                bool modelStateFoto = true;
+                var memory = new MemoryStream();
                 _logger.LogInformation(string.Format("Insertando cliente: Nombre:{0},Apellido:{1},UserName:{2},Documento:{3},Email:{4}, ", client.Nombre, client.Apellido, client.NombreUsuario, client.NroDocumento, client.Mail));
+                _logger.LogInformation("Verificando imagen");
+                if (client.Imagen == null)
+                { _logger.LogInformation("no se cargo imagen para el cliente: " + client.NombreUsuario); }
+                else
+                {
+                    if (client.Imagen.Length < 4200000)
+                    {
+                        _logger.LogInformation("Resize Imagen de usuario" + client.NombreUsuario);
+                        using var image = Image.Load(client.Imagen.OpenReadStream());
+                        image.Mutate(x => x.Resize(80, 80));
+                        image.Save(memory, new JpegEncoder());
+                        _logger.LogInformation("Tamaño a guardar: " + memory.Length);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Imagen", "Debe cargar una imagen max 4mb.");
+                        modelStateFoto = false;
+                    }
 
-                if (ModelState.IsValid) 
+                }
+                if (ModelState.IsValid && modelStateFoto) 
                 {
                     _logger.LogInformation("Modelo valido: " + ModelState.IsValid);
 
                     _logger.LogInformation("Mapeando Cliente..");
                     var cliente = _mapper.Map<Clientes>(client);
+                    if (memory.Length > 0)
+                    {
+                        cliente.Foto = Convert.ToBase64String(memory.ToArray());
+                    }
                     cliente.FecIns = DateTime.Now;
                     cliente.UsrIns = User.Identity.Name;
                     _logger.LogInformation("Insertando cliente...");

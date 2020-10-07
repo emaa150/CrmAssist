@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CMRmvc.Models
 {
-    public partial class CRMContext
+    public partial class CRMContext 
     {
         public CRMContext()
         {
@@ -72,6 +72,10 @@ namespace CMRmvc.Models
                 entity.Property(e => e.FecUpd)
                     .HasColumnName("FecUPD")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.Foto)
+                    .HasMaxLength(8000)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.IdDocumentoTipo).HasColumnName("idDocumentoTipo");
 

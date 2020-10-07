@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMRmvc.ViewModel
 {
@@ -38,12 +40,10 @@ namespace CMRmvc.ViewModel
         [DataType(DataType.PhoneNumber)]
         public string Telefono { get; set; }
         [DisplayName("Localidad")]
-      //  [Required(ErrorMessage = "Debe seleccionar una localidad.")]
         [Range(1, long.MaxValue, ErrorMessage = "Debe seleccionar una localidad.")]
         public long IdLocalidad { get; set; }
         [DisplayName("Dirección")]
         public string Direccion { get; set; }
-        //[Required(ErrorMessage = "Debe seleccionar el género.")]
         [Range(1, Int16.MaxValue, ErrorMessage = "Debe seleccionar un género.")]
         [DisplayName("Género")]
         public int Sexo { get; set; }
@@ -53,8 +53,13 @@ namespace CMRmvc.ViewModel
         public string UsrIns { get; set; }
         public string UsrUpd { get; set; }
         public string UsrDel { get; set; }
-      //  [Required(ErrorMessage = "Debe seleccionar una provincia.")]
         [Range(1, long.MaxValue, ErrorMessage = "Debe seleccionar una provincia.")]
         public long IdProvincia { get; set; }
+        
+        public  string Foto { get; set; }
+        [DisplayName("Foto")]
+        [NotMapped]
+        public IFormFile Imagen { get; set; }
+
     }
 }

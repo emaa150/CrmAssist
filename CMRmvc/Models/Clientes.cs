@@ -25,6 +25,7 @@ namespace CMRmvc.Models
         public string UsrIns { get; set; }
         public string UsrUpd { get; set; }
         public string UsrDel { get; set; }
+        public string Foto { get; set; }
 
         public virtual DocumentoTipo IdDocumentoTipoNavigation { get; set; }
         public virtual Localidades IdLocalidadNavigation { get; set; }
