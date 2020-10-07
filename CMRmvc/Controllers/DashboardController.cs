@@ -44,7 +44,7 @@ namespace CMRmvc.Controllers
                 log.LogInformation("Total Femenunos");
                 datos.TotalFemeninos = clientes.Where(x => x.Sexo == (int)Enums.Genero.FEMENINO).Count().ToString();
                 log.LogInformation("Ultimos 8 registrados");
-                var climodel = clientes.Take(8).OrderBy(x => x.FecIns).ToList();
+                var climodel = clientes.OrderByDescending(x => x.FecIns).ToList().GetRange(0,8);
                 datos.Clientes = mapper.Map<IEnumerable<ClienteViewModel>>(climodel);
                 return View(datos);
             }
