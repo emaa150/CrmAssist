@@ -11,5 +11,6 @@ namespace CMRmvc.ViewModel
         public string TotalLogueadosHoy { get; set; }
         public string TotalMasculinos { get; set; }
         public string TotalFemeninos { get; set; }
+        public IEnumerable<ClienteViewModel> Clientes;
     }
 }

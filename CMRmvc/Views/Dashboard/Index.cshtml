@@ -1,4 +1,5 @@
 ﻿@model CMRmvc.ViewModel.DashboardViewModel
+@using System.Globalization
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
@@ -83,24 +84,18 @@
                     <div class="card-header border-0">
                         <div class="d-flex justify-content-between">
                             <h3 class="card-title">Clientes Registrados</h3>
-                            @*<a href="javascript:void(0);">View Report</a>*@
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="d-flex">
-                            @*<p class="d-flex flex-column">
-                                <span class="text-bold text-lg">820</span>
-                                <span>Total</span>
-                            </p>*@
                             <p class="ml-auto d-flex flex-column text-right">
-                                <span id="PorcWeekColor">@*class="text-success"*@
-                                    <i id="PorcWeekIcon"></i>@*class="fas fa-arrow-up"*@
+                                <span id="PorcWeekColor">
+                                    <i id="PorcWeekIcon"></i>
                                     <a id="PorcWeek"></a>
                                 </span>
                                 <span class="text-muted">Desde ultima semana</span>
                             </p>
                         </div>
-                        <!-- /.d-flex -->
 
                         <div class="position-relative mb-4">
                             <canvas id="loginclient-chart" height="200"></canvas>
@@ -119,6 +114,56 @@
                 </div>
                 <!-- /.card -->
             </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">Ultimos clientes registrados</h3>
+                            <div class="card-tools">
+                                @*<span class="badge badge-danger">8 New Members</span>*@
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="users-list clearfix">
+                            @foreach (var item in Model.Clientes)
+                            {
+                                <li>
+                                    @if (string.IsNullOrEmpty(item.Foto))
+                                    { <img src="~/img/logo-avatar.png" style="width:70px; height:70px;" alt="User Image">}
+                                    else 
+                                    {<img src="@String.Format("data:image/gif;base64,{0}", item.Foto)" style="width:70px; height:70px;" alt="User Image">}                                    
+                                    <a class="users-list-name" href="#">@item.Nombre @item.Apellido</a>
+                                    @if (item.FecIns == DateTime.Today)
+                                    {
+                                        <span class="users-list-date">Hoy</span>
+                                    }
+                                    else if (item.FecIns == DateTime.Now.AddDays(-1))
+                                    {
+                                        <span class="users-list-date">Ayer</span>
+                                    }
+                                    else
+                                    { <span class="users-list-date">@item.FecIns.Value.ToString("m", @CultureInfo.CreateSpecificCulture("es-ES"))</span>}
+                                </li>
+                            }
+                        </ul>
+                        <!-- /.users-list -->
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer text-center">
+                        <a asp-controller="Clientes" asp-action="Index"> Ver Clientes</a>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+
         </div>
     </div>
 </div>
@@ -146,16 +191,16 @@
                 if (data["PorcWeek"] === 0) {
                     $('#PorcWeekColor').addClass('text-warning');
                     $('#PorcWeekIcon').addClass('fas fa-arrow-left');
-                 
+
                 }
                 else if (data["PorcWeek"] > 0) {
                     $('#PorcWeekColor').addClass('text-success');
                     $('#PorcWeekIcon').addClass('fas fa-arrow-up');
-                 
+
                 }
                 else {
                     $('#PorcWeekColor').addClass('text-danger');
-                    $('#PorcWeekIcon').addClass('fas fa-arrow-down');                 
+                    $('#PorcWeekIcon').addClass('fas fa-arrow-down');
                 };
                 myLogin(data);
             }, error: function (data) {
@@ -166,7 +211,7 @@
         function myLogin(data) {
             console.log(data);
             new Chart($loginclient, {
-                
+
                 data: {
                     labels: data['days'], //['Lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'],
                     //THIS WEEK
@@ -181,7 +226,7 @@
                         // pointHoverBackgroundColor: '#007bff',
                         // pointHoverBorderColor    : '#007bff'
                     },
-                        //LAST WEEK
+                    //LAST WEEK
                     {
 
                         type: 'line',
@@ -233,6 +278,6 @@
                 }
             });
         }
-      
+
     });
 </script>
