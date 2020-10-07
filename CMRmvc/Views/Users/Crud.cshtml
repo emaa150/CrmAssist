@@ -145,7 +145,6 @@
 </section>
 <script>
     $(document).ready(function () {$.on('change', function () {
-            debugger;
             var fileName = $(this).val().pop();
             var fileName = $(this).val().split("\\").pop();
             $(this).next('.custom-file-input').html(fileName);
