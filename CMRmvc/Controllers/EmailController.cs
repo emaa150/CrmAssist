@@ -19,7 +19,6 @@ namespace CMRmvc.Controllers
         {
             _logger = logger;
             listEmails = new List<EmailViewModel>();
-
             LoadEmailsRecibidos();
         }
 

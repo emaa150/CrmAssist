@@ -12,7 +12,7 @@ namespace CMRmvc.ViewModel
         public string Asunto { get; set; }
         public string Mensaje { get; set; }
         public DateTime Fec { get; set; }
-        public DateTime FecDel { get; set; }        
+        public DateTime? FecDel { get; set; }        
         public EtiquetaCorreo Etiqueta { get; set; }
         public TypeCorreo TypeCorreo { get; set; }
     }
