@@ -18,7 +18,6 @@ namespace CMRmvc.Controllers
         public EmailController(ILogger<HomeController> logger) : base(logger)
         {
             _logger = logger;
-            _context = context;
             listEmails = new List<EmailViewModel>();
 
             LoadEmailsRecibidos();
