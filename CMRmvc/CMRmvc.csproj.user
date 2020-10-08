@@ -17,6 +17,6 @@
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
     <WebStackScaffolding_IsViewGenerationSelected>False</WebStackScaffolding_IsViewGenerationSelected>
     <ShowAllFiles>false</ShowAllFiles>
-    <WebStackScaffolding_LayoutPageFile>~/Views/Shared/AdminLTE/_Layout.cshtml</WebStackScaffolding_LayoutPageFile>
+    <WebStackScaffolding_LayoutPageFile>~/Views/Email/_LayoutEmail.cshtml</WebStackScaffolding_LayoutPageFile>
   </PropertyGroup>
 </Project>
