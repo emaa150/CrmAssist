@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using CMRmvc.Models;
 using CMRmvc.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,49 +16,104 @@ namespace CMRmvc.Controllers
         {
             _logger = logger;
             listEmails = new List<EmailViewModel>();
-            LoadEmailsRecibidos();
+            LoadEmails();
         }
 
-        private void LoadEmailsRecibidos()
+        private void LoadEmails()
         {
-            EmailViewModel email1 = new EmailViewModel();
-            email1.Destinatario = "destino@mail.com";
-            email1.Asunto = "Prueba";
-            email1.Mensaje = "MENSAJEEEEEEEE";
-            email1.TypeCorreo = TypeCorreo.Recibido;
-            email1.Etiqueta = EtiquetaCorreo.Ninguna;
-            email1.Fec = DateTime.Today;
-            listEmails.Add(email1);
+            for (int i = 0; i < 20; i++) 
+            {
+                EmailViewModel email = new EmailViewModel();
+                email.Id = i;
+                email.Destinatario = string.Format("ejemplo{0}@email.com", i);
+                email.Asunto = "Asunto del mensaje " + i;
+                email.Mensaje = "Cuerpo del mensaje " + i ;
+                email.Fec = DateTime.Now.AddDays(-i);
+
+                if ((i % 2) == 0)
+                {
+                    email.TypeCorreo = TypeCorreo.Recibido;
+                    email.Etiqueta = EtiquetaCorreo.Importante;
+                }
+                else
+                {
+                    email.TypeCorreo = TypeCorreo.Enviado;
+                    email.Etiqueta = EtiquetaCorreo.Promociones;
+                }
+
+            
+                listEmails.Add(email);
+            }
         }
 
-        // GET: EmailController
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: EmailController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: EmailController/Create
         public ActionResult Create()
         {
             StartMethod();
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Error: " + e.ToString());
+                return NotFound();
+            }
+            finally
+            {
+                EndMethod();
+            }
         }
 
-        public ActionResult Inbox()
+        public ActionResult Read(long idmail) 
         {
             StartMethod();
-            return View();
+            try
+            {
+                return View(listEmails.FirstOrDefault(x => x.Id == idmail));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Error: " + e.ToString());
+                return NotFound();
+            }
+            finally 
+            {
+                EndMethod();
+            }
+
         }
 
-        // POST: EmailController/Create
+        public ActionResult Inbox(TypeCorreo mytype)
+        {
+            StartMethod();
+            try
+            {
+                ViewBag.TitleName = mytype;
+                ViewBag.CountRecibidos = listEmails.Where(x => x.TypeCorreo == TypeCorreo.Recibido && x.FecDel == null).Count();
+                ViewBag.CountEnviados = listEmails.Where(x => x.TypeCorreo == TypeCorreo.Enviado && x.FecDel == null).Count();
+
+                var mails = listEmails.Where(x => x.TypeCorreo == mytype && x.FecDel == null);
+   
+
+                return View(mails);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error: " + ex.ToString());
+                return NotFound();
+            }
+            finally 
+            {
+                EndMethod();
+            }
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
         {
             try
@@ -73,26 +125,6 @@ namespace CMRmvc.Controllers
                 return View();
             }
         }
-        
-        // GET: EmailController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: EmailController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       
     }
 }

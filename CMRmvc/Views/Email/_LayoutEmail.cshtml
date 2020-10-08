@@ -1,4 +1,4 @@
-﻿
+﻿@using CMRmvc.ViewModel
 @{
     Layout = null;
 }
@@ -43,9 +43,9 @@
                             <div class="card-body p-0">
                                 <ul class="nav nav-pills flex-column">
                                     <li class="nav-item active">
-                                        <a asp-action="Inbox" asp-controller="Email" class="nav-link" id="inboxClick">
+                                        <a asp-action="Inbox" asp-route-mytype="@TypeCorreo.Recibido" asp-controller="Email" class="nav-link">
                                             <i class="fas fa-inbox"></i> Bandeja de Entrada
-                                            <span class="badge bg-primary float-right">12</span>
+                                            <span class="badge bg-primary float-right">@ViewBag.CountRecibidos</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -59,9 +59,9 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a class="nav-link" asp-route-mytype="@TypeCorreo.Enviado" asp-controller="Email" asp-action="Inbox">
                                             <i class="fas fa-filter"></i> Enviados
-                                            <span class="badge bg-warning float-right">65</span>
+                                            <span class="badge bg-warning float-right">@ViewBag.CountEnviados</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
