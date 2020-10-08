@@ -14,20 +14,17 @@ namespace CMRmvc.Controllers
     public class EmailController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly CRMContext _context;
-        private readonly IMapper _mapper;
         private List<EmailViewModel> listEmails;
-        public EmailController(ILogger<HomeController> logger, CRMContext context, IMapper mapper) : base(logger)
+        public EmailController(ILogger<HomeController> logger) : base(logger)
         {
             _logger = logger;
-            _context = context;
-            _mapper = mapper;
-            LoadEmails();
+            listEmails = new List<EmailViewModel>();
+
+            LoadEmailsRecibidos();
         }
 
-        private void LoadEmails()
+        private void LoadEmailsRecibidos()
         {
-            listEmails = new List<EmailViewModel>();
             EmailViewModel email1 = new EmailViewModel();
             email1.Destinatario = "destino@mail.com";
             email1.Asunto = "Prueba";
