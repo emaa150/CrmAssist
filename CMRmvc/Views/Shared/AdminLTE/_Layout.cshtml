@@ -7,6 +7,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
+    <link rel="manifest" href="/manifest.json">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
 
@@ -14,10 +15,17 @@
     <partial name="AdminLTE/_Styles" />
 </head>
 <body class="hold-transition sidebar-mini">
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('/serviceworker.js')
+                .then(function () { console.log('Service Worker Registered'); });
+        }
+    </script>
     <div class="wrapper">
         <partial name="AdminLTE/_TopNavigation" />
         <partial name="AdminLTE/_MainNavigation" />
-        
+
         <div id="contentExample" class="content-wrapper">
             <div class="content">
                 <div class="container-fluid">

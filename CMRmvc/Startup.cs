@@ -37,7 +37,7 @@ namespace CMRmvc
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
-
+            services.AddProgressiveWebApp();
             services.AddMemoryCache(); //Usar cache
             services.AddSingleton<CacheHelper>(); //Cache global
             services.AddLogging(); //Loggin global
