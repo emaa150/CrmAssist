@@ -103,7 +103,7 @@ namespace CMRmvc.Controllers
                 ViewBag.CountRecibidos = listEmails.Where(x => x.TypeCorreo == TypeCorreo.Recibido && x.FecDel == null).Count();
                 ViewBag.CountEnviados = listEmails.Where(x => x.TypeCorreo == TypeCorreo.Enviado && x.FecDel == null).Count();
 
-                var mails = listEmails.Where(x => x.TypeCorreo == mytype && x.FecDel == null);
+                var mails = listEmails.Where(x => x.TypeCorreo == mytype && x.FecDel == null).OrderByDescending(y => y.Fec);
    
 
                 return View(mails);
