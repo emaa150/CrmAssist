@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<CMRmvc.ViewModel.EmailViewModel>
-
+@using System.Globalization
 
 @{
     ViewData["Title"] = "Inbox";
@@ -8,7 +8,7 @@
 
 <div class="card card-primary card-outline">
     <div class="card-header">
-        <h3 class="card-title">@ViewBag.TitleName</h3>
+        <h3 class="card-title"><b>@ViewBag.TitleName</b></h3>
 
         <div class="card-tools">
             <div class="input-group input-group-sm">
@@ -64,8 +64,8 @@
 
                     @foreach (var item in Model)
                     {
-         
-                        <tr asp-action="Read" asp-route-model="@item" asp-controller="Email">                
+
+                        <tr asp-action="Read" asp-route-model="@item" asp-controller="Email">
                             <td>
                                 <div class="icheck-primary">
                                     <input type="checkbox" value="" id="check1">
@@ -75,12 +75,26 @@
                             <td class="mailbox-star"><a><i class="fas fa-star text-warning"></i></a></td>
                             <td class="mailbox-name"><a asp-action="Read" asp-route-idmail="@item.Id" asp-controller="Email">@item.Destinatario</a></td>
                             <td class="mailbox-subject">
-                                <b>@item.Asunto</b> - @item.Mensaje
+                                @{ var msgbody = item.Mensaje.Length > 55 ? item.Mensaje.Substring(0, 55) + "..." : item.Mensaje;
+                                    var asubody = item.Asunto.Length > 25 ? item.Asunto.Substring(0, 25) + "..." : item.Asunto;
+                                }
+                                <b>@asubody</b>&nbsp;&nbsp;-&nbsp;&nbsp;@msgbody
                             </td>
                             <td class="mailbox-attachment"></td>
-                            <td class="mailbox-date"> @item.Fec</td>
+                            @if (item.Fec.Date == DateTime.Today.Date)
+                            {
+                                <td class="mailbox-date">Hoy</td>
+                            }
+                            else if (item.Fec.Date == DateTime.Now.AddDays(-1).Date)
+                            {
+                                <td class="mailbox-date">Ayer</td>
+                            }
+                            else
+                            {
+                                <td class="mailbox-date">@item.Fec.ToString("m", @CultureInfo.CreateSpecificCulture("es-ES"))</td>
+                            }
                         </tr>
-                 
+
                     }
 
                 </tbody>
