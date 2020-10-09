@@ -35,7 +35,7 @@
         <!-- /.card-body -->
         <div class="card-footer">
             <div class="float-right">
-                <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Borrador</button>
+                <a class="btn btn-default" asp-action="Inbox" asp-controller="Email" asp-route-mytype="@TypeCorreo.Recibido"><i class="fas fa-pencil-alt"></i> Borrador</a>
                 <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Enviar</button>
             </div>
             <a class="btn btn-default" asp-action="Inbox" asp-controller="Email" asp-route-mytype="@TypeCorreo.Recibido"><i class="fas fa-times"></i> Descartar</a>
