@@ -46,7 +46,9 @@
     <None Include="wwwroot\plugins\datatables-export\pdfmake\pdfmake.js" />
     <None Include="wwwroot\plugins\datatables-export\pdfmake\pdfmake.min.js" />
     <None Include="wwwroot\plugins\datatables-export\pdfmake\vfs_fonts.js" />
-    <None Include="wwwroot\serviceworker.js" />
+    <None Include="wwwroot\serviceworker.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -69,7 +71,7 @@
 
   <ItemGroup>
     <Content Update="wwwroot\manifest.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

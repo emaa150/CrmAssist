@@ -18,5 +18,6 @@
     <WebStackScaffolding_IsViewGenerationSelected>False</WebStackScaffolding_IsViewGenerationSelected>
     <ShowAllFiles>false</ShowAllFiles>
     <WebStackScaffolding_LayoutPageFile>~/Views/Email/_LayoutEmail.cshtml</WebStackScaffolding_LayoutPageFile>
+    <NameOfLastUsedPublishProfile>FolderProfile</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

@@ -11,6 +11,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="manifest" href="/manifest.json">
     <title>Log in</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
@@ -21,6 +22,13 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition login-page grandientcrm">
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('/serviceworker.js')
+                .then(function () { console.log('Service Worker Registered'); });
+        }
+    </script>
     <div class="login-box">
         <div class="card rounded">
             <div class="card-body login-card-body">
@@ -53,7 +61,7 @@
                         </div>
                         <span asp-validation-for="PasswordHash" class="text-danger small"></span>
                     </div>
-                    <div class="row">                       
+                    <div class="row">
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary">Ingresar</button>
                         </div>
