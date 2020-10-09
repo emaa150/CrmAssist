@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using CMRmvc.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SQLitePCL;
 
 namespace CMRmvc.Controllers
 {
@@ -114,11 +116,27 @@ namespace CMRmvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create([Bind("Destinatario,Asunto,Mensaje,Adjuntos")] EmailViewModel vm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _logger.LogInformation("Enviando Mail:" + vm.ToString());
+                if (ModelState.IsValid)
+                {
+                    _logger.LogInformation("Se enviara el mail.");
+                    EmailViewModel email = new EmailViewModel();
+                    email = vm;
+                    email.Fec = DateTime.Now;
+                    email.TypeCorreo = TypeCorreo.Enviado;
+                    email.Etiqueta = EtiquetaCorreo.Ninguna;
+                    _logger.LogInformation("Correo creado.");
+                    listEmails.Add(email);
+                    return RedirectToAction(nameof(Inbox));
+                }
+                ModelState.AddModelError("", "Ocurrió un error al enviar el correo, vuelva a intentarlo por favor.");
+                _logger.LogInformation("Modelo invalido: " + ModelState.IsValid);
+
+                return View();
             }
             catch
             {
