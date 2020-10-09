@@ -94,7 +94,7 @@ namespace CMRmvc.Controllers
 
         }
 
-        public ActionResult Inbox(TypeCorreo mytype)
+        public ActionResult Inbox(TypeCorreo mytype = TypeCorreo.Recibido)
         {
             StartMethod(); 
             try
