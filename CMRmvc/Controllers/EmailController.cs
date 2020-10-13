@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using CMRmvc.Helpers;
 using CMRmvc.ViewModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SQLitePCL;
 
 namespace CMRmvc.Controllers
 {
@@ -16,7 +12,7 @@ namespace CMRmvc.Controllers
         private readonly ILogger<HomeController> _logger;
         public EmailController(ILogger<HomeController> logger) : base(logger)
         {
-            _logger = logger;
+            _logger = logger; 
         }
 
        
