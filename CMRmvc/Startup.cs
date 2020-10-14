@@ -110,8 +110,10 @@ namespace CMRmvc
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                   // defaults: new { controller = "Account", action = "Login"}, Para probar al publicar en IIS. 
                     name: "default",
-                    pattern: "{controller=Account}/{action=Login}/{id?}");
+                    pattern: "{controller=Account}/{action=Login}/{id?}");                 
+                
                 endpoints.MapRazorPages();
             });
         }
